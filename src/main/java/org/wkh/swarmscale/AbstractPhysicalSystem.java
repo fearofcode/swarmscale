@@ -26,6 +26,7 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
 
     protected boolean doRender = false;
     protected PhysicalSystemRenderer renderer = null;
+    protected long startTime;
 
     @Override
     public void setDoRender(boolean doRender) {
@@ -71,13 +72,26 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     
     protected void preSimulationStep() { }
 
+    protected long getElapsedTime() {
+        long currentTime = System.currentTimeMillis();
+        return currentTime - startTime;
+    }
+    
     @Override
-    public void runSimulationLoop() {
+    public void runSimulationLoop(long millisecondTimeLimit) {
+        boolean checkTime = millisecondTimeLimit > 0;
+        
+        startTime = System.currentTimeMillis();
+
         beforeSimulationLoopStart();
 
         // perform an infinite loop until stopped.
         // render as fast as possible.
         while (!isStopped()) {
+            if (checkTime && getElapsedTime() > millisecondTimeLimit) {
+                stop();
+            }
+            
             if (doRender) {
                 renderer.renderSystem();
             }

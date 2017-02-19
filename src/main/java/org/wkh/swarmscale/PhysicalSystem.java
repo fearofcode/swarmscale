@@ -8,7 +8,13 @@ public interface PhysicalSystem {
 
     public void initializeWorld();
 
-    public void runSimulationLoop();
+    /**
+     * Run the main simulation loop.
+     * 
+     * @param millisecondTimeLimit - time limit to execute loop for, in milliseconds. Enforced approximately. Negative
+     * values will cause the simulation to run forever.
+     */
+    public void runSimulationLoop(long millisecondTimeLimit);
 
     public void setDoRender(boolean doRender);
 

@@ -115,7 +115,8 @@ public class PhysicalSystemRenderer extends JFrame {
         // because we don't want to do it on the EDT
         Thread thread = new Thread() {
             public void run() {
-                physicalSystem.runSimulationLoop();
+                /* run forever */
+                physicalSystem.runSimulationLoop(-1);
             }
         };
         // set the game loop thread to a daemon thread so that
