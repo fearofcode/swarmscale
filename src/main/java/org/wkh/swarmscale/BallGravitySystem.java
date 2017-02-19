@@ -17,7 +17,8 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
     private RenderedBody floor;
 
 
-    private double lastPosition;
+    private double previousPosition;
+    private double currentPosition;
     private double startingPosition;
 
     @Override
@@ -48,23 +49,23 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
 
     @Override
     protected void beforeSimulationLoopStart() {
-        lastPosition = circle.getTransform().getTranslationY();
-        startingPosition = lastPosition;
+        previousPosition = circle.getTransform().getTranslationY();
+        startingPosition = previousPosition;
     }
 
     @Override
     protected void postSimulationStep() {
-        double currentPosition = circle.getTransform().getTranslationY();
+        currentPosition = circle.getTransform().getTranslationY();
         double positionDelta = currentPosition - startingPosition;
 
-        if (currentPosition != lastPosition) {
+        if (currentPosition != previousPosition) {
             if (positionDelta < 0) {
                 /* produces a roughly stable position */
                 circle.applyImpulse(new Vector2(0, 0.129));
             }
 
             System.out.println(getElapsedTime() + " " + positionDelta);
-            lastPosition = currentPosition;
+            previousPosition = currentPosition;
 
             if (circle.isInContact(floor)) {
                 stop();
