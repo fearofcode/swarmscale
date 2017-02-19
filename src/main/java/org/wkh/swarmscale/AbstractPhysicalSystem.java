@@ -65,12 +65,11 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
         return stopped;
     }
 
-    protected void beforeSimulationLoopStart() {
-    }
+    protected void beforeSimulationLoopStart() { }
 
-    protected void postSimulationStep() {
-
-    }
+    protected void postSimulationStep() { }
+    
+    protected void preSimulationStep() { }
 
     @Override
     public void runSimulationLoop() {
@@ -82,7 +81,9 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
             if (doRender) {
                 renderer.renderSystem();
             }
-
+            
+            preSimulationStep();
+            
             stepWorld();
 
             postSimulationStep();
