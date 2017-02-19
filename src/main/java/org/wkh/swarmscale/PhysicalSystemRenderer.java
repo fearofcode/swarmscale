@@ -59,14 +59,14 @@ public class PhysicalSystemRenderer extends JFrame {
      */
     public PhysicalSystemRenderer(final PhysicalSystem system) {
         super("Graphics2D Example");
-        
+
         physicalSystem = system;
         /* pass ourselves to the physical system so we will render the simulation */
         physicalSystem.setRenderer(this);
         physicalSystem.setDoRender(true);
         physicalSystem.setStopped(false);
         physicalSystem.initializeWorld();
-        
+
         // setup the JFrame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -186,14 +186,9 @@ public class PhysicalSystemRenderer extends JFrame {
         // set the look and feel to the system look and feel
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
+            System.exit(1);
         }
 
         // create the example JFrame
