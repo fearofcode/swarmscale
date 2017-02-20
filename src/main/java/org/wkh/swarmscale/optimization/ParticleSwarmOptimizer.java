@@ -80,6 +80,7 @@ public class ParticleSwarmOptimizer {
     /**
      * 
      * @param populationSize Number of individuals to create
+     * @param dim Dimension. Must match bounds and objective function.
      * @param bounds upper and lower bounds in each dimension. Should be 
      * `dim` x 2 in size.
      * @param objective Objective function. Needs to match bounds in the array
@@ -87,17 +88,23 @@ public class ParticleSwarmOptimizer {
      */
     public ParticleSwarmOptimizer(
             final int populationSize, 
+            final int dim,
             final double[][] bounds,
             final ObjectiveFunction objective) {
+        if (bounds.length != dim) {
+            throw new IllegalArgumentException("Got bounds of length " + bounds.length + " != dim " + dim);
+        }
+        
         rng = new Random();
         
         this.populationSize = populationSize;
         
         this.objective = objective;
         
+        this.dim = dim;
+        
         this.bounds = bounds;
         
-        dim = bounds.length;
         
         x = new double[populationSize][dim];
         v = new double[populationSize][dim];
@@ -209,13 +216,13 @@ public class ParticleSwarmOptimizer {
         /* simple 2D function with global minimum at (0, 0) */
         ObjectiveFunction sphere2d = (x, iteration) -> x[0] * x[0] + x[1] * x[1];
         
-        /* more complex 2D function with global minimum of 0 at (0, 0). 
+        /* more complex function with global minimum of 0 at (0, 0). 
          * See <https://upload.wikimedia.org/wikipedia/commons/8/8b/Rastrigin_function.png> for a plot. 
          */
         
+        final int dim = 12;
         ObjectiveFunction rastrigin = (x, iteration) -> {
             double sum = 0.0;
-            final int dim = 8;
             for(int i = 0; i < dim; i++) {
                 sum += x[i]*x[i] - 10*Math.cos(Math.PI*2*x[i]);
             }
@@ -225,6 +232,7 @@ public class ParticleSwarmOptimizer {
         
         ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize, 
+            dim,
             bounds,
             rastrigin
         );
@@ -236,7 +244,8 @@ public class ParticleSwarmOptimizer {
             System.out.println("Best result: " + result.gbestFitness);
         });
         
-        final int iterations = 1000;
+        final int iterations = 2500;
+        
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         
         System.out.println("Best result: " + Arrays.toString(results.get(iterations-1).gbest));
