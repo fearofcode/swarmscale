@@ -2,8 +2,10 @@ package org.wkh.swarmscale.optimization;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * Minimizes an objective function.
@@ -150,8 +152,6 @@ public class ParticleSwarmOptimizer {
         final List<EpochPerformanceResult> results = new ArrayList<>(iterations);
         
         for(int epoch = 1; epoch <= iterations; epoch++) {
-            final double[] fitnessValues = new double[populationSize];
-            
             for(int i = 0; i < populationSize; i++) {
                 for(int d = 0; d < dim; d++) {
                     final double r1 = rng.nextDouble();
@@ -159,12 +159,15 @@ public class ParticleSwarmOptimizer {
                     
                     v[i][d] = w*v[i][d] + c1*r1*(pbest[i][d] - x[i][d]) + c2*r2*(gbest[d] - x[i][d]);
                     x[i][d] = x[i][d] + v[i][d];
-                }
+                }    
+            }
             
-                final double currentFitness = objective.evaluate(x[i], epoch);
+            final int epochDummy = epoch;
             
-                fitnessValues[i] = currentFitness;
+            List<Double> fitnessValues = Arrays.stream(x).parallel().map(position -> objective.evaluate(position, epochDummy)).collect(Collectors.toList());
             
+            for(int i = 0; i < fitnessValues.size(); i++) {
+                final double currentFitness = fitnessValues.get(i);
                 if (currentFitness < pbestFitness[i]) {
                     pbestFitness[i] = currentFitness;
                     pbest[i] = Arrays.copyOf(x[i], dim);
@@ -177,8 +180,6 @@ public class ParticleSwarmOptimizer {
             }
             
             final EpochPerformanceResult result = new EpochPerformanceResult(fitnessValues, gbest, gbestFitness);
-            
-            final int epochDummy = epoch;
             
             epochListeners.forEach(listener -> listener.onEpochComplete(result, epochDummy));
             
@@ -219,6 +220,9 @@ public class ParticleSwarmOptimizer {
         
         final int dim = 12;
         ObjectiveFunction rastrigin = (x, iteration) -> {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {}
             double sum = 0.0;
             for(int i = 0; i < dim; i++) {
                 sum += x[i]*x[i] - 10*Math.cos(Math.PI*2*x[i]);
@@ -236,16 +240,20 @@ public class ParticleSwarmOptimizer {
         
         optimizer.initializePopulation();
         
-        /*
         optimizer.addEpochListener((result, epoch) -> {
-            System.out.println("At epoch " + epoch + ":");
-            System.out.println("Best result: " + result.gbestFitness);
+            if (epoch % 10 == 0) {
+                System.out.println("Epoch " + epoch + ": " + new Date());
+                System.out.println("Best result: " + result.gbestFitness);
+            }
         });
-        */
+        
         final int iterations = 1000;
         
+        long start = System.currentTimeMillis();
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
+        long end = System.currentTimeMillis();
         
+        System.out.println("Elapsed: " + (end - start)/1000.0 + "s");
         System.out.println("Best result: " + Arrays.toString(results.get(iterations-1).gbest));
         System.out.println(results.get(iterations-1).gbestFitness);
     }
