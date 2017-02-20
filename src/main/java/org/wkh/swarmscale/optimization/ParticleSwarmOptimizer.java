@@ -196,7 +196,7 @@ public class ParticleSwarmOptimizer {
     }
     
     public static void main(String[] args) {
-        final int populationSize = 40;
+        final int populationSize = 500;
         
         final double[][] bounds = {
             {-5.12, 5.12},
@@ -239,12 +239,13 @@ public class ParticleSwarmOptimizer {
         
         optimizer.initializePopulation();
         
+        /*
         optimizer.addEpochListener((result, epoch) -> {
             System.out.println("At epoch " + epoch + ":");
             System.out.println("Best result: " + result.gbestFitness);
         });
-        
-        final int iterations = 2500;
+        */
+        final int iterations = 1000;
         
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         
