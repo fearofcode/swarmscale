@@ -22,17 +22,17 @@ public class ParticleSwarmOptimizer {
     /**
      * Inertia
      */
-    private static final double w = 0.729;
+    private static final double W = 0.729;
     
     /**
      * Personal best coefficient
      */
-    private static final double c1 = 1.494;
+    private static final double C1 = 1.494;
     
     /**
      * Global best coefficient
      */
-    private static final double c2 = 1.494;
+    private static final double C2 = 1.494;
     
     /**
      * Position 
@@ -157,7 +157,7 @@ public class ParticleSwarmOptimizer {
                     final double r1 = rng.nextDouble();
                     final double r2 = rng.nextDouble();
                     
-                    v[i][d] = w*v[i][d] + c1*r1*(pbest[i][d] - x[i][d]) + c2*r2*(gbest[d] - x[i][d]);
+                    v[i][d] = W*v[i][d] + C1*r1*(pbest[i][d] - x[i][d]) + C2*r2*(gbest[d] - x[i][d]);
                     x[i][d] = x[i][d] + v[i][d];
                 }    
             }
@@ -220,6 +220,7 @@ public class ParticleSwarmOptimizer {
         
         final int dim = 12;
         ObjectiveFunction rastrigin = (x, iteration) -> {
+            /* ineffective but simple way to simulate a computationally intensive task */
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {}

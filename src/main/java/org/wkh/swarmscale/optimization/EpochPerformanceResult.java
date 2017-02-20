@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 
-class EpochPerformanceResult {
+public class EpochPerformanceResult {
     public final List<Double> fitnessValues;
     public final double[] gbest;
     public final double gbestFitness;
