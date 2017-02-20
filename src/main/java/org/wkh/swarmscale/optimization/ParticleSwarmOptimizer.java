@@ -75,7 +75,7 @@ public class ParticleSwarmOptimizer {
     
     private final Random rng;
     
-    private List<EpochListener> epochListeners;
+    private final List<EpochListener> epochListeners;
     
     /**
      * 
@@ -105,7 +105,6 @@ public class ParticleSwarmOptimizer {
         
         this.bounds = bounds;
         
-        
         x = new double[populationSize][dim];
         v = new double[populationSize][dim];
         pbest = new double[populationSize][dim];
@@ -122,9 +121,9 @@ public class ParticleSwarmOptimizer {
     public void initializePopulation() {
         for(int i = 0; i < populationSize; i++) {
             for(int j = 0; j < dim; j++) {
-                double lowerBound = bounds[j][0];
-                double upperBound = bounds[j][1];
-                double velocityRange = Math.abs(upperBound - lowerBound);
+                final double lowerBound = bounds[j][0];
+                final double upperBound = bounds[j][1];
+                final double velocityRange = Math.abs(upperBound - lowerBound);
                 
                 x[i][j] = randomDoubleInRange(lowerBound, upperBound);
                 pbest[i][j] = x[i][j];
@@ -150,21 +149,21 @@ public class ParticleSwarmOptimizer {
     }
     
     public List<EpochPerformanceResult> runForIterations(int iterations) {
-        List<EpochPerformanceResult> results = new ArrayList<>(iterations);
+        final List<EpochPerformanceResult> results = new ArrayList<>(iterations);
         
         for(int epoch = 1; epoch <= iterations; epoch++) {
-            double[] fitnessValues = new double[populationSize];
+            final double[] fitnessValues = new double[populationSize];
             
             for(int i = 0; i < populationSize; i++) {
                 for(int d = 0; d < dim; d++) {
-                    double r1 = rng.nextDouble();
-                    double r2 = rng.nextDouble();
+                    final double r1 = rng.nextDouble();
+                    final double r2 = rng.nextDouble();
                     
                     v[i][d] = w*v[i][d] + c1*r1*(pbest[i][d] - x[i][d]) + c2*r2*(gbest[d] - x[i][d]);
                     x[i][d] = x[i][d] + v[i][d];
                 }
             
-                double currentFitness = objective.evaluate(x[i], epoch);
+                final double currentFitness = objective.evaluate(x[i], epoch);
             
                 fitnessValues[i] = currentFitness;
             
