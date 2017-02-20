@@ -54,25 +54,27 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
         currentPosition = circle.getTransform().getTranslationY();
         double positionDelta = currentPosition - startingPosition;
 
-        if (currentPosition != previousPosition) {
-            if (positionDelta < 0) {
-                /* produces a roughly stable position */
-                circle.applyImpulse(new Vector2(0, 0.129));
-            }
+        if (currentPosition == previousPosition) {
+            return;
+        }
+        
+        if (positionDelta < 0) {
+            /* apply proportional control; produces a somewhat stable position albeit an oscillating one */
+            circle.applyImpulse(new Vector2(0, 0.5*-positionDelta));
+        }
 
-            System.out.println(getElapsedTime() + " " + positionDelta);
-            previousPosition = currentPosition;
+        System.out.println(getElapsedTime() + " " + positionDelta);
+        previousPosition = currentPosition;
 
-            if (circle.isInContact(floor)) {
-                stop();
-            }
+        if (circle.isInContact(floor)) {
+            System.out.println("Circle hit floor, stopping");
+            stop();
         }
     }
 
     public static void main(String[] args) {
         PhysicalSystem system = new BallGravitySystem();
         system.initializeWorld();
-        /* run for ~1 second */
-        system.runSimulationLoop(1000);
+        system.runSimulationLoop(10000);
     }
 }
