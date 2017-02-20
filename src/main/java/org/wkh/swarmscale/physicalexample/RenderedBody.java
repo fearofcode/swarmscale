@@ -1,4 +1,4 @@
-package org.wkh.swarmscale;
+package org.wkh.swarmscale.physicalexample;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
-import static org.wkh.swarmscale.PhysicalSystemRenderer.SCALE;
+import static org.wkh.swarmscale.physicalexample.PhysicalSystemRenderer.SCALE;
 
 /**
  * Custom Body class to add drawing functionality.

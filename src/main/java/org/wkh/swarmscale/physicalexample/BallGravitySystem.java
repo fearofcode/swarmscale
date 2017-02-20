@@ -1,8 +1,7 @@
-package org.wkh.swarmscale;
+package org.wkh.swarmscale.physicalexample;
 
 import java.awt.Color;
 import org.dyn4j.dynamics.BodyFixture;
-import org.dyn4j.dynamics.World;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
@@ -23,9 +22,8 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
 
     @Override
     public void initializeWorld() {
-        // create the world
-        world = new World();
-
+        super.initializeWorld();
+        
         // create the floor
         Rectangle floorRect = new Rectangle(15.0, 1.0);
         floor = new RenderedBody(Color.DARK_GRAY);
@@ -43,8 +41,6 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
 
         circle.setLinearDamping(0.05);
         world.addBody(circle);
-
-        lastTime = System.nanoTime();
     }
 
     @Override

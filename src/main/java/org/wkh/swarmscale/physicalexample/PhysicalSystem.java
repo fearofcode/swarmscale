@@ -1,4 +1,4 @@
-package org.wkh.swarmscale;
+package org.wkh.swarmscale.physicalexample;
 
 import org.dyn4j.dynamics.World;
 

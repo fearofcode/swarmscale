@@ -1,4 +1,4 @@
-package org.wkh.swarmscale;
+package org.wkh.swarmscale.physicalexample;
 
 import org.dyn4j.dynamics.World;
 
@@ -43,6 +43,16 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
         return world;
     }
 
+    @Override
+    public void initializeWorld() {
+        // create the world
+        world = new World();
+        
+        lastTime = System.nanoTime();
+        
+        /* subclasses will call this and then add other objects */
+    }
+    
     /**
      * Stops the example.
      */
