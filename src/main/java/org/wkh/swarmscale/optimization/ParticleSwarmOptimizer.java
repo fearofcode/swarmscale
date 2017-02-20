@@ -105,8 +105,8 @@ public class ParticleSwarmOptimizer {
     public void initializePopulation() {
         for(int i = 0; i < populationSize; i++) {
             for(int j = 0; j < dim; j++) {
-                double lowerBound = bounds[i][0];
-                double upperBound = bounds[i][1];
+                double lowerBound = bounds[j][0];
+                double upperBound = bounds[j][1];
                 double velocityRange = Math.abs(upperBound - lowerBound);
                 
                 x[i][j] = randomDoubleInRange(lowerBound, upperBound);
@@ -117,15 +117,13 @@ public class ParticleSwarmOptimizer {
                 );
             }
             
+            /* arbitrarily initialize gbest to the first individual */
             if (i == 0) {
-                /* arbitrarily initialize gbest to the first individual */
                 gbest = x[0];
-                gbestFitness = objective.evaluate(gbest);
-                pbestFitness[0] = gbestFitness;
-                continue;
+                gbestFitness = objective.evaluate(gbest, 0);
             }
             
-            pbestFitness[i] = objective.evaluate(x[i]);
+            pbestFitness[i] = objective.evaluate(x[i], 0);
             
             if (pbestFitness[i] < gbestFitness) {
                 double[] individual = x[i];
@@ -136,6 +134,38 @@ public class ParticleSwarmOptimizer {
     
     public List<EpochPerformanceResult> runForIterations(int iterations) {
         List<EpochPerformanceResult> results = new ArrayList<>(iterations);
+        
+        results.add(new EpochPerformanceResult(pbestFitness, gbest, gbestFitness));
+        
+        for(int epoch = 1; epoch <= iterations; epoch++) {
+            double[] fitnessValues = new double[populationSize];
+            
+            for(int i = 0; i < populationSize; i++) {
+                for(int d = 0; d < dim; d++) {
+                    double r1 = rng.nextDouble();
+                    double r2 = rng.nextDouble();
+                    
+                    v[i][d] = w*v[i][d] + c1*r1*(pbest[i][d] - x[i][d]) + c2*r2*(gbest[d] - x[i][d]);
+                    x[i][d] = x[i][d] + v[i][d];
+                }
+                
+                double currentFitness = objective.evaluate(x[i], epoch);
+                
+                fitnessValues[i] = currentFitness;
+                
+                if (currentFitness < pbestFitness[i]) {
+                    pbestFitness[i] = currentFitness;
+                    pbest[i] = Arrays.copyOf(x[i], dim);
+                }
+                
+                if (currentFitness < gbestFitness) {
+                    gbestFitness = currentFitness;
+                    gbest = Arrays.copyOf(x[i], dim);
+                }
+            }
+            
+            results.add(new EpochPerformanceResult(fitnessValues, gbest, gbestFitness));
+        }
         
         return results;
     }
@@ -148,17 +178,30 @@ public class ParticleSwarmOptimizer {
         final int populationSize = 40;
         
         final double[][] bounds = {
-            {-5.0, 5.0},
-            {-5.0, 5.0},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
         };
         
         /* simple 2D function with global minimum at (0, 0) */
-        ObjectiveFunction sphere2d = (position) -> position[0] * position[0] + position[1] * position[1];
+        ObjectiveFunction sphere2d = (x, iteration) -> x[0] * x[0] + x[1] * x[1];
+        
+        /* more complex 2D function with global minimum of 0 at (0, 0) */
+        ObjectiveFunction rastrigin = (x, iteration) -> 20 
+                + x[0]*x[0] - 10*Math.cos(Math.PI*2*x[0]) 
+                + x[1]*x[1] - 10*Math.cos(Math.PI*2*x[1]);
         
         ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize, 
             bounds,
-            sphere2d
+            rastrigin
         );
+        
+        optimizer.initializePopulation();
+        
+        optimizer.runForIterations(500).forEach(result -> {
+            System.out.println("Gbest: " + Arrays.toString(result.gbest) + ", fitness: " + result.gbestFitness);
+            System.out.println("Summary stats: " + result.fitnessStatistics);
+            System.out.println();
+        });
     }
 }
