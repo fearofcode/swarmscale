@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 /**
  * Minimizes an objective function.
@@ -135,8 +137,6 @@ public class ParticleSwarmOptimizer {
     public List<EpochPerformanceResult> runForIterations(int iterations) {
         List<EpochPerformanceResult> results = new ArrayList<>(iterations);
         
-        results.add(new EpochPerformanceResult(pbestFitness, gbest, gbestFitness));
-        
         for(int epoch = 1; epoch <= iterations; epoch++) {
             double[] fitnessValues = new double[populationSize];
             
@@ -148,16 +148,16 @@ public class ParticleSwarmOptimizer {
                     v[i][d] = w*v[i][d] + c1*r1*(pbest[i][d] - x[i][d]) + c2*r2*(gbest[d] - x[i][d]);
                     x[i][d] = x[i][d] + v[i][d];
                 }
-                
+            
                 double currentFitness = objective.evaluate(x[i], epoch);
-                
+            
                 fitnessValues[i] = currentFitness;
-                
+            
                 if (currentFitness < pbestFitness[i]) {
                     pbestFitness[i] = currentFitness;
                     pbest[i] = Arrays.copyOf(x[i], dim);
                 }
-                
+
                 if (currentFitness < gbestFitness) {
                     gbestFitness = currentFitness;
                     gbest = Arrays.copyOf(x[i], dim);
@@ -180,15 +180,34 @@ public class ParticleSwarmOptimizer {
         final double[][] bounds = {
             {-5.12, 5.12},
             {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
+            {-5.12, 5.12},
         };
         
         /* simple 2D function with global minimum at (0, 0) */
         ObjectiveFunction sphere2d = (x, iteration) -> x[0] * x[0] + x[1] * x[1];
         
-        /* more complex 2D function with global minimum of 0 at (0, 0) */
-        ObjectiveFunction rastrigin = (x, iteration) -> 20 
-                + x[0]*x[0] - 10*Math.cos(Math.PI*2*x[0]) 
-                + x[1]*x[1] - 10*Math.cos(Math.PI*2*x[1]);
+        /* more complex 2D function with global minimum of 0 at (0, 0). 
+         * See <https://upload.wikimedia.org/wikipedia/commons/8/8b/Rastrigin_function.png> for a plot. 
+         */
+        
+        ObjectiveFunction rastrigin = (x, iteration) -> {
+            double sum = 0.0;
+            final int dim = 8;
+            for(int i = 0; i < dim; i++) {
+                sum += x[i]*x[i] - 10*Math.cos(Math.PI*2*x[i]);
+            }
+            
+            return 10*dim + sum;
+        };
         
         ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize, 
@@ -197,11 +216,10 @@ public class ParticleSwarmOptimizer {
         );
         
         optimizer.initializePopulation();
+        final int iterations = 25000;
+        final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         
-        optimizer.runForIterations(500).forEach(result -> {
-            System.out.println("Gbest: " + Arrays.toString(result.gbest) + ", fitness: " + result.gbestFitness);
-            System.out.println("Summary stats: " + result.fitnessStatistics);
-            System.out.println();
-        });
+        System.out.println("Best result: " + Arrays.toString(results.get(iterations-1).gbest));
+        System.out.println(results.get(iterations-1).gbestFitness);
     }
 }
