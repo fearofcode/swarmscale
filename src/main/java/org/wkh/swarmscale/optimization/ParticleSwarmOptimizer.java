@@ -214,8 +214,8 @@ public class ParticleSwarmOptimizer {
         /* simple 2D function with global minimum at (0, 0) */
         ObjectiveFunction sphere2d = (x, iteration) -> x[0] * x[0] + x[1] * x[1];
         
-        /* more complex function with global minimum of 0 at (0, 0). 
-         * See <https://upload.wikimedia.org/wikipedia/commons/8/8b/Rastrigin_function.png> for a plot. 
+        /* more complex function with global minimum of f(0) = (0, 0, ..., 0). 
+         * See <https://upload.wikimedia.org/wikipedia/commons/8/8b/Rastrigin_function.png> for a plot at n = 2. 
          */
         
         final int dim = 12;
