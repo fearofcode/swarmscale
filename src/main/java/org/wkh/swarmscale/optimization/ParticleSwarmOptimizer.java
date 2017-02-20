@@ -75,6 +75,8 @@ public class ParticleSwarmOptimizer {
     
     private final Random rng;
     
+    private List<EpochListener> epochListeners;
+    
     /**
      * 
      * @param populationSize Number of individuals to create
@@ -101,9 +103,15 @@ public class ParticleSwarmOptimizer {
         v = new double[populationSize][dim];
         pbest = new double[populationSize][dim];
         pbestFitness = new double[populationSize];
-        gbest = new double[dim];       
+        gbest = new double[dim];
+        
+        epochListeners = new ArrayList<>();
     }
 
+    public void addEpochListener(EpochListener listener) {
+        epochListeners.add(listener);
+    }
+    
     public void initializePopulation() {
         for(int i = 0; i < populationSize; i++) {
             for(int j = 0; j < dim; j++) {
@@ -164,7 +172,13 @@ public class ParticleSwarmOptimizer {
                 }
             }
             
-            results.add(new EpochPerformanceResult(fitnessValues, gbest, gbestFitness));
+            final EpochPerformanceResult result = new EpochPerformanceResult(fitnessValues, gbest, gbestFitness);
+            
+            final int epochDummy = epoch;
+            
+            epochListeners.forEach(listener -> listener.onEpochComplete(result, epochDummy));
+            
+            results.add(result);
         }
         
         return results;
@@ -216,7 +230,13 @@ public class ParticleSwarmOptimizer {
         );
         
         optimizer.initializePopulation();
-        final int iterations = 25000;
+        
+        optimizer.addEpochListener((result, epoch) -> {
+            System.out.println("At epoch " + epoch + ":");
+            System.out.println("Best result: " + result.gbestFitness);
+        });
+        
+        final int iterations = 1000;
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         
         System.out.println("Best result: " + Arrays.toString(results.get(iterations-1).gbest));
