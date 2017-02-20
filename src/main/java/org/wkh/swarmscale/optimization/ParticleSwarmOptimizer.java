@@ -164,7 +164,13 @@ public class ParticleSwarmOptimizer {
             
             final int epochDummy = epoch;
             
-            List<Double> fitnessValues = Arrays.stream(x).parallel().map(position -> objective.evaluate(position, epochDummy)).collect(Collectors.toList());
+            /* because each evaluation runs in parallel, we can easily just do a parallel map */
+            
+            List<Double> fitnessValues = Arrays.stream(x).parallel().map(position -> 
+                    objective.evaluate(position, epochDummy)
+            ).collect(
+                    Collectors.toList()
+            );
             
             for(int i = 0; i < fitnessValues.size(); i++) {
                 final double currentFitness = fitnessValues.get(i);
