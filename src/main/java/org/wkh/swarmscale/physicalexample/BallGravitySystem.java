@@ -1,6 +1,9 @@
 package org.wkh.swarmscale.physicalexample;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.MassType;
@@ -11,7 +14,16 @@ import org.dyn4j.geometry.Vector2;
  * A simple physical system where a circle at the origin falls downward under the influence of gravity.
  */
 public class BallGravitySystem extends AbstractPhysicalSystem {
+    public static final BufferedImage QUADCOPTER_IMAGE = readImage("quadcopter.png");
 
+    private static final BufferedImage readImage(String path) {
+        try {
+            return ImageIO.read(BallGravitySystem.class.getResource(path));
+        } catch (IOException e) {
+            return null;
+        }
+    }
+    
     private RenderedBody circle;
     private RenderedBody floor;
 
@@ -35,7 +47,7 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
 
         // create a circle
         Circle cirShape = new Circle(0.5);
-        circle = new RenderedBody(Color.BLACK);
+        circle = new RenderedBody(Color.BLACK, QUADCOPTER_IMAGE);
         circle.addFixture(cirShape);
         circle.setMass(MassType.NORMAL);
 

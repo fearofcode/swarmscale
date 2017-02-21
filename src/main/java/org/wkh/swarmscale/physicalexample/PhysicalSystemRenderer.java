@@ -56,9 +56,10 @@ public class PhysicalSystemRenderer extends JFrame {
 
     /**
      * Default constructor for the window
+     * @param system The physical system to simulate and visualize
      */
     public PhysicalSystemRenderer(final PhysicalSystem system) {
-        super("Graphics2D Example");
+        super("Physical system renderer");
 
         physicalSystem = system;
         /* pass ourselves to the physical system so we will render the simulation */
