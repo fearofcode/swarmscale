@@ -27,7 +27,6 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
     private RenderedBody circle;
     private RenderedBody floor;
 
-
     private double previousPosition;
     private double currentPosition;
     private double startingPosition;
