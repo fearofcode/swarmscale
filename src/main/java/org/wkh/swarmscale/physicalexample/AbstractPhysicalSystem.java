@@ -20,9 +20,9 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     protected boolean stopped = false;
 
     /**
-     * The time stamp for the lastTime iteration
+     * The time stamp for the previousTime iteration
      */
-    protected long lastTime;
+    protected long previousTime;
 
     protected boolean doRender = false;
     protected PhysicalSystemRenderer renderer = null;
@@ -48,7 +48,7 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
         // create the world
         world = new World();
         
-        lastTime = System.nanoTime();
+        previousTime = System.nanoTime();
         
         /* subclasses will call this and then add other objects */
     }
@@ -82,16 +82,16 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     
     protected void preSimulationStep() { }
 
-    protected long getElapsedTime() {
-        long currentTime = System.currentTimeMillis();
-        return currentTime - startTime;
+    protected double getElapsedTime() {
+        long currentTime = System.nanoTime();
+        return (currentTime - startTime) / 1.0E6;
     }
     
     @Override
     public void runSimulationLoop(long millisecondTimeLimit) {
         boolean checkTime = millisecondTimeLimit > 0;
         
-        startTime = System.currentTimeMillis();
+        startTime = System.nanoTime();
 
         beforeSimulationLoopStart();
 
@@ -119,11 +119,11 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
         // get the current time
         long time = System.nanoTime();
 
-        // get the elapsed time from the lastTime iteration
-        long diff = time - lastTime;
+        // get the elapsed time from the previousTime iteration
+        long diff = time - previousTime;
 
-        // set the lastTime time
-        lastTime = time;
+        // set the previousTime time
+        previousTime = time;
 
         // convert from nanoseconds to seconds
         double elapsedTime = diff / NANO_TO_BASE;

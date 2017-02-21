@@ -24,12 +24,12 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
         }
     }
     
-    private RenderedBody circle;
-    private RenderedBody floor;
+    protected RenderedBody circle;
+    protected RenderedBody floor;
 
-    private double previousPosition;
-    private double currentPosition;
-    private double startingPosition;
+    protected double previousPosition;
+    protected double currentPosition;
+    protected double startingPosition;
 
     @Override
     public void initializeWorld() {
@@ -74,7 +74,7 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
             circle.applyImpulse(new Vector2(0, 0.5*-positionDelta));
         }
 
-        System.out.println(getElapsedTime() + " " + positionDelta);
+        System.out.println(getElapsedTime() + " " + currentPosition);
         previousPosition = currentPosition;
 
         if (circle.isInContact(floor)) {
