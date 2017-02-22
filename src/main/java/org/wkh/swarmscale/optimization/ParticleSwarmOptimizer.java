@@ -148,6 +148,22 @@ public class ParticleSwarmOptimizer {
         }
     }
     
+    private double clipToBounds(double value, int dimension) {
+        final double lowerBound = bounds[dimension][0];
+        
+        if (value < lowerBound) {
+            return lowerBound;
+        }
+        
+        final double upperBound = bounds[dimension][1]; 
+        
+        if (value > upperBound) {
+            return upperBound;
+        }
+        
+        return value;
+    }
+    
     public List<EpochPerformanceResult> runForIterations(int iterations) {
         final List<EpochPerformanceResult> results = new ArrayList<>(iterations);
         
@@ -158,7 +174,7 @@ public class ParticleSwarmOptimizer {
                     final double r2 = rng.nextDouble();
                     
                     v[i][d] = W*v[i][d] + C1*r1*(pbest[i][d] - x[i][d]) + C2*r2*(gbest[d] - x[i][d]);
-                    x[i][d] = x[i][d] + v[i][d];
+                    x[i][d] = clipToBounds(x[i][d] + v[i][d], d);
                 }    
             }
             
