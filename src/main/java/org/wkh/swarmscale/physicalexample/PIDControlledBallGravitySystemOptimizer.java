@@ -16,8 +16,8 @@ public class PIDControlledBallGravitySystemOptimizer {
         
         final double[][] bounds = {
             {0.0, 250.0}, /* proportional */
-            {0.0, 50.0}, /* integral */
-            {0.0, 50.0}, /* derivative */
+            {0.0, 25.0}, /* integral */
+            {0.0, 25.0}, /* derivative */
         };
         
         /* TODO add setpoint changes */

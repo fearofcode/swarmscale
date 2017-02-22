@@ -13,6 +13,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
     private final List<Double> observedErrors;
 
     private boolean verbose;
+    private boolean recordErrors;
     
     public PIDControlledBallGravitySystem(double proportionalGain, double integralGain, double derivativeGain, 
             double outputMagnitudeLimit, double controlInterval, int expectedRuntime) {
@@ -21,7 +22,13 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
         controller.setOutputLimits(outputMagnitudeLimit);
         final int capacity = (int) (expectedRuntime/controlInterval);
         
-        observedErrors = new ArrayList<>(capacity);
+        recordErrors = capacity > 0;
+        
+        if (recordErrors) {
+            observedErrors = new ArrayList<>(capacity);
+        } else {
+            observedErrors = new ArrayList<>();
+        }
         
         verbose = false;
     }
@@ -50,7 +57,9 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
         
         currentPosition = circle.getTransform().getTranslationY();
         
-        observedErrors.add(Math.abs(currentPosition - TARGET_POSITION));
+        if (recordErrors) {
+            observedErrors.add(Math.abs(currentPosition - TARGET_POSITION));
+        }
         
         double output = controller.getOutput(currentPosition, TARGET_POSITION);
         

@@ -194,7 +194,15 @@ public class PhysicalSystemRenderer extends JFrame {
         }
 
         // create the example JFrame
-        PhysicalSystemRenderer window = new PhysicalSystemRenderer(new BallGravitySystem());
+        PhysicalSystem system = new PIDControlledBallGravitySystem(
+                123.21097994837332,
+                5.0,
+                5.0,
+                10.0,
+                25.0,
+                -1
+        );
+        PhysicalSystemRenderer window = new PhysicalSystemRenderer(system);
 
         // show it
         window.setVisible(true);
