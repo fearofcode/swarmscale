@@ -139,6 +139,7 @@ public class ParticleSwarmOptimizer {
                 gbestFitness = objective.evaluate(gbest, 0);
             }
             
+            /* TODO make this parallel */
             pbestFitness[i] = objective.evaluate(x[i], 0);
             
             if (pbestFitness[i] < gbestFitness) {

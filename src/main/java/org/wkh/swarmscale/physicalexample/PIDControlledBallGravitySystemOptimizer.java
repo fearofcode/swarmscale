@@ -9,22 +9,22 @@ import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 
 public class PIDControlledBallGravitySystemOptimizer {
     public static void main(String[] args) {
-        final int populationSize = 100;
-        final int dim = 5;
+        final int populationSize = 250;
+        final int dim = 3;
         
         /* TODO why not associate bounds with the objective function? change the interface, ya dingus */
         
         final double[][] bounds = {
             {0.0, 250.0}, /* proportional */
-            {0.0, 10}, /* integral */
-            {0.0, 2.5}, /* derivative */
-            {0.01, 25.0}, /* max output magnitude */
-            {5.0, 100.0}, /* control interval */
+            {0.0, 50.0}, /* integral */
+            {0.0, 50.0}, /* derivative */
         };
         
-        ObjectiveFunction pidSystemSimulator = new PIDControlledBallGravitySystemObjectiveFunction();
+        /* TODO add setpoint changes */
         
-        ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
+        final ObjectiveFunction pidSystemSimulator = new PIDControlledBallGravitySystemObjectiveFunction();
+        
+        final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize, 
             dim,
             bounds,
