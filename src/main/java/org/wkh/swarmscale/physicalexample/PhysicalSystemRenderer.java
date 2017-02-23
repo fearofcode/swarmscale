@@ -195,8 +195,12 @@ public class PhysicalSystemRenderer extends JFrame {
 
         PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stableSystem(-1);
         system.addStepListener(() -> {    
-            if (system.getElapsedTime() >= 3000.0 && system.getTargetPosition() == 0.0) {
+            if (system.getElapsedTime() >= 2000.0 && system.getTargetPosition() == 0.0) {
                 system.setTargetPosition(1.0);
+            }
+            
+            if (system.getElapsedTime() >= 4000.0 && system.getTargetPosition() == 1.0) {
+                system.setTargetPosition(-1.0);
             }
         });
         

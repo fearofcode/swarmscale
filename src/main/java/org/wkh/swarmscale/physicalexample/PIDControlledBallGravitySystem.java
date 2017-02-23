@@ -88,9 +88,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
     public static PIDControlledBallGravitySystem stableSystem(int runTime) {
         /* derived from running PIDControlledBallGravitySystemOptimizer. stable as long as setpoint is not changed */
          return new PIDControlledBallGravitySystem(
-                106.97373630067251,
-                47.123891070721406,
-                25.115039218526586,
+                24.03976158272401, 10.033777480148322, 44.150628224180416,
                 10.0,
                 25,
                 runTime
