@@ -5,7 +5,7 @@ import org.wkh.swarmscale.optimization.ObjectiveFunction;
 
 public class PIDControlledBallGravitySystemObjectiveFunction implements ObjectiveFunction {
     public static int getSimulationTime(final int iteration) {
-        return 3000;
+        return 5000;
     }
     
     /**
