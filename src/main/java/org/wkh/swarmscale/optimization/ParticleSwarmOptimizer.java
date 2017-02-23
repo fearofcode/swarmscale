@@ -126,26 +126,27 @@ public class ParticleSwarmOptimizer {
                 final double velocityRange = Math.abs(upperBound - lowerBound);
                 
                 x[i][j] = randomDoubleInRange(lowerBound, upperBound);
-                pbest[i][j] = x[i][j];
                 v[i][j] = randomDoubleInRange(
                     -velocityRange, 
                     velocityRange
                 );
             }
             
-            /* arbitrarily initialize gbest to the first individual */
-            if (i == 0) {
-                gbest = x[0];
-                gbestFitness = objective.evaluate(gbest, 0);
-            }
-            
-            /* TODO make this parallel */
-            pbestFitness[i] = objective.evaluate(x[i], 0);
-            
-            if (pbestFitness[i] < gbestFitness) {
-                double[] individual = x[i];
-                gbest = Arrays.copyOf(individual, dim);
-            }
+            pbest[i] = Arrays.copyOf(x[i], dim);
+        }
+        
+        /* evaluate the population to initialize fitness values */
+        List<Double> fitnessValues = evaluatePopulation(0);
+        
+        /* arbitrarily initialize gbest to the first individual */
+        gbest = Arrays.copyOf(x[0], dim);
+        gbestFitness = fitnessValues.get(0);
+        
+        /* now initialize pbest fitnesses */
+        
+        for(int i = 0; i < populationSize; i++) {
+            final double fitnessValue = fitnessValues.get(i);
+            pbestFitness[i] = fitnessValue;
         }
     }
     
@@ -183,11 +184,7 @@ public class ParticleSwarmOptimizer {
             
             /* because each evaluation runs in parallel, we can easily just do a parallel map */
             
-            List<Double> fitnessValues = Arrays.stream(x).parallel().map(position -> 
-                    objective.evaluate(position, epochDummy)
-            ).collect(
-                    Collectors.toList()
-            );
+            List<Double> fitnessValues = evaluatePopulation(epochDummy);
             
             for(int i = 0; i < fitnessValues.size(); i++) {
                 final double currentFitness = fitnessValues.get(i);
@@ -210,6 +207,14 @@ public class ParticleSwarmOptimizer {
         }
         
         return results;
+    }
+
+    private List<Double> evaluatePopulation(final int epoch) {
+        return Arrays.stream(x).parallel().map(position -> 
+                objective.evaluate(position, epoch)
+        ).collect(
+                Collectors.toList()
+        );
     }
     
     private double randomDoubleInRange(double lowerBound, double upperBound) {
@@ -243,10 +248,6 @@ public class ParticleSwarmOptimizer {
         
         final int dim = 12;
         ObjectiveFunction rastrigin = (x, iteration) -> {
-            /* ineffective but simple way to simulate a computationally intensive task */
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {}
             double sum = 0.0;
             for(int i = 0; i < dim; i++) {
                 sum += x[i]*x[i] - 10*Math.cos(Math.PI*2*x[i]);
@@ -271,7 +272,7 @@ public class ParticleSwarmOptimizer {
             }
         });
         
-        final int iterations = 1000;
+        final int iterations = 10000;
         
         long start = System.currentTimeMillis();
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);

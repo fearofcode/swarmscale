@@ -10,17 +10,15 @@ import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 public class PIDControlledBallGravitySystemOptimizer {
     public static void main(String[] args) {
         final int populationSize = 250;
-        final int dim = 3;
-        
-        /* TODO why not associate bounds with the objective function? change the interface, ya dingus */
+        /* TODO maybe associate bounds with the objective function? */
         
         final double[][] bounds = {
             {0.0, 250.0}, /* proportional */
-            {0.0, 50.0}, /* integral */
-            {0.0, 50.0}, /* derivative */
+            {0.0, 25.0}, /* integral */
+            {0.0, 250.0}, /* derivative */
         };
         
-        /* TODO add setpoint changes */
+        final int dim = bounds.length;
         
         final ObjectiveFunction pidSystemSimulator = new PIDControlledBallGravitySystemObjectiveFunction();
         
@@ -39,7 +37,7 @@ public class PIDControlledBallGravitySystemOptimizer {
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });
         
-        final int iterations = 1000;
+        final int iterations = 250;
         
         long start = System.currentTimeMillis();
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);

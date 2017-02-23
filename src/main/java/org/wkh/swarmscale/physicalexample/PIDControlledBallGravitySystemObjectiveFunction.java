@@ -22,7 +22,7 @@ public class PIDControlledBallGravitySystemObjectiveFunction implements Objectiv
         final double proportionalGain = position[0];
         final double integralGain = position[1];
         final double derivativeGain = position[2];
-        final double maxOutputMagnitude = 10.0;
+        final double maxOutputMagnitude = 25.0;
         final double controlInterval = 25.0;
         
         final PIDControlledBallGravitySystem system = new PIDControlledBallGravitySystem(
@@ -34,6 +34,13 @@ public class PIDControlledBallGravitySystemObjectiveFunction implements Objectiv
                 runTime);
         
         system.initializeWorld();
+        
+        /* change up the setpoint part way through to test adjustment */
+        system.addStepListener(() -> {    
+            if (system.getElapsedTime() >= 1000.0 && system.getTargetPosition() == 0.0) {
+                system.setTargetPosition(1.0);
+            }
+        });
         
         system.runSimulationLoop(runTime);
         final List<Double> observedErrors = system.getObservedErrors();

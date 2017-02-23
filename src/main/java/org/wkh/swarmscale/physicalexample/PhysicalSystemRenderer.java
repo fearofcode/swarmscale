@@ -193,16 +193,14 @@ public class PhysicalSystemRenderer extends JFrame {
             System.exit(1);
         }
 
-        // create the example JFrame
+        PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stableSystem(-1);
+        system.addStepListener(() -> {    
+            if (system.getElapsedTime() >= 3000.0 && system.getTargetPosition() == 0.0) {
+                system.setTargetPosition(1.0);
+            }
+        });
         
-        PhysicalSystem system = new PIDControlledBallGravitySystem(
-                106.97373630067251,
-                47.123891070721406,
-                25.115039218526586,
-                10.0,
-                25.0,
-                -1
-        );
+        system.setVerbose(true);
         PhysicalSystemRenderer window = new PhysicalSystemRenderer(system);
 
         // show it

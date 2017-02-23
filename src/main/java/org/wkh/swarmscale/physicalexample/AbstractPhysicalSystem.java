@@ -1,9 +1,10 @@
 package org.wkh.swarmscale.physicalexample;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.dyn4j.dynamics.World;
 
 public abstract class AbstractPhysicalSystem implements PhysicalSystem {
-
     /**
      * The conversion factor from nanometer to base
      */
@@ -28,6 +29,16 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     protected PhysicalSystemRenderer renderer = null;
     protected long startTime;
 
+    private final List<PhysicalSystemStepListener> stepListeners;
+    
+    public AbstractPhysicalSystem() {
+        stepListeners = new ArrayList<>();
+    }
+    
+    public void addStepListener(PhysicalSystemStepListener listener) {
+        stepListeners.add(listener);
+    }
+    
     @Override
     public void setDoRender(boolean doRender) {
         this.doRender = doRender;
@@ -111,6 +122,8 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
             stepWorld();
 
             postSimulationStep();
+            
+            stepListeners.forEach(listener -> listener.onStep());
         }
     }
 
