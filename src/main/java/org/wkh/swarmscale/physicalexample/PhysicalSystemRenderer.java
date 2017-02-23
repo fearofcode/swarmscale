@@ -200,6 +200,10 @@ public class PhysicalSystemRenderer extends JFrame {
             }
             
             if (system.getElapsedTime() >= 4000.0 && system.getTargetPosition() == 1.0) {
+                system.setTargetPosition(0.0);
+            }
+            
+            if (system.getElapsedTime() >= 6000.0 && system.getTargetPosition() == 0.0) {
                 system.setTargetPosition(-1.0);
             }
         });

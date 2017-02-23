@@ -78,7 +78,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
         circle.applyImpulse(new Vector2(0, output));
 
         if (verbose) {
-            System.err.printf("%3.2f\t%.10f\t%3.2f\n", getElapsedTime(), currentPosition, output);
+            System.err.printf("%.2f\t%f\t%.10f\t%.5f\n", getElapsedTime(), targetPosition, currentPosition, output);
         }
 
         previousPosition = currentPosition;
@@ -86,19 +86,22 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
     }
 
     public static PIDControlledBallGravitySystem stableSystem(int runTime) {
-        /* derived from running PIDControlledBallGravitySystemOptimizer. stable as long as setpoint is not changed */
-         return new PIDControlledBallGravitySystem(
-                24.03976158272401, 10.033777480148322, 44.150628224180416,
+        /* derived from running the optimizer */
+        return new PIDControlledBallGravitySystem(
+                24.03976158272401, 
+                10.033777480148322, 
+                44.150628224180416,
                 10.0,
                 25,
                 runTime
-         );
+        );
     }
 
     public static void main(String[] args) {
-        System.err.println("Time\tPosition\tOutput");
-        int runTime = 10000;
+        System.err.println("Time\tTarget\tPosition\tOutput");
+        int runTime = 8000;
         PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stableSystem(runTime);
+        
         system.setVerbose(true);
         system.initializeWorld();
         system.runSimulationLoop(runTime);
