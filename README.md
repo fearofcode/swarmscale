@@ -13,15 +13,16 @@ simulation of something like hovering an aircraft in the air.
 To do that, I'm using a physics engine, <a href="http://www.dyn4j.org/">dyn4j</a>, to power a simulation that actually
 becomes the objective function in a particle swarm optimization setup.
 
-Check out the classes `PSOBallGravityDemo` for a demo of a controller whose parameters were derived by PSO.
+Check out the class `PSOBallGravityDemo` for a demo of a controller whose parameters were derived by PSO.
 
 `ZieglerNicholsBallGravityDemo` is an example of a controller using the more traditional 
 <a href="https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method">Ziegler-Nichols heuristic</a>.
 
 Which is better? It depends on how you measure performance. The PSO optimizer uses total absolute error. By that metric,
-the PSO system is substantially better, although both give decent performance.
+the PSO system is substantially better, although both give decent performance. The PSO controller has higher overshoot, 
+though.
 
-`PSOvsZieglerNicholsBallGravityEvaluation` compares the two side by side in case you're curious about numbers.
+`PSOvsZieglerNicholsBallGravityEvaluation` compares the total absolute error quantitatively in case you're curious about numbers.
 
 Acknowledgments
 ----------------
