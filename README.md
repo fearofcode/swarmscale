@@ -3,7 +3,7 @@ swarmscale
 
 This is an experiment in using <a href="https://en.wikipedia.org/wiki/Particle_swarm_optimization">particle swarm optimization</a>,
 a simple heuristic optimization algorithm inspired by natural behavior such as flocks of birds and insect swarms, to automatically
-tune <a href="https://en.wikipedia.org/wiki/PID_controller>PID controllers</a>.
+tune <a href="https://en.wikipedia.org/wiki/PID_controller">PID controllers</a>.
 
 Eventually, I'd like to try to apply this technique towards software systems. But, for now, I'm working on simulated physical systems using a physics engine.
 
