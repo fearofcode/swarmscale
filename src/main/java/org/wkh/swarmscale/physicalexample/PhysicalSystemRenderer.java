@@ -178,43 +178,4 @@ public class PhysicalSystemRenderer extends JFrame {
             rb.render(g);
         }
     }
-
-    /**
-     * Entry point for the example application.
-     *
-     * @param args command line arguments
-     */
-    public static void main(String[] args) {
-        // set the look and feel to the system look and feel
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-        PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stableSystem(-1);
-        system.addStepListener(() -> {    
-            if (system.getElapsedTime() >= 2000.0 && system.getTargetPosition() == 0.0) {
-                system.setTargetPosition(1.0);
-            }
-            
-            if (system.getElapsedTime() >= 4000.0 && system.getTargetPosition() == 1.0) {
-                system.setTargetPosition(0.0);
-            }
-            
-            if (system.getElapsedTime() >= 6000.0 && system.getTargetPosition() == 0.0) {
-                system.setTargetPosition(-1.0);
-            }
-        });
-        
-        system.setVerbose(true);
-        PhysicalSystemRenderer window = new PhysicalSystemRenderer(system);
-
-        // show it
-        window.setVisible(true);
-
-        // start it
-        window.start();
-    }
 }

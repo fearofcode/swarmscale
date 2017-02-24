@@ -85,22 +85,35 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
         previousControlTime = time;
     }
 
-    public static PIDControlledBallGravitySystem stableSystem(int runTime) {
+    public static PIDControlledBallGravitySystem stablePSODerivedSystem(int runTime) {
         /* derived from running the optimizer */
         return new PIDControlledBallGravitySystem(
                 24.03976158272401, 
                 10.033777480148322, 
                 44.150628224180416,
-                10.0,
+                25.0,
                 25,
                 runTime
         );
+    }
+    
+    public static PIDControlledBallGravitySystem stableZieglerNicholsSystem(int runTime) {
+        double criticalGain = 25.0;
+        double oscillationTime = 0.1;
+        
+        return new PIDControlledBallGravitySystem(
+                0.2*criticalGain,
+                0.3*oscillationTime,
+                0.5*criticalGain,
+                10.0,
+                25.0,
+                runTime);
     }
 
     public static void main(String[] args) {
         System.err.println("Time\tTarget\tPosition\tOutput");
         int runTime = 8000;
-        PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stableSystem(runTime);
+        PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stablePSODerivedSystem(runTime);
         
         system.setVerbose(true);
         system.initializeWorld();
