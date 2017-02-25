@@ -97,6 +97,17 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
         );
     }
     
+    public static PIDControlledBallGravitySystem stablePSOZNSeedDerivedSystem(int runTime) {
+        /* derived from running the optimizer with Ziegler Nichols seeds */
+        return new PIDControlledBallGravitySystem(
+                24.165633286024093, 
+                7.257835911895666, 
+                32.13029317549218,
+                25.0,
+                25,
+                runTime
+        );
+    }
     public static PIDControlledBallGravitySystem stableZieglerNicholsSystem(int runTime) {
         double criticalGain = 25.0;
         double oscillationTime = 0.1;

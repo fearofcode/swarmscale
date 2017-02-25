@@ -77,6 +77,7 @@ public class ParticleSwarmOptimizer {
     
     private final List<EpochListener> epochListeners;
     
+    private final double[][] seeds;
     /**
      * 
      * @param populationSize Number of individuals to create
@@ -91,8 +92,33 @@ public class ParticleSwarmOptimizer {
             final int dim,
             final double[][] bounds,
             final ObjectiveFunction objective) {
+        this(populationSize, dim, bounds, objective, new double[][] {});
+    }
+    
+    /**
+     * 
+     * @param populationSize Number of individuals to create
+     * @param dim Dimension. Must match bounds and objective function.
+     * @param bounds upper and lower bounds in each dimension. Should be 
+     * `dim` x 2 in size.
+     * @param objective Objective function. Needs to match bounds in the array
+     * elements it references.
+     * @param seeds Initial positions to copy into the population
+     */
+    public ParticleSwarmOptimizer(
+            final int populationSize, 
+            final int dim,
+            final double[][] bounds,
+            final ObjectiveFunction objective,
+            final double[][] seeds) {
         if (bounds.length != dim) {
             throw new IllegalArgumentException("Got bounds of length " + bounds.length + " != dim " + dim);
+        }
+        
+        if (seeds.length > populationSize) {
+            throw new IllegalArgumentException(
+                "Got seeds of length " + seeds.length + ", exceeding population of " + populationSize
+            );
         }
         
         rng = new Random();
@@ -112,6 +138,16 @@ public class ParticleSwarmOptimizer {
         gbest = new double[dim];
         
         epochListeners = new ArrayList<>();
+        
+        /* make a deep copy of seeds */
+        this.seeds = new double[seeds.length][dim];
+        
+        for(int i = 0; i < seeds.length; i++) {
+            if (seeds[i].length != dim) {
+                throw new IllegalArgumentException("seeds[" + i + "] length is incorrect");
+            }
+            this.seeds[i] = Arrays.copyOf(seeds[i], dim);
+        }
     }
 
     public void addEpochListener(EpochListener listener) {
@@ -125,7 +161,12 @@ public class ParticleSwarmOptimizer {
                 final double upperBound = bounds[j][1];
                 final double velocityRange = Math.abs(upperBound - lowerBound);
                 
-                x[i][j] = randomDoubleInRange(lowerBound, upperBound);
+                if (i < seeds.length) {
+                    x[i][j] = seeds[i][j];
+                } else {
+                    x[i][j] = randomDoubleInRange(lowerBound, upperBound);
+                
+                }
                 v[i][j] = randomDoubleInRange(
                     -velocityRange, 
                     velocityRange
@@ -256,11 +297,16 @@ public class ParticleSwarmOptimizer {
             return 10*dim + sum;
         };
         
+        final double[][] seeds = new double[][] {
+            {0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01}  
+        };
+        
         ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize, 
             dim,
             bounds,
-            rastrigin
+            rastrigin,
+            seeds
         );
         
         optimizer.initializePopulation();
@@ -268,11 +314,11 @@ public class ParticleSwarmOptimizer {
         optimizer.addEpochListener((result, epoch) -> {
             if (epoch % 10 == 0) {
                 System.out.println("Epoch " + epoch + ": " + new Date());
-                System.out.println("Best result: " + result.gbestFitness);
+                System.out.println("Best result fitness: " + result.gbestFitness);
             }
         });
         
-        final int iterations = 10000;
+        final int iterations = 500;
         
         long start = System.currentTimeMillis();
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);

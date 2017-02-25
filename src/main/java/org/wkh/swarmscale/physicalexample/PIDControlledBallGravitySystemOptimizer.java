@@ -22,12 +22,40 @@ public class PIDControlledBallGravitySystemOptimizer {
         
         final ObjectiveFunction pidSystemSimulator = new PIDControlledBallGravitySystemObjectiveFunction();
         
-        final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
-            populationSize, 
-            dim,
-            bounds,
-            pidSystemSimulator
-        );
+        boolean seedWithZieglerNichols = true;
+        
+        final ParticleSwarmOptimizer optimizer;
+        
+        if (seedWithZieglerNichols) {
+            /*
+            PID tight control: 0.6 * Kc, 0.5 * Tc, 0.125 * Tc
+            PID some overshoot: 0.33 * Kc, 0.5 * Tc, 0.33 * Tc
+            PID no overshoot: 0.2 * Kc, 0.3 * Tc, 0.5 * Tc
+            */
+            double criticalGain = 25.0;
+            double oscillationTime = 0.1;
+            
+            double[][] zieglerNicholsSeeds = {
+                { 0.6*criticalGain, 0.5*oscillationTime, 0.125*oscillationTime },
+                { 0.33*criticalGain, 0.5*oscillationTime, 0.33*oscillationTime },
+                { 0.2*criticalGain, 0.3*oscillationTime, 0.5*oscillationTime },
+            };
+            
+            optimizer = new ParticleSwarmOptimizer(
+                populationSize, 
+                dim,
+                bounds,
+                pidSystemSimulator,
+                zieglerNicholsSeeds
+            );
+        } else {
+            optimizer = new ParticleSwarmOptimizer(
+                populationSize, 
+                dim,
+                bounds,
+                pidSystemSimulator
+            );
+        }
         
         optimizer.initializePopulation();
         

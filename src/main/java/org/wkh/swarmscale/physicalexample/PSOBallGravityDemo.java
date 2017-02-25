@@ -3,7 +3,7 @@ package org.wkh.swarmscale.physicalexample;
 public class PSOBallGravityDemo {
     public static void main(String[] args) {
         final int runTime = 30000;
-        final PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stablePSODerivedSystem(runTime);
+        final PIDControlledBallGravitySystem system = PIDControlledBallGravitySystem.stablePSOZNSeedDerivedSystem(runTime);
         
         system.initializeWorld();
         
