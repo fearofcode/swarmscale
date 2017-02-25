@@ -1,6 +1,7 @@
 package org.wkh.swarmscale.physics.ballgravity.demos;
 
 import java.util.List;
+import org.wkh.swarmscale.optimization.ControlPerformanceResult;
 import org.wkh.swarmscale.physics.ballgravity.PIDControlledBallGravitySystem;
 import org.wkh.swarmscale.physics.ballgravity.StableControllersFactory;
 
@@ -19,18 +20,18 @@ public class PSOvsZieglerNicholsBallGravityEvaluation {
         });
 
         system.runSimulationLoop(runTime);
-        final List<Double> observedErrors = system.getObservedErrors();
+        final List<ControlPerformanceResult> observedErrors = system.getObservedErrors();
 
         /* sum up the errors */
-        return observedErrors.stream().mapToDouble(i -> i).sum();
+        return observedErrors.stream().mapToDouble(result -> result.error).sum();
     }
 
     public static void main(String[] args) {
         final int runTime = 30000;
 
-        final PIDControlledBallGravitySystem psoSystem = StableControllersFactory.stablePSODerivedSystem(runTime);
+        final PIDControlledBallGravitySystem psoSystem = StableControllersFactory.stablePSODerivedSystem();
 
-        final PIDControlledBallGravitySystem zieglerNicholsSystem = StableControllersFactory.stableZieglerNicholsSystem(runTime);
+        final PIDControlledBallGravitySystem zieglerNicholsSystem = StableControllersFactory.stableZieglerNicholsSystem();
 
         System.out.println("PSO: " + evaluateSystem(psoSystem, runTime));
         System.out.println("Ziegler-Nichols: " + evaluateSystem(zieglerNicholsSystem, runTime));

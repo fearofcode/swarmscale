@@ -1,9 +1,10 @@
 package org.wkh.swarmscale.physics.ballgravity;
 
 import java.util.List;
+import org.wkh.swarmscale.optimization.ControlPerformanceResult;
 import org.wkh.swarmscale.optimization.ObjectiveFunction;
 
-public class PIDControlledBallGravitySystemObjectiveFunction implements ObjectiveFunction {
+public class MinimalAbsoluteErrorObjectiveFunction implements ObjectiveFunction {
 
     public static int getSimulationTime(final int iteration) {
         return 5000;
@@ -27,12 +28,12 @@ public class PIDControlledBallGravitySystemObjectiveFunction implements Objectiv
         final double controlInterval = 25.0;
 
         final PIDControlledBallGravitySystem system = new PIDControlledBallGravitySystem(
-                proportionalGain,
-                integralGain,
-                derivativeGain,
-                maxOutputMagnitude,
-                controlInterval,
-                runTime);
+            proportionalGain,
+            integralGain,
+            derivativeGain,
+            maxOutputMagnitude,
+            controlInterval
+        );
 
         system.initializeWorld();
 
@@ -44,10 +45,9 @@ public class PIDControlledBallGravitySystemObjectiveFunction implements Objectiv
         });
 
         system.runSimulationLoop(runTime);
-        final List<Double> observedErrors = system.getObservedErrors();
+        final List<ControlPerformanceResult> observedErrors = system.getObservedErrors();
 
         /* sum up the errors */
-        return observedErrors.stream().mapToDouble(i -> i).sum();
+        return observedErrors.stream().mapToDouble(result -> result.error).sum();
     }
-
 }

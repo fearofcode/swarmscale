@@ -7,8 +7,7 @@ import org.wkh.swarmscale.physics.ballgravity.StableControllersFactory;
 public class ZieglerNicholsBallGravityDemo {
 
     public static void main(String[] args) {
-        final int runTime = 30000;
-        final PIDControlledBallGravitySystem system = StableControllersFactory.stableZieglerNicholsSystem(runTime);
+        final PIDControlledBallGravitySystem system = StableControllersFactory.stableZieglerNicholsSystem();
 
         system.initializeWorld();
 

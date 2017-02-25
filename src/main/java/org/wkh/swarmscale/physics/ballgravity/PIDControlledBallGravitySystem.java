@@ -1,41 +1,35 @@
 package org.wkh.swarmscale.physics.ballgravity;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import org.dyn4j.geometry.Vector2;
+import org.wkh.swarmscale.optimization.ControlPerformanceResult;
 import org.wkh.swarmscale.optimization.PIDController;
 
 public class PIDControlledBallGravitySystem extends BallGravitySystem {
-
+    public static final double initialTargetPosition = 0.0;
+    
     private final PIDController controller;
 
     private double targetPosition;
     /* ms between control actions */
     private final double controlInterval;
     private long previousControlTime = 0;
-    private final List<Double> observedErrors;
+    private final List<ControlPerformanceResult> observedErrors;
 
     private boolean verbose;
-    private final boolean recordErrors;
 
     public PIDControlledBallGravitySystem(double proportionalGain, double integralGain, double derivativeGain,
-            double outputMagnitudeLimit, double controlInterval, int expectedRuntime) {
+            double outputMagnitudeLimit, double controlInterval) {
         this.controlInterval = controlInterval;
         controller = new PIDController(proportionalGain, integralGain, derivativeGain);
         controller.setOutputLimits(outputMagnitudeLimit);
-        final int capacity = (int) (expectedRuntime / controlInterval);
 
-        recordErrors = capacity > 0;
-
-        if (recordErrors) {
-            observedErrors = new ArrayList<>(capacity);
-        } else {
-            observedErrors = new ArrayList<>();
-        }
+        observedErrors = new LinkedList<>();
 
         verbose = false;
 
-        targetPosition = 0.0;
+        targetPosition = initialTargetPosition;
     }
 
     public synchronized double getTargetPosition() {
@@ -46,7 +40,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
         this.targetPosition = targetPosition;
     }
 
-    public List<Double> getObservedErrors() {
+    public List<ControlPerformanceResult> getObservedErrors() {
         return observedErrors;
     }
 
@@ -70,17 +64,18 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
 
         currentPosition = circle.getTransform().getTranslationY();
 
-        if (recordErrors) {
-            final double error = Math.abs(currentPosition - targetPosition);
-            observedErrors.add(error);
-        }
-
+        final double elapsedTime = getElapsedTime();
+        
+        observedErrors.add(new ControlPerformanceResult(elapsedTime, targetPosition, currentPosition));
+        
         double output = controller.getOutput(currentPosition, targetPosition);
-
+        
         circle.applyImpulse(new Vector2(0, output));
 
+        /* TODO turn this into a listener */
+        
         if (verbose) {
-            System.err.printf("%.2f\t%f\t%.10f\t%.5f\n", getElapsedTime(), targetPosition, currentPosition, output);
+            System.err.printf("%.2f\t%f\t%.10f\t%.5f\n", elapsedTime, targetPosition, currentPosition, output);
         }
 
         previousPosition = currentPosition;
@@ -90,7 +85,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
     public static void main(String[] args) {
         System.err.println("Time\tTarget\tPosition\tOutput");
         int runTime = 8000;
-        PIDControlledBallGravitySystem system = StableControllersFactory.stablePSODerivedSystem(runTime);
+        PIDControlledBallGravitySystem system = StableControllersFactory.stablePSODerivedSystem();
 
         system.setVerbose(true);
         system.initializeWorld();

@@ -27,8 +27,6 @@ though.
 TODO
 ----
 
-- Low-overshoot ball-gravity controller objective function/demo if it works
-- Move stable system factories to its own helper class
 - Inverted pendulum example
 - Picking/mouse manipulation for physical systems
 - Charting! Either <a href="http://knowm.org/open-source/xchart/">Xchart</a> or just write to file and call gnuplot

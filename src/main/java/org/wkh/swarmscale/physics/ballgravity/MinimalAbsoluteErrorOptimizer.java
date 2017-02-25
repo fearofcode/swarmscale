@@ -7,7 +7,7 @@ import org.wkh.swarmscale.optimization.EpochPerformanceResult;
 import org.wkh.swarmscale.optimization.ObjectiveFunction;
 import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 
-public class PIDControlledBallGravitySystemOptimizer {
+public class MinimalAbsoluteErrorOptimizer {
 
     public static void main(String[] args) {
         final int populationSize = 250;
@@ -20,7 +20,7 @@ public class PIDControlledBallGravitySystemOptimizer {
 
         final int dim = bounds.length;
 
-        final ObjectiveFunction pidSystemSimulator = new PIDControlledBallGravitySystemObjectiveFunction();
+        final ObjectiveFunction pidSystemSimulator = new MinimalAbsoluteErrorObjectiveFunction();
 
         boolean seedWithZieglerNichols = true;
 
