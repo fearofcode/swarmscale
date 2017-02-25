@@ -1,10 +1,11 @@
-package org.wkh.swarmscale.physicalexample;
+package org.wkh.swarmscale.physics;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.dyn4j.dynamics.World;
 
 public abstract class AbstractPhysicalSystem implements PhysicalSystem {
+
     /**
      * The conversion factor from nanometer to base
      */
@@ -30,15 +31,15 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     protected long startTime;
 
     private final List<PhysicalSystemStepListener> stepListeners;
-    
+
     public AbstractPhysicalSystem() {
         stepListeners = new ArrayList<>();
     }
-    
+
     public void addStepListener(PhysicalSystemStepListener listener) {
         stepListeners.add(listener);
     }
-    
+
     @Override
     public void setDoRender(boolean doRender) {
         this.doRender = doRender;
@@ -58,12 +59,12 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     public void initializeWorld() {
         // create the world
         world = new World();
-        
+
         previousTime = System.nanoTime();
-        
+
         /* subclasses will call this and then add other objects */
     }
-    
+
     /**
      * Stops the example.
      */
@@ -87,21 +88,24 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
         return stopped;
     }
 
-    protected void beforeSimulationLoopStart() { }
+    protected void beforeSimulationLoopStart() {
+    }
 
-    protected void postSimulationStep() { }
-    
-    protected void preSimulationStep() { }
+    protected void postSimulationStep() {
+    }
 
-    protected double getElapsedTime() {
+    protected void preSimulationStep() {
+    }
+
+    public double getElapsedTime() {
         long currentTime = System.nanoTime();
         return (currentTime - startTime) / 1.0E6;
     }
-    
+
     @Override
     public void runSimulationLoop(long millisecondTimeLimit) {
         boolean checkTime = millisecondTimeLimit > 0;
-        
+
         startTime = System.nanoTime();
 
         beforeSimulationLoopStart();
@@ -112,17 +116,17 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
             if (checkTime && getElapsedTime() > millisecondTimeLimit) {
                 stop();
             }
-            
+
             if (doRender) {
                 renderer.renderSystem();
             }
-            
+
             preSimulationStep();
-            
+
             stepWorld();
 
             postSimulationStep();
-            
+
             stepListeners.forEach(listener -> listener.onStep());
         }
     }

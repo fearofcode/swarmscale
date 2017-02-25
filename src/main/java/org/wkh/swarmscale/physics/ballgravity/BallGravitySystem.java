@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physicalexample;
+package org.wkh.swarmscale.physics.ballgravity;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -9,11 +9,15 @@ import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
+import org.wkh.swarmscale.physics.AbstractPhysicalSystem;
+import org.wkh.swarmscale.physics.PhysicalSystem;
+import org.wkh.swarmscale.physics.RenderedBody;
 
 /**
  * A simple physical system where a circle at the origin falls downward under the influence of gravity.
  */
 public class BallGravitySystem extends AbstractPhysicalSystem {
+
     public static final BufferedImage QUADCOPTER_IMAGE = readImage("quadcopter.png");
 
     private static final BufferedImage readImage(String path) {
@@ -23,7 +27,7 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
             return null;
         }
     }
-    
+
     protected RenderedBody circle;
     protected RenderedBody floor;
 
@@ -34,7 +38,7 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
     @Override
     public void initializeWorld() {
         super.initializeWorld();
-        
+
         // create the floor
         Rectangle floorRect = new Rectangle(15.0, 1.0);
         floor = new RenderedBody(Color.DARK_GRAY);
@@ -68,10 +72,10 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
         if (currentPosition == previousPosition) {
             return;
         }
-        
+
         if (positionDelta < 0) {
             /* apply proportional control; produces a somewhat stable position albeit an oscillating one */
-            circle.applyImpulse(new Vector2(0, 0.5*-positionDelta));
+            circle.applyImpulse(new Vector2(0, 0.5 * -positionDelta));
         }
 
         System.out.println(getElapsedTime() + " " + currentPosition);

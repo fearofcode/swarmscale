@@ -24,7 +24,7 @@
  * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.wkh.swarmscale.physicalexample;
+package org.wkh.swarmscale.physics;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -35,10 +35,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
-
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class PhysicalSystemRenderer extends JFrame {
 
@@ -56,6 +53,7 @@ public class PhysicalSystemRenderer extends JFrame {
 
     /**
      * Default constructor for the window
+     *
      * @param system The physical system to simulate and visualize
      */
     public PhysicalSystemRenderer(final PhysicalSystem system) {

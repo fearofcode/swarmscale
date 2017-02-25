@@ -24,7 +24,7 @@
  * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package org.wkh.swarmscale.physicalexample;
+package org.wkh.swarmscale.physics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -36,7 +36,7 @@ import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
-import static org.wkh.swarmscale.physicalexample.PhysicalSystemRenderer.SCALE;
+import static org.wkh.swarmscale.physics.PhysicalSystemRenderer.SCALE;
 
 /**
  * Custom Body class to add drawing functionality.
@@ -53,7 +53,7 @@ public class RenderedBody extends Body {
     protected final Color color;
 
     private final BufferedImage image;
-    
+
     /**
      * Default constructor.
      */
@@ -61,7 +61,7 @@ public class RenderedBody extends Body {
         this.color = color;
         this.image = null;
     }
-    
+
     public RenderedBody(Color color, BufferedImage image) {
         this.color = color;
         this.image = image;

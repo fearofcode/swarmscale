@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physicalexample;
+package org.wkh.swarmscale.physics;
 
 import org.dyn4j.dynamics.World;
 
@@ -10,7 +10,7 @@ public interface PhysicalSystem {
 
     /**
      * Run the main simulation loop.
-     * 
+     *
      * @param millisecondTimeLimit - time limit to execute loop for, in milliseconds. Enforced approximately. Negative
      * values will cause the simulation to run forever.
      */

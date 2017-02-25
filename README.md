@@ -24,6 +24,19 @@ though.
 
 `PSOvsZieglerNicholsBallGravityEvaluation` compares the total absolute error quantitatively in case you're curious about numbers.
 
+TODO
+----
+
+- Low-overshoot ball-gravity controller objective function/demo if it works
+- Move stable system factories to its own helper class
+- Inverted pendulum example
+- Picking/mouse manipulation for physical systems
+- Charting! Either <a href="http://knowm.org/open-source/xchart/">Xchart</a> or just write to file and call gnuplot
+- Other interactivity stuff (e.g. set control parameters; enable/disable control, etc)
+- Visualize population positions for dimension <= 3; write out whole population to allow animation creation
+- Durable checkpoint/restart to break up long sessions into multiple runs
+- Clean up output stuff and log stuff to files instead of/in addition to stdout
+
 Acknowledgments
 ----------------
 
