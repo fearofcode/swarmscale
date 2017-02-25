@@ -9,20 +9,18 @@ import org.wkh.swarmscale.optimization.ObjectiveFunction;
 public class LowOvershootObjectiveFunction implements ObjectiveFunction {
 
     public static int getSimulationTime(final int iteration) {
-        return 3000;
+        return 5000;
     }
 
     /**
      * Use the given candidate solution to run a PID-controlled ball gravity system simulation.
      *
-     * Here are the differences between this function and MinimalAbsoluteErrorObjectiveFunction:
+     * Here is the difference between this function and MinimalAbsoluteErrorObjectiveFunction:
      * 
-     * - This function gives the system a grace period after the set point is changed by excluding errors for a certain 
+     * This function gives the system a grace period after the set point is changed by excluding errors for a certain 
      * period of time while the system moves the ball up to the new setpoint. During this grace period, actual positions
      * less than the new setpoint are not counted as errors. After the grace period is over, errors are counted as usual
      * so that the system cannot get away with never moving the ball.
-     * 
-     * - Sum of squared error is used rather than total absolute error in order to further discourage overshoot
      * 
      * The grace period effectively acts as our desired settling time.
      * 
@@ -34,7 +32,7 @@ public class LowOvershootObjectiveFunction implements ObjectiveFunction {
     public double evaluate(final double[] position, final int iteration) {
         final int runTime = getSimulationTime(iteration);
 
-        final double gracePeriod = 400.0;
+        final double gracePeriod = 200.0;
         final double setPointChangeTime = 1000.0;
         final double newSetPoint = 1.0;
         final double gracePeriodEnd = setPointChangeTime + gracePeriod;

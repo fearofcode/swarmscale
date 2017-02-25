@@ -13,20 +13,29 @@ public class LowOvershootOptimizer {
         final int populationSize = 250;
         
         final double[][] bounds = {
-            {0.0, 250.0}, /* proportional */
-            {0.0, 25.0}, /* integral */
-            {0.0, 250.0}, /* derivative */
+            {0.0, 75.0}, /* proportional */
+            {0.0, 10.0}, /* integral */
+            {0.0, 75.0}, /* derivative */
         };
 
         final int dim = bounds.length;
 
         final ObjectiveFunction pidSystemSimulator = new LowOvershootObjectiveFunction();
 
+        double criticalGain = 25.0;
+        double oscillationTime = 0.1;
+
+        double[][] zieglerNicholsSeeds = {
+            {0.6 * criticalGain, 0.5 * oscillationTime, 0.125 * oscillationTime},
+            {0.33 * criticalGain, 0.5 * oscillationTime, 0.33 * oscillationTime},
+            {0.2 * criticalGain, 0.3 * oscillationTime, 0.5 * oscillationTime},};
+        
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize,
             dim,
             bounds,
-            pidSystemSimulator
+            pidSystemSimulator,
+            zieglerNicholsSeeds
         );
 
         optimizer.initializePopulation();
