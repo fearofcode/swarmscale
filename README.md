@@ -15,6 +15,9 @@ becomes the objective function in a particle swarm optimization setup.
 
 Check out the class `PSOBallGravityDemo` for a demo of a controller whose parameters were derived by PSO.
 
+`StableControllersFactory` has other sets of parameters that more or less solve the problem but display different behavior:
+more or less overshoot, faster convergence to setpoint changes, higher or lower steady-state error, etc.
+
 `ZieglerNicholsBallGravityDemo` is an example of a controller using the more traditional 
 <a href="https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method">Ziegler-Nichols heuristic</a>.
 
