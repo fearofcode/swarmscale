@@ -18,7 +18,8 @@ public class PIDControlledInvertedPendulumSystem extends InvertedPendulumSystem 
 
     private final double initialRotation;
     private double currentRotation;
-    
+
+    private double maxCartPosition = 0.0;
     public PIDControlledInvertedPendulumSystem(double proportionalGain, double integralGain, double derivativeGain,
             double outputMagnitudeLimit, double controlInterval, double initialRotation) {
         this.controlInterval = controlInterval;
@@ -31,7 +32,11 @@ public class PIDControlledInvertedPendulumSystem extends InvertedPendulumSystem 
         
         this.initialRotation = initialRotation;
     }
-
+    
+    public double getMaxCartPosition() {
+        return maxCartPosition;
+    }
+    
     public List<ControlPerformanceResult> getObservedErrors() {
         return observedErrors;
     }
@@ -58,10 +63,13 @@ public class PIDControlledInvertedPendulumSystem extends InvertedPendulumSystem 
             return;
         }
 
-        currentRotation = Math.toDegrees(pole.getTransform().getRotation());
-
+        currentRotation = pole.getTransform().getRotation();
+        
         final double elapsedTime = getElapsedTime();
         
+        final double cartPosition = Math.abs(cart.getTransform().getTranslationX());
+        
+        maxCartPosition = Math.max(cartPosition, maxCartPosition);
         observedErrors.add(new ControlPerformanceResult(elapsedTime, 0.0, currentRotation));
         
         double output = controller.getOutput(currentRotation, 0.0);
@@ -72,18 +80,18 @@ public class PIDControlledInvertedPendulumSystem extends InvertedPendulumSystem 
         can share */
         
         if (verbose) {
-            System.err.printf("%.2f\t%f\t%f\n", elapsedTime, currentRotation, output);
+            System.err.printf("%.2f\t%f\t%f\t%f\n", elapsedTime, currentRotation, output, cartPosition);
         }
 
         previousControlTime = time;
         
-        if (pole.isInContact(ground) || cart.isInContact(leftWall) || cart.isInContact(rightWall)) {
+        if (cart.isInContact(rightWall)) {
             stop();
         }
     }
 
     public static void main(String[] args) {
-        PIDControlledInvertedPendulumSystem system = new PIDControlledInvertedPendulumSystem(5.0, 0.1, 0.2, 5.0, 25.0, -1.0);
+        PIDControlledInvertedPendulumSystem system = new PIDControlledInvertedPendulumSystem(100.16170398101653, 0.0, 79.80840581911714, 8.466571186798403, 10.0, -10.0);
         system.setVerbose(true);
         
         PhysicalSystemRenderer window = new PhysicalSystemRenderer(system);

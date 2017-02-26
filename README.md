@@ -7,7 +7,13 @@ tune <a href="https://en.wikipedia.org/wiki/PID_controller">PID controllers</a>.
 
 Eventually, I'd like to try to apply this technique towards software systems. But, for now, I'm working on simulated physical systems using a physics engine.
 
-So far, the example I'm working on is of levitating a circular object in the air. It's intended to be a highly simplified
+So far, there are two working examples: levitating a circular object in the air (what I'm calling the "ball-gravity system"), and
+a classic control problem, the inverted pendulum.
+
+Ball-gravity system
+-------------------
+
+The ball-gravity system consists of a small circular object levitating in the air. It's intended to be a highly simplified
 simulation of something like hovering an aircraft in the air.
 
 To do that, I'm using a physics engine, <a href="http://www.dyn4j.org/">dyn4j</a>, to power a simulation that actually
@@ -27,10 +33,15 @@ though.
 
 `PSOvsZieglerNicholsBallGravityEvaluation` compares the total absolute error quantitatively in case you're curious about numbers.
 
+Inverted pendulum
+-----------------
+
+`PIDControlledInvertedPendulumSystem` has a demo of a PD (no integral) controller. The cart drifts to the right for some
+reason, but the pole stays stationary.
+
 TODO
 ----
 
-- Inverted pendulum example
 - Picking/mouse manipulation for physical systems
 - Charting! Either <a href="http://knowm.org/open-source/xchart/">Xchart</a> or just write to file and call gnuplot
 - Other interactivity stuff (e.g. set control parameters; enable/disable control, etc)
