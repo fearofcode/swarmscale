@@ -171,7 +171,7 @@ public class PhysicalSystemRenderer extends JFrame {
         // draw all the objects in the world
         for (int i = 0; i < physicalSystem.getWorld().getBodyCount(); i++) {
             // get the object
-            RenderedBody rb = (RenderedBody) physicalSystem.getWorld().getBody(i);
+            RenderableBody rb = (RenderableBody) physicalSystem.getWorld().getBody(i);
             // draw the object
             rb.render(g);
         }

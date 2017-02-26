@@ -11,7 +11,7 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 import org.wkh.swarmscale.physics.AbstractPhysicalSystem;
 import org.wkh.swarmscale.physics.PhysicalSystem;
-import org.wkh.swarmscale.physics.RenderedBody;
+import org.wkh.swarmscale.physics.RenderableBody;
 
 /**
  * A simple physical system where a circle at the origin falls downward under the influence of gravity.
@@ -28,8 +28,8 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
         }
     }
 
-    protected RenderedBody circle;
-    protected RenderedBody floor;
+    protected RenderableBody circle;
+    protected RenderableBody floor;
 
     protected double previousPosition;
     protected double currentPosition;
@@ -41,7 +41,7 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
 
         // create the floor
         Rectangle floorRect = new Rectangle(15.0, 1.0);
-        floor = new RenderedBody(Color.DARK_GRAY);
+        floor = new RenderableBody(Color.DARK_GRAY);
         floor.addFixture(new BodyFixture(floorRect));
         floor.setMass(MassType.INFINITE);
         // move the floor down a bit
@@ -50,7 +50,7 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
 
         // create a circle
         Circle cirShape = new Circle(0.5);
-        circle = new RenderedBody(Color.BLACK, QUADCOPTER_IMAGE);
+        circle = new RenderableBody(Color.BLACK, QUADCOPTER_IMAGE);
         circle.addFixture(cirShape);
         circle.setMass(MassType.NORMAL);
 

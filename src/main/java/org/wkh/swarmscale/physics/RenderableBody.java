@@ -45,7 +45,7 @@ import static org.wkh.swarmscale.physics.PhysicalSystemRenderer.SCALE;
  * @version 3.0.2
  * @since 3.0.0
  */
-public class RenderedBody extends Body {
+public class RenderableBody extends Body {
 
     /**
      * The color of the object
@@ -57,12 +57,12 @@ public class RenderedBody extends Body {
     /**
      * Default constructor.
      */
-    public RenderedBody(Color color) {
+    public RenderableBody(Color color) {
         this.color = color;
         this.image = null;
     }
 
-    public RenderedBody(Color color, BufferedImage image) {
+    public RenderableBody(Color color, BufferedImage image) {
         this.color = color;
         this.image = image;
     }

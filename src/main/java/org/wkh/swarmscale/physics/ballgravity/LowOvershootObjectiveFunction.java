@@ -38,7 +38,7 @@ public class LowOvershootObjectiveFunction implements ObjectiveFunction {
         final double gracePeriodEnd = setPointChangeTime + gracePeriod;
         
         /* needed for grace period filtering logic below to work */
-        assert (newSetPoint > PIDControlledBallGravitySystem.initialTargetPosition);
+        assert (newSetPoint > PIDControlledBallGravitySystem.INITIAL_TARGET_POSITION);
         
         final double proportionalGain = position[0];
         final double integralGain = position[1];
@@ -58,7 +58,7 @@ public class LowOvershootObjectiveFunction implements ObjectiveFunction {
         /* change up the setpoint part way through to test adjustment */
         system.addStepListener(() -> {
             if (system.getElapsedTime() >= setPointChangeTime && 
-                    system.getTargetPosition() == PIDControlledBallGravitySystem.initialTargetPosition) {
+                    system.getTargetPosition() == PIDControlledBallGravitySystem.INITIAL_TARGET_POSITION) {
                 system.setTargetPosition(newSetPoint);
             }
         });

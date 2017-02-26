@@ -7,7 +7,7 @@ import org.wkh.swarmscale.optimization.ControlPerformanceResult;
 import org.wkh.swarmscale.optimization.PIDController;
 
 public class PIDControlledBallGravitySystem extends BallGravitySystem {
-    public static final double initialTargetPosition = 0.0;
+    public static final double INITIAL_TARGET_POSITION = 0.0;
     
     private final PIDController controller;
 
@@ -29,7 +29,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
 
         verbose = false;
 
-        targetPosition = initialTargetPosition;
+        targetPosition = INITIAL_TARGET_POSITION;
     }
 
     public synchronized double getTargetPosition() {

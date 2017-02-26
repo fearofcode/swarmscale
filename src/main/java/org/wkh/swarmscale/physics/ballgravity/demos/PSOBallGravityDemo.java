@@ -22,10 +22,8 @@ public class PSOBallGravityDemo {
 
         PhysicalSystemRenderer window = new PhysicalSystemRenderer(system);
 
-        // show it
         window.setVisible(true);
-
-        // start it
+        
         window.start();
     }
 }
