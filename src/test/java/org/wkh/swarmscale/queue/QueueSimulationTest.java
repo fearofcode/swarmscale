@@ -5,17 +5,27 @@ import static org.junit.Assert.*;
 public class QueueSimulationTest {
     @org.junit.Test
     public void testBasics() {
-        int initialCapacity = 1;
-        int commissionTimeLower = 0;
-        int commissionTimeUpper = 0;
+        final int initialCapacity = 1;
+        final int minimumCapacity = 1;
+        final int maximumCapacity = 15;
         
-        ConsumerWorkRateCalculator uniformWorkRateCalculator = (i) -> 1;
+        final int commissionTimeLower = 1;
+        final int commissionTimeUpper = 1;
+        
+        final int baseWorkRateLower = 10;
+        final int baseWorkRateUpper = 12;
+        
+        final double parallelizablePortion = 0.9;
         
         QueueSimulation queue = new QueueSimulation(
-                initialCapacity,
-                commissionTimeLower,
-                commissionTimeUpper,
-                uniformWorkRateCalculator
+            initialCapacity,
+            minimumCapacity,
+            maximumCapacity,
+            commissionTimeLower,
+            commissionTimeUpper,
+            baseWorkRateLower,
+            baseWorkRateUpper,
+            parallelizablePortion
         );
         
         queue.enqueueJob();
@@ -34,9 +44,7 @@ public class QueueSimulationTest {
         
         assertEquals(queue.getProcessedJobs(), 0);
         
-        queue.stepJobs();
-        assertEquals(queue.getProcessedJobs(), 1);
-        
+        queue.stepJobs();        
         queue.stepJobs();
         
         assertEquals(queue.getProcessedJobs(), 2);
@@ -48,7 +56,6 @@ public class QueueSimulationTest {
         
         for(int i = 1; i <= 1000; i++) {
             queue.stepJobs();
-            assertEquals(queue.getLagStatistics().getSum(), 1000 - i);
         }
         
         assertEquals(queue.getLagStatistics().getSum(), 0);

@@ -36,16 +36,24 @@ public class QueueSimulation {
     private final Random rng;
     private final int commissionTimeLower;
     private final int commissionTimeUpper;
+    private final int minimumCapacity;
+    private final int maximumCapacity;
     private final PriorityQueue<Integer> commissionTimestamps;
+    private final double parallelizablePortion;
+    private final int baseWorkRateLower;
+    private final int baseWorkRateUpper;
     private int activePartitions;
     private long activeConsumers;
     private long processedJobs;
     private long enqueuedJobs;
-    private double parallelizablePortion;
     
-    public QueueSimulation(int initialCapacity, 
+    public QueueSimulation(int initialCapacity,
+            int minimumCapacity,
+            int maximumCapacity,
             int commissionTimeLower,
             int commissionTimeUpper,
+            int baseWorkRateLower,
+            int baseWorkRateUpper,
             double parallelizablePortion) {
         partitions = new ArrayList<>(initialCapacity);
         
@@ -56,14 +64,27 @@ public class QueueSimulation {
         activePartitions = initialCapacity;
         activeConsumers = initialCapacity;
         
+        if (commissionTimeUpper < commissionTimeLower || baseWorkRateLower > baseWorkRateUpper) {
+            throw new IllegalArgumentException("Lower must be < upper");
+        }
+        
+        this.minimumCapacity = minimumCapacity;
+        this.maximumCapacity = maximumCapacity;
+        this.commissionTimeLower = commissionTimeLower;
+        this.commissionTimeUpper = commissionTimeUpper;
+        this.baseWorkRateLower = baseWorkRateLower;
+        this.baseWorkRateUpper = baseWorkRateUpper;
+        this.parallelizablePortion = parallelizablePortion;
+
         rng = new Random();
         
         processedJobs = 0;
         enqueuedJobs = 0;
         commissionTimestamps = new PriorityQueue<>();
-        
-        this.commissionTimeLower = commissionTimeLower;
-        this.commissionTimeUpper = commissionTimeUpper;
+    }
+    
+    public long getActiveConsumers() {
+        return activeConsumers;
     }
     
     public long getEnqueuedJobs() {
@@ -100,12 +121,16 @@ public class QueueSimulation {
     }
     
     public double getSpeedupFactor() {
-        return 1.0/((1 - activePartitions) + parallelizablePortion/(activeConsumers + 1));
+        return 1.0/((1 - parallelizablePortion) + parallelizablePortion/(activeConsumers + 1));
     }
+    
     public void stepJobs() {
+        /* try to model Amdahl's Law effects and random variation in a simple, concise way */
+        int effectiveWorkRate = rng.nextInt(baseWorkRateUpper - baseWorkRateLower + 1) + baseWorkRateLower;
+        final int meanWorkRate = (int) Math.round(effectiveWorkRate * getSpeedupFactor() / activeConsumers);
+        
         for(int i = 0; i < partitions.size(); i++) {
-            int workRate = workRateCalculator.getWorkRate(i);
-            long partitionWork = partitions.get(i).processJobs(workRate);
+            long partitionWork = partitions.get(i).processJobs(meanWorkRate);
             processedJobs += partitionWork;
         }
     }
@@ -119,6 +144,16 @@ public class QueueSimulation {
         }
         
         stepJobs();
+        
+        decommissionIdleExcessConsumers();
+    }
+
+    private void decommissionIdleExcessConsumers() {
+        for(int i = activePartitions; i < partitions.size() && partitions.size() > minimumCapacity; i++) {
+            if (partitions.get(i).getLag() == 0) {
+                decomissionConsumer(i);
+            }
+        }
     }
     
     public long[] getPartitionLags() {
@@ -130,56 +165,66 @@ public class QueueSimulation {
     }
     
     private void consumerComesOnline() {
-        partitions.add(new SimulatedPartition());
+        if (partitions.size() >= maximumCapacity) {
+            return;
+        }
+        
         activePartitions++;
         activeConsumers++;
-        System.out.println("New consumer online. Active partitions = " + activePartitions);
+        
+        if (activePartitions > partitions.size()) {
+            partitions.add(new SimulatedPartition());
+        }
     }
     
     public void commissionConsumer(int timestamp) {
-        int commissionTime = rng.nextInt(commissionTimeUpper - commissionTimeLower) 
+        int commissionTime = rng.nextInt(commissionTimeUpper - commissionTimeLower + 1) 
                 + commissionTimeLower;
         
         commissionTimestamps.add(timestamp + commissionTime);
     }
-    /**
-     * It's probably safe enough to assume that consumers stop enqueuing new
-     * jobs pretty much right away.
-     * 
-     * We could enqueue the event but I don't think it's important enough to 
-     * model.
-     */
-    public void decomissionConsumer() {
+    
+    public void deactivatePartition() {
         activePartitions--;
-        System.out.println("Consumer taken offline. Active partitions = " + activePartitions);
+    }
+    
+    /**
+     * We can't take down a consumer while it has data queued, but we can let it process what it already has queued and
+     * then decommission it when its lag is zero.
+     * 
+     * @param index Partition index to remove
+     */
+    private void decomissionConsumer(int index) {
+        partitions.remove(index);
+        activeConsumers--;
     }
     
     public static void main(String[] args) {
-        final int timesteps = 3;
+        final int timesteps = 25;
         
         final int initialCapacity = 10;
+        final int minimumCapacity = 1;
+        final int maximumCapacity = 15;
         
-        final int commissionTimeLower = 1;
-        final int commissionTimeUpper = 1;
+        final int commissionTimeLower = 5;
+        final int commissionTimeUpper = 7;
         
         final int baseWorkRateLower = 10;
         final int baseWorkRateUpper = 12;
         
-        final double parallelizablePortion = 0.75;
+        final double parallelizablePortion = 0.9;
         
-        final int perStepQueueCount = initialCapacity * baseWorkRateLower;
-        
-        ConsumerWorkRateCalculator calculator = new AmdahlWorkRate(
-            baseWorkRateLower,
-            baseWorkRateUpper,
-            parallelizablePortion
-        );
+        final int perStepQueueCount = 75;
         
         QueueSimulation queue = new QueueSimulation(
             initialCapacity,
+            minimumCapacity,
+            maximumCapacity,
             commissionTimeLower,
             commissionTimeUpper,
-            calculator
+            baseWorkRateLower,
+            baseWorkRateUpper,
+            parallelizablePortion
         );
         
         for(int i = 1; i <= timesteps; i++) {
@@ -189,7 +234,13 @@ public class QueueSimulation {
                 queue.commissionConsumer(i);
             }
             
-            System.out.println("time " + i + ":");
+            if (i == 15) {
+                queue.deactivatePartition();
+            }
+            
+            queue.stepSystem(i);
+            
+            System.out.println("Timestep " + i + ":");
             
             LongSummaryStatistics stats = queue.getLagStatistics();
             
@@ -197,7 +248,6 @@ public class QueueSimulation {
             System.out.println("Lags: " + Arrays.toString(lags));
             System.out.println("Lag statistics: " + stats);
             
-            queue.stepSystem(i);
             
             System.out.println("Total enqueued jobs: " + queue.getEnqueuedJobs());
             System.out.println("Processed jobs: " + queue.getProcessedJobs());
