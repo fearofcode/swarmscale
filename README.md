@@ -45,6 +45,7 @@ TODO
 - Picking/mouse manipulation for physical systems
 - Charting! Either <a href="http://knowm.org/open-source/xchart/">Xchart</a> or just write to file and call gnuplot
 - Setup Maven fat JAR builds to make this project easier for people to run/to create releases off of
+- Actually document code and write actual tests once there's evidence this can even work
 - Other interactivity stuff (e.g. set control parameters; enable/disable control, etc)
 - Visualize population positions for dimension <= 3; write out whole population to allow animation creation
 - Durable checkpoint/restart to break up long sessions into multiple runs
