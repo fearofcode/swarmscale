@@ -7,10 +7,14 @@ public class ControlPerformanceResult {
     public final double error;
     
     public ControlPerformanceResult(double time, double target, double actual) {
+        this(time, target, actual, Math.abs(target - actual));
+    }
+    
+    public ControlPerformanceResult(double time, double target, double actual, double error) {
         this.time = time;
         this.target = target;
         this.actual = actual;
         
-        error = Math.abs(target - actual);
+        this.error = error;
     }
 }

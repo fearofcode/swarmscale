@@ -7,19 +7,22 @@ import org.wkh.swarmscale.optimization.EpochPerformanceResult;
 import org.wkh.swarmscale.optimization.ObjectiveFunction;
 import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 
-public class MinimalAbsoluteErrorOptimizer {
-    
+public class DualControllerOptimizer {
     public static void main(String[] args) {
-        final int populationSize = 250;
+        final int populationSize = 200;
         
         final double[][] bounds = {
-            {0.0, 250.0}, /* proportional */
-            {0.0, 250.0}, /* derivative */
+            {0.1, 100.0}, /* rotational - proportional */
+            {0.0, 100.0}, /* rotational - integral */
+            {0.0, 100.0}, /* rotational - derivative */
+            {0.1, 100.0}, /* position - proportion */
+            {0.0, 100.0}, /* position - integral */
+            {0.0, 100.0}, /* position - derivative */
         };
 
         final int dim = bounds.length;
 
-        final ObjectiveFunction pidSystemSimulator = new MinimalAbsoluteErrorObjectiveFunction();
+        final ObjectiveFunction pidSystemSimulator = new DualControllerObjectiveFunction();
 
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize,
@@ -32,6 +35,7 @@ public class MinimalAbsoluteErrorOptimizer {
 
         optimizer.addEpochListener((result, epoch) -> {
             System.out.println("Epoch " + epoch + ": " + new Date());
+            System.out.println("Statistics: " + result.fitnessStatistics);
             System.out.println("Best result fitness: " + result.gbestFitness);
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });

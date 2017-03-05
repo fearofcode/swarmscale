@@ -31,7 +31,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         }
         ground.translate(new Vector2(0.0, -0.5));
         ground.setMass(MassType.INFINITE);
-        ground.setLinearDamping(4.0);
+        ground.setLinearDamping(0.0);
         world.addBody(ground);
 
         // Cart
@@ -43,7 +43,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         }
         cart.translate(new Vector2(0.0, 0.5));
         cart.setMass(MassType.NORMAL);
-        cart.setLinearDamping(0.2);
+        cart.setLinearDamping(0.0);
         world.addBody(cart);
 
         // Pole
@@ -106,7 +106,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
     protected void beforeSimulationLoopStart() {
         previousControlTime = System.nanoTime();
         Transform transform = new Transform();
-        transform.setRotation(Math.toRadians(-1.0));
+        transform.setRotation(Math.toRadians(-15.0));
         pole.setTransform(transform);
     }
 
@@ -123,17 +123,13 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         final double elapsedTime = getElapsedTime();
         
         final double proportionalGain = 1.0;
-        double output = - (proportionalGain * currentRotation);
+        double output = (proportionalGain * (0.0 - currentRotation));
         
-        cart.applyImpulse(new Vector2(output, 0));
+        cart.applyImpulse(new Vector2(-0.1, 0));
 
-        System.err.printf("%.2f\t%f\n", elapsedTime, currentRotation);
-
+        System.err.printf("%.2f\t%f\t%f\n", elapsedTime, currentRotation, output);
         previousControlTime = time;
         
-        if (pole.isInContact(ground)) {
-            stop();
-        }
     }
     
     public static void main(String[] args) {
