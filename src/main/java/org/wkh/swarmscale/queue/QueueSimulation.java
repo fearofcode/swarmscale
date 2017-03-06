@@ -31,12 +31,13 @@ import java.util.logging.Logger;
  * later but for now I'm just going to go with uniform to begin with.
  */
 public class QueueSimulation {
-    private final static Logger LOGGER = Logger.getLogger(QueueSimulation.class.getName());
+    public final static Logger LOGGER = Logger.getLogger(QueueSimulation.class.getName());
     
     /* eh I should use DI and interfaces to make this same class work on a 
     live cluster but IDK if this will even work
     */
     private final List<SimulatedPartition> partitions;
+    private final SimulatedPartition batchPartition;
     private final Random rng;
     private final int commissionTimeLower;
     private final int commissionTimeUpper;
@@ -59,6 +60,7 @@ public class QueueSimulation {
             int baseWorkRateLower,
             int baseWorkRateUpper,
             double parallelizablePortion) {
+        batchPartition = new SimulatedPartition();
         partitions = new ArrayList<>(initialCapacity);
         
         for(int i = 1; i <= initialCapacity; i++) {
@@ -87,7 +89,19 @@ public class QueueSimulation {
         commissionTimestamps = new PriorityQueue<>();
     }
     
-    public long getActiveConsumers() {
+    public PriorityQueue<Integer> getCommissionTimestamps() {
+        return commissionTimestamps;
+    }
+    
+    public int getMinimumCapacity() {
+        return minimumCapacity;
+    }
+
+    public int getMaximumCapacity() {
+        return maximumCapacity;
+    }
+    
+    public int getActiveConsumers() {
         return activeConsumers;
     }
     
@@ -99,10 +113,30 @@ public class QueueSimulation {
         return processedJobs;
     }
     
+    public int getQueuedConsumers() {
+        return commissionTimestamps.size();
+    }
+    
+    public boolean consumersQueued() {
+        return getQueuedConsumers() != 0;
+    }
+    
+    public long getBatchLag() {
+        return batchPartition.getLag();
+    }
+    
+    public long getTotalLag() {
+        return getBatchLag() + getLagStatistics().getSum();
+    }
+    
     /**
      * Enqueue in a load-balanced way using power-of-two-choices algorithm.
      */
     public void enqueueJob() {
+        if (activePartitions == 0) {
+            System.out.println("welp");
+        }
+        
         int index1 = rng.nextInt(activePartitions);
         int index2 = rng.nextInt(activePartitions);
         
@@ -118,8 +152,25 @@ public class QueueSimulation {
         enqueuedJobs++;
     }
     
-    public void enqueueJobs(int count) {
-        for(int i = 1; i <= count; i++) {
+    public void enqueueBatchWorkload(long count) {
+        batchPartition.setToPoint(count);
+    }
+    
+    public void distributeBatchWorkToPartitions(long count) {
+        long effectiveAmount = Math.min(count, batchPartition.getLag());
+        
+        for(int i = 1; i <= effectiveAmount; i++) {
+            enqueueJob();
+            batchPartition.setToPoint(batchPartition.getLag() - 1);
+        }
+    }
+    
+    /**
+     * Queue jobs in the worker partitions. For batch workloads, queue them on the batch partition instead.
+     * @param count Number of jobs to create
+     */
+    public void enqueueJobs(long count) {
+        for(long i = 1; i <= count; i++) {
             enqueueJob();
         }
         LOGGER.log(Level.INFO, "Enqueued {0} jobs", count);
@@ -137,26 +188,35 @@ public class QueueSimulation {
         for(int i = 0; i < partitions.size(); i++) {
             long partitionWork = partitions.get(i).processJobs(meanWorkRate);
             processedJobs += partitionWork;
-            LOGGER.log(Level.INFO, "Consumer {0} processed {1} jobs. Now processedJobs = {2}", 
+            LOGGER.log(Level.FINER, "Consumer {0} processed {1} jobs. Now processedJobs = {2}", 
                     new Object[]{i, partitionWork, processedJobs});
-            LOGGER.log(Level.INFO, "Lags: {0}", Arrays.toString(getPartitionLags()));
+            LOGGER.log(Level.FINER, "Lags: {0}", Arrays.toString(getPartitionLags()));
         }
     }
     
     public void stepSystem(int timestamp) {
         LOGGER.log(Level.INFO, "Timestamp {0}:", timestamp);
         LOGGER.log(Level.INFO, "At beginning of timestamp, lags: {0}", Arrays.toString(getPartitionLags()));
-        final Integer nextEventTimestamp = commissionTimestamps.peek();
+        LOGGER.log(Level.INFO, "Batch lag: {0}", getBatchLag());
         
-        if (nextEventTimestamp != null && nextEventTimestamp <= timestamp) {
-            LOGGER.log(Level.INFO, "nextEventTimestamp = {0}, going to spin up a consumer", nextEventTimestamp);
-            commissionTimestamps.poll();
-            consumerComesOnline();
-        }
+        Integer nextEventTimestamp = commissionTimestamps.peek();
+        
+        /* bring all consumers ready to go online */
+        do {
+            if (nextEventTimestamp != null && nextEventTimestamp <= timestamp) {
+                LOGGER.log(Level.INFO, "nextEventTimestamp = {0}, going to spin up a consumer", nextEventTimestamp);
+                commissionTimestamps.poll();
+                consumerComesOnline();
+                nextEventTimestamp = commissionTimestamps.peek();
+            }
+        } while (nextEventTimestamp != null && nextEventTimestamp <= timestamp);
         
         stepJobs();
         
-        decommissionIdleExcessConsumers();
+        if (timestamp > commissionTimeUpper +1 && !consumersQueued()) {
+            decommissionIdleExcessConsumers();
+        }
+        
         
         LongSummaryStatistics stats = getLagStatistics();
             
@@ -164,6 +224,7 @@ public class QueueSimulation {
 
         LOGGER.log(Level.INFO, "At end of timestamp, lags: {0}", Arrays.toString(lags));
         LOGGER.log(Level.INFO, "Lag statistics: {0}", stats);
+        LOGGER.log(Level.INFO, "Batch lag: {0}", getBatchLag());
         LOGGER.log(Level.INFO, "Total enqueued jobs: {0}", enqueuedJobs);
         LOGGER.log(Level.INFO, "Processed jobs: {0}", processedJobs);
         LOGGER.log(Level.INFO, "Active partitions: {0}", activePartitions);
@@ -173,10 +234,12 @@ public class QueueSimulation {
 
     private void decommissionIdleExcessConsumers() {
         for(int i = activePartitions; i < partitions.size() && partitions.size() > minimumCapacity; i++) {
-            if (partitions.get(i).getLag() == 0) {
+            final SimulatedPartition partition = partitions.get(i);
+            if (partition.getLag() == 0) {
                 LOGGER.log(Level.INFO, "Consumer at index {0} has 0 queued jobs, spinning it down", i);
                 decomissionConsumer(i);
             }
+            
         }
     }
     
@@ -189,8 +252,8 @@ public class QueueSimulation {
     }
     
     private void consumerComesOnline() {
-        if (partitions.size() >= maximumCapacity) {
-            LOGGER.log(Level.INFO, "In consumerComesOnline(), partitions >= maximumCapacity, so bailing out");
+        if (activeConsumers >= maximumCapacity) {
+            LOGGER.log(Level.INFO, "activeConsumers >= maximumCapacity, so bailing out");
             return;
         }
         
@@ -207,6 +270,11 @@ public class QueueSimulation {
     }
     
     public void commissionConsumer(int timestamp) {
+        if (activeConsumers >= maximumCapacity) {
+            LOGGER.log(Level.INFO, "activeConsumers >= maximumCapacity, so bailing out");
+            return;
+        }
+        
         int commissionTime = rng.nextInt(commissionTimeUpper - commissionTimeLower + 1) 
                 + commissionTimeLower;
         final int popTime = timestamp + commissionTime;
@@ -215,7 +283,17 @@ public class QueueSimulation {
     }
     
     public void deactivatePartition() {
+        if (activeConsumers <= minimumCapacity || activePartitions <= minimumCapacity) {
+            LOGGER.log(Level.INFO, "activeConsumers <= minimumCapacity || activePartitions <= minimumCapacity. Not going to deactivate anything.");
+            return;
+        }
+        
         activePartitions--;
+        
+        if (activePartitions < 0)  {
+            System.out.println("welp");
+        }
+        
         LOGGER.log(Level.INFO, "Dcommissioned a partition. Now activePartitions = {0}", activePartitions);
     }
     
@@ -226,16 +304,23 @@ public class QueueSimulation {
      * @param index Partition index to remove
      */
     private void decomissionConsumer(int index) {
+        if (activeConsumers <= minimumCapacity) {
+            LOGGER.log(Level.INFO, "activeConsumers <= minimumCapacity. Not going to deactivate anything.");
+            return;
+        }
+        
         partitions.remove(index);
         activeConsumers--;
         LOGGER.log(Level.INFO, "Dcommissioned a consumer. Now activeConsumers = {0}", activeConsumers);
     }
     
     public static void main(String[] args) {
+        LOGGER.setLevel(Level.INFO);
         final long start = System.nanoTime();
         
         /* simulate system applying control once a minute */
-        final int timesteps = 1;
+        
+        final int timesteps = 25;
         
         final int initialCapacity = 10;
         final int minimumCapacity = 1;
@@ -249,7 +334,7 @@ public class QueueSimulation {
         
         final double parallelizablePortion = 0.9;
         
-        final int perStepQueueCount = 700;
+        final long perStepQueueCount = 75*60;
         
         QueueSimulation queue = new QueueSimulation(
             initialCapacity,

@@ -7,6 +7,10 @@ public class SimulatedPartition {
         queuedJobs++;
     }
 
+    public void setToPoint(long point) {
+        queuedJobs = point;
+    }
+    
     public long getLag() {
         return queuedJobs;
     }

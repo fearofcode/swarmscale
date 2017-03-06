@@ -45,7 +45,24 @@ public class PIDController {
     // Constructor functions
     //**********************************
     /**
-     * Create a MiniPID class object. See setP, setI, setD methods for more detailed parameters.
+     * Create a PIDController class object. See setP, setI, setD methods for more detailed parameters.
+     *
+     * @param p Proportional gain. Large if large difference between setpoint and target.
+     * @param i Integral gain. Becomes large if setpoint cannot reach target quickly.
+     * @param d Derivative gain. Responds quickly to large changes in error. Small values prevents P and I terms from
+     * @param reversed Whether signs of 
+     * causing overshoot.
+     */
+    public PIDController(double p, double i, double d, boolean reversed) {
+        P = p;
+        I = i;
+        D = d;
+        this.reversed = reversed;
+        checkSigns();
+    }
+    
+    /**
+     * Create a PIDController class object. See setP, setI, setD methods for more detailed parameters.
      *
      * @param p Proportional gain. Large if large difference between setpoint and target.
      * @param i Integral gain. Becomes large if setpoint cannot reach target quickly.
@@ -53,14 +70,11 @@ public class PIDController {
      * causing overshoot.
      */
     public PIDController(double p, double i, double d) {
-        P = p;
-        I = i;
-        D = d;
-        checkSigns();
+        this(p, i, d, false);
     }
 
     /**
-     * Create a MiniPID class object. See setP, setI, setD, setF methods for more detailed parameters.
+     * Create a PIDController class object. See setP, setI, setD, setF methods for more detailed parameters.
      *
      * @param p Proportional gain. Large if large difference between setpoint and target.
      * @param i Integral gain. Becomes large if setpoint cannot reach target quickly.
