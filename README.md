@@ -5,10 +5,9 @@ This is an experiment in using <a href="https://en.wikipedia.org/wiki/Particle_s
 a simple heuristic optimization algorithm inspired by natural behavior such as flocks of birds and insect swarms, to automatically
 tune <a href="https://en.wikipedia.org/wiki/PID_controller">PID controllers</a>.
 
-Eventually, I'd like to try to apply this technique towards software systems. But, for now, I'm working on simulated physical systems using a physics engine.
+The goal is to be able to scale an Apache Kafka cluster up and down dynamically.
 
-So far, there are two working examples: levitating a circular object in the air (what I'm calling the "ball-gravity system"), and
-a classic control problem, the inverted pendulum.
+So far, there are a few working examples: levitating a circular object in the air (what I'm calling the "ball-gravity system"), the inverted pendulum, and the queue simulator
 
 Ball-gravity system
 -------------------
@@ -39,9 +38,24 @@ Inverted pendulum
 `PIDControlledInvertedPendulumSystem` has a demo of a PD (no integral) controller. The cart drifts to the right for some
 reason, but the pole stays stationary.
 
+Queue simulator
+---------------
+
+`CostMinimizingOptimizer` will simulate a cluster that works similarly to Apache Kafka with consumers and partitions.
+
+It will try to process the workload it's given in the time allotted while minimizing consumers used over time.
+
+`PIDControlledQueueSimulation` will run an example with values returned from an optimization run.
+
+It seems to correctly handle scaling stuff up and down.
+
+The clear next step is running this on a real cluster.
+
 TODO
 ----
 
+- Coordinate ascent for refining/local search on optimizer results
+- End to end pipeline of PSO -> coordinate ascent -> visualized/verbose output
 - Picking/mouse manipulation for physical systems
 - Charting! Either <a href="http://knowm.org/open-source/xchart/">Xchart</a> or just write to file and call gnuplot
 - Setup Maven fat JAR builds to make this project easier for people to run/to create releases off of
