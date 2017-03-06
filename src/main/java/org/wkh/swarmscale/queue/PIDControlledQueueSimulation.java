@@ -1,7 +1,10 @@
 package org.wkh.swarmscale.queue;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.wkh.swarmscale.optimization.PIDController;
@@ -37,13 +40,11 @@ public class PIDControlledQueueSimulation  {
         final int actualConsumers = queueSimulation.getActiveConsumers();
         
         if (actualConsumers < targetConsumers) {
-            if (!canCommissionConsumers) {
-                return;
-            }
-            
-            for(int i = 1; i <= targetConsumers - actualConsumers; i++) {
-                if (queueSimulation.getActiveConsumers() + queueSimulation.getQueuedConsumers() < queueSimulation.getMaximumCapacity()) {
-                    queueSimulation.commissionConsumer(timestamp);
+            if (canCommissionConsumers) {
+                for(int i = 1; i <= targetConsumers - actualConsumers; i++) {
+                    if (queueSimulation.getActiveConsumers() + queueSimulation.getQueuedConsumers() < queueSimulation.getMaximumCapacity()) {
+                        queueSimulation.commissionConsumer(timestamp);
+                    }
                 }
             }
         } else if (targetConsumers < actualConsumers) {
@@ -67,7 +68,7 @@ public class PIDControlledQueueSimulation  {
     }
     
     public static void main(String[] args) {
-        double[] position = new double[] { 427.10876628818085, 225.17153480024274, 0.0, 1000.0};
+        double[] position = new double[] { 0.5111019783848789, 38.21055484406781, 0.0, 818.4389587812793};
         
         double proportionalGain = position[0];
         double integralGain = position[1];
@@ -75,8 +76,13 @@ public class PIDControlledQueueSimulation  {
         
         int setpoint = (int)Math.round(position[3]);
         
-        final int initialWorkload = 50000;
+        final Map<Integer, Integer> workloads = new HashMap<>();
         final int timesteps = 500;
+        
+        Random rng = new Random();
+        for(int i = 1; i <= timesteps; i += rng.nextInt(10) + 15) {
+            workloads.put(i, rng.nextInt(500) + 500);
+        }
         
         final int initialCapacity = 1;
         final int minimumCapacity = 1;
@@ -85,8 +91,8 @@ public class PIDControlledQueueSimulation  {
         final int commissionTimeLower = 1;
         final int commissionTimeUpper = 2;
         
-        final int baseWorkRateLower = 15;
-        final int baseWorkRateUpper = 20;
+        final int baseWorkRateLower = 25;
+        final int baseWorkRateUpper = 30;
         
         final double parallelizablePortion = 0.9;
         
@@ -105,16 +111,20 @@ public class PIDControlledQueueSimulation  {
             parallelizablePortion
         );
         
-        QueueSimulation.LOGGER.setLevel(Level.SEVERE);
+        Level level = Level.SEVERE;
         
-        PIDControlledQueueSimulation simulation = new PIDControlledQueueSimulation(controller, setpoint, queue, Level.SEVERE);
+        QueueSimulation.LOGGER.setLevel(level);
         
-        queue.enqueueBatchWorkload(initialWorkload);
+        PIDControlledQueueSimulation simulation = new PIDControlledQueueSimulation(controller, setpoint, queue, level);
         
         for(int timestep = 1; timestep <= timesteps; timestep++) {
             /* don't commission additional consumers while other ones are waiting to come online to prevent overprovisioning */
             final boolean canCommission = queue.getQueuedConsumers() == 0;
             LOGGER.log(Level.INFO, "In timestep {0}, canComission = {1}", new Object[]{timestep, canCommission});
+            if (workloads.containsKey(timestep)) {
+                queue.enqueueBatchWorkload(workloads.get(timestep));
+            }
+            
             simulation.stepSystem(timestep, canCommission);
         }
         final List<QueueConfigurationSnapshot> observedErrors = simulation.getObservedErrors();

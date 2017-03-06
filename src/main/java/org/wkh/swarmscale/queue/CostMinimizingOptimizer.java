@@ -2,7 +2,10 @@ package org.wkh.swarmscale.queue;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import org.wkh.swarmscale.optimization.EpochPerformanceResult;
 import org.wkh.swarmscale.optimization.ObjectiveFunction;
@@ -13,16 +16,20 @@ public class CostMinimizingOptimizer {
         final int populationSize = 250;
         
         final double[][] bounds = {
-            {0.0, 500.0},  /* proportional */
-            {0.0, 500.0},  /* integral */
-            {0.0, 500.0},  /* derivative */
+            {0.0, 50.0},  /* proportional */
+            {0.0, 50.0},  /* integral */
+            {0.0, 50.0},  /* derivative */
             {0.0, 1000.0}, /* setpoint */
         };
 
         final int dim = bounds.length;
-           
-        final int initialWorkload = 50000;
+        
+        final Map<Integer, Integer> workloads = new HashMap<>();
         final int timesteps = 500;
+        Random rng = new Random();
+        for(int i = 1; i <= timesteps; i += rng.nextInt(10) + 15) {
+            workloads.put(i, rng.nextInt(500) + 500);
+        }
         
         final int initialCapacity = 1;
         final int minimumCapacity = 1;
@@ -38,7 +45,7 @@ public class CostMinimizingOptimizer {
         
         final ObjectiveFunction pidSystemSimulator = new CostMinimizingObjectiveFunction(
                 timesteps, 
-                initialWorkload, 
+                workloads,
                 initialCapacity, 
                 minimumCapacity, 
                 maximumCapacity, 

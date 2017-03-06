@@ -1,6 +1,9 @@
 package org.wkh.swarmscale.queue;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.wkh.swarmscale.optimization.ObjectiveFunction;
@@ -10,9 +13,9 @@ public class CostMinimizingObjectiveFunction implements ObjectiveFunction {
     public final static Logger LOGGER = Logger.getLogger(CostMinimizingObjectiveFunction.class.getName());
     
     private final int timesteps;
-    private final long initialWorkLoad;
     private final int commissionTimeLower;
     private final int commissionTimeUpper;
+    private final Map<Integer, Integer> workloads;
     private final int initialCapacity;
     private final int minimumCapacity;
     private final int maximumCapacity;
@@ -21,9 +24,10 @@ public class CostMinimizingObjectiveFunction implements ObjectiveFunction {
     private final int baseWorkRateUpper;
     
     private final Level logLevel;
+    private final Random rng;
     
     public CostMinimizingObjectiveFunction(int timesteps,
-            long initialWorkLoad,
+            Map<Integer, Integer> workloads,
             int initialCapacity,
             int minimumCapacity,
             int maximumCapacity,
@@ -34,7 +38,7 @@ public class CostMinimizingObjectiveFunction implements ObjectiveFunction {
             double parallelizablePortion,
             Level logLevel) {
         this.timesteps = timesteps;
-        this.initialWorkLoad = initialWorkLoad;
+        this.workloads = workloads;
         this.initialCapacity = initialCapacity;
         this.commissionTimeLower = commissionTimeLower;
         this.commissionTimeUpper = commissionTimeUpper;
@@ -45,6 +49,8 @@ public class CostMinimizingObjectiveFunction implements ObjectiveFunction {
         this.baseWorkRateUpper = baseWorkRateUpper;
         
         this.logLevel = logLevel;
+        
+        rng = new Random();
     }
     
     @Override
@@ -76,20 +82,22 @@ public class CostMinimizingObjectiveFunction implements ObjectiveFunction {
         
         PIDControlledQueueSimulation simulation = new PIDControlledQueueSimulation(controller, setpoint, queue, logLevel);
         
-        queue.enqueueBatchWorkload(initialWorkLoad);
-        
         for(int timestep = 1; timestep <= timesteps; timestep++) {
             /* don't commission additional consumers while other ones are waiting to come online to prevent overprovisioning */
             final boolean canCommission = queue.getQueuedConsumers() == 0;
-            LOGGER.log(Level.INFO, "In timestep {0}, canComission = {1}", new Object[]{timestep, canCommission});
+            LOGGER.log(Level.INFO, "In timestep {0}, canCommission = {1}", new Object[]{timestep, canCommission});
+            
+            if (workloads.containsKey(timestep)) {
+                queue.enqueueBatchWorkload(workloads.get(timestep));
+            }
+            
             simulation.stepSystem(timestep, canCommission);
         }
         final List<QueueConfigurationSnapshot> observedErrors = simulation.getObservedErrors();
         
         final int consumerTimeSum = observedErrors.stream().mapToInt(error -> error.activeConsumers).sum();
-        final long totalProcessedJobs = observedErrors.get(observedErrors.size() - 1).totalProcessedJobs;
         
-        final long leftoverJobs = initialWorkLoad - totalProcessedJobs;
+        final long leftoverJobs = queue.getEnqueuedJobs() - queue.getProcessedJobs();
         
         if (leftoverJobs < 0) {
             System.out.println("uh oh, something went wrong");
@@ -102,10 +110,12 @@ public class CostMinimizingObjectiveFunction implements ObjectiveFunction {
     }
     
     public static void main(String[] args) {
-        double[] position = new double[] { 8.199568303501572, 380.26954000886576, 161.53074999638432, 0.0 };
-        
-        final int initialWorkload = 50000;
-        final int timesteps = 250;
+        final Map<Integer, Integer> workloads = new HashMap<>();
+        final int timesteps = 500;
+        Random rng = new Random();
+        for(int i = 1; i <= timesteps; i += 25) {
+            workloads.put(i, rng.nextInt(100) + 1000);
+        }
         
         final int initialCapacity = 1;
         final int minimumCapacity = 1;
@@ -114,25 +124,25 @@ public class CostMinimizingObjectiveFunction implements ObjectiveFunction {
         final int commissionTimeLower = 1;
         final int commissionTimeUpper = 2;
         
-        final int baseWorkRateLower = 15;
-        final int baseWorkRateUpper = 20;
+        final int baseWorkRateLower = 25;
+        final int baseWorkRateUpper = 30;
         
         final double parallelizablePortion = 0.9;
         
         final ObjectiveFunction pidSystemSimulator = new CostMinimizingObjectiveFunction(
-            timesteps, 
-            initialWorkload, 
-            initialCapacity, 
-            minimumCapacity, 
-            maximumCapacity, 
-            commissionTimeLower, 
-            commissionTimeUpper, 
-            baseWorkRateLower, 
-            baseWorkRateUpper, 
-            parallelizablePortion,
-            Level.INFO
+                timesteps, 
+                workloads,
+                initialCapacity, 
+                minimumCapacity, 
+                maximumCapacity, 
+                commissionTimeLower, 
+                commissionTimeUpper, 
+                baseWorkRateLower, 
+                baseWorkRateUpper, 
+                parallelizablePortion,
+                Level.INFO
         );
         
-        pidSystemSimulator.evaluate(position, 0);
+        System.out.println(pidSystemSimulator.evaluate(new double[] { 184.76064053278117, 58.607163034580715, 211.41643944338776, 3696.285636245719}, 0));
     }
 }
