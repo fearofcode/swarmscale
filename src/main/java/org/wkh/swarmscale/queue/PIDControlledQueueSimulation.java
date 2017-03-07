@@ -68,7 +68,7 @@ public class PIDControlledQueueSimulation  {
     }
     
     public static void main(String[] args) {
-        double[] position = new double[] { 0.5111019783848789, 38.21055484406781, 0.0, 818.4389587812793};
+        double[] position = new double[] { 0.002, 0.0, 0.0, 433.0};
         
         double proportionalGain = position[0];
         double integralGain = position[1];
@@ -79,9 +79,8 @@ public class PIDControlledQueueSimulation  {
         final Map<Integer, Integer> workloads = new HashMap<>();
         final int timesteps = 500;
         
-        Random rng = new Random();
-        for(int i = 1; i <= timesteps; i += rng.nextInt(10) + 15) {
-            workloads.put(i, rng.nextInt(500) + 500);
+        for(int i = 1; i <= timesteps; i += 25) {
+            workloads.put(i, 1500);
         }
         
         final int initialCapacity = 1;

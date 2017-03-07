@@ -7,7 +7,7 @@ tune <a href="https://en.wikipedia.org/wiki/PID_controller">PID controllers</a>.
 
 The goal is to be able to scale an Apache Kafka cluster up and down dynamically.
 
-So far, there are a few working examples: levitating a circular object in the air (what I'm calling the "ball-gravity system"), the inverted pendulum, and the queue simulator
+So far, there are a few working examples: levitating a circular object in the air (what I'm calling the "ball-gravity system"), the inverted pendulum, and the queue simulator.
 
 Ball-gravity system
 -------------------

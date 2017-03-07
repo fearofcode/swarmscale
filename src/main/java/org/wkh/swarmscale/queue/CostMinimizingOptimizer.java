@@ -26,9 +26,8 @@ public class CostMinimizingOptimizer {
         
         final Map<Integer, Integer> workloads = new HashMap<>();
         final int timesteps = 500;
-        Random rng = new Random();
-        for(int i = 1; i <= timesteps; i += rng.nextInt(10) + 15) {
-            workloads.put(i, rng.nextInt(500) + 500);
+        for(int i = 1; i <= timesteps; i += 25) {
+            workloads.put(i, 1500);
         }
         
         final int initialCapacity = 1;
