@@ -1,10 +1,7 @@
 package org.wkh.swarmscale.physics.invertedpendulum;
 
-import java.util.LinkedList;
-import java.util.List;
 import org.dyn4j.geometry.Transform;
 import org.dyn4j.geometry.Vector2;
-import org.wkh.swarmscale.optimization.ControlPerformanceResult;
 import org.wkh.swarmscale.optimization.PIDController;
 
 public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem {
@@ -12,13 +9,16 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
     private final PIDController positionController;
 
     private final double controlInterval;
-    private final List<ControlPerformanceResult> observedErrors;
-
-    private boolean verbose;
 
     private final double initialRotation;
     private double currentRotation;
 
+    private double errorSum = 0.0;
+    
+    public double getErrorSum() {
+        return errorSum;
+    }
+    private int controlCount = 0;
     public DualControlledInvertedPendulumSystem(double rotationProportionalGain, 
             double rotationIntegralGain, 
             double rotationDerivativeGain,
@@ -32,20 +32,7 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         rotationController = new PIDController(rotationProportionalGain, rotationIntegralGain, rotationDerivativeGain);
         
         positionController = new PIDController(positionProportionalGain, positionIntegralGain, positionDerivativeGain);
-        
-        observedErrors = new LinkedList<>();
-
-        verbose = false;
-        
         this.initialRotation = initialRotation;
-    }
-    
-    public List<ControlPerformanceResult> getObservedErrors() {
-        return observedErrors;
-    }
-
-    public void setVerbose(boolean verbose) {
-        this.verbose = verbose;
     }
 
     @Override
@@ -65,28 +52,34 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         if (timeSinceLastControlAction < controlInterval) {
             return;
         }
+        previousControlTime = time;
 
         currentRotation = pole.getTransform().getRotation();
-        
-        final double elapsedTime = getElapsedTime();
         
         final double cartPosition = cart.getTransform().getTranslationX();
         
         double rotationOutput = rotationController.getOutput(currentRotation, 0.0);
         
         double positionOutput = positionController.getOutput(cartPosition, 0.0);
-        cart.applyImpulse(new Vector2(rotationOutput, 0));
-        cart.applyImpulse(new Vector2(positionOutput, 0));
+        cart.applyImpulse(new Vector2(rotationOutput + positionOutput, 0));
+        /*if (controlCount % 2 != 0) {
+            cart.applyImpulse(new Vector2(rotationOutput, 0));
+        } else {
+            cart.applyImpulse(new Vector2(positionOutput, 0));
+        }*/
         
-        double cartPositionError = Math.abs(cartPosition) * 5.0;
-        double rotationError = Math.abs(currentRotation);
-        
-        observedErrors.add(new ControlPerformanceResult(elapsedTime, 0.0, rotationError + cartPositionError));
-        
-        if (verbose) {
-            System.err.printf("%.2f\t%f\t%f\t%f\t%f\t%f\n", elapsedTime, currentRotation, cartPosition, rotationOutput, positionOutput, cartPosition);
+        /*if (controlCount % 25 == 0) {
+            System.out.printf("rotation:%f, rotation output: %f, cart position: %f, position output: %f, net output: %f\n", 
+                currentRotation, rotationOutput, cartPosition, positionOutput, rotationOutput + positionOutput);
         }
+        */
 
-        previousControlTime = time;
+        final double cartPositionError = Math.abs(cartPosition);
+        
+        // emphasize rotation error
+        final double rotationError = Math.abs(currentRotation);
+        
+        errorSum += cartPositionError + rotationError;
+        //controlCount++;
     }
 }

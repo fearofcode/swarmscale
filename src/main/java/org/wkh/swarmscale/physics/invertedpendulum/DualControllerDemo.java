@@ -4,7 +4,7 @@ import org.wkh.swarmscale.physics.PhysicalSystemRenderer;
 
 public class DualControllerDemo {
     public static void main(String[] args) {
-        final double[] position = {0.10688058362893532, 66.67346929538611, 0.0, 29.057983253203815, 0.0, 92.79024727117952};
+        final double[] position = {1.604174313045244, 0.0, 80.98216608474266, 5.0, 0.009827316069225836, 212.97162266849858};
         
         /* TODO write factory helper to use positions in visualized simulations */
         
@@ -16,7 +16,7 @@ public class DualControllerDemo {
         final double positionIntegralGain = position[4];
         final double positionDerivativeGain = position[5];
         
-        final double controlInterval = 25.0;
+        final double controlInterval = 1.0;
 
         /* rotate the pole so that we have to take control action */
         final double initialRotation = -5.0;
@@ -32,7 +32,6 @@ public class DualControllerDemo {
             initialRotation
         );
         
-        system.setVerbose(true);
         PhysicalSystemRenderer window = new PhysicalSystemRenderer(system);
 
         window.setVisible(true);

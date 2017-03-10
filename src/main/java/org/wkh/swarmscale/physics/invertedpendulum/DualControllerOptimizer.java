@@ -12,12 +12,12 @@ public class DualControllerOptimizer {
         final int populationSize = 200;
         
         final double[][] bounds = {
-            {0.1, 100.0}, /* rotational - proportional */
-            {0.0, 100.0}, /* rotational - integral */
-            {0.0, 100.0}, /* rotational - derivative */
-            {0.1, 100.0}, /* position - proportion */
-            {0.0, 100.0}, /* position - integral */
-            {0.0, 100.0}, /* position - derivative */
+            {0.0, 10.0}, /* rotational - proportional */
+            {0.0, 0.5}, /* rotational - integral */
+            {0.0, 25.0}, /* rotational - derivative */
+            {0.0, 10.0}, /* position - proportion */
+            {0.0, 0.5}, /* position - integral */
+            {0.0, 25.0}, /* position - derivative */
         };
 
         final int dim = bounds.length;
@@ -40,7 +40,7 @@ public class DualControllerOptimizer {
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });
 
-        final int iterations = 1000;
+        final int iterations = 100;
 
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         

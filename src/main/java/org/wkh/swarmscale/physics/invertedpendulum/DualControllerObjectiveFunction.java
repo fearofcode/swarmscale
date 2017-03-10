@@ -1,7 +1,5 @@
 package org.wkh.swarmscale.physics.invertedpendulum;
 
-import java.util.List;
-import org.wkh.swarmscale.optimization.ControlPerformanceResult;
 import org.wkh.swarmscale.optimization.ObjectiveFunction;
 
 /**
@@ -11,7 +9,7 @@ import org.wkh.swarmscale.optimization.ObjectiveFunction;
 public class DualControllerObjectiveFunction implements ObjectiveFunction  {
     @Override
     public double evaluate(double[] position, int iteration) {
-        final int runTime = 5000; /* enough time to stabilize and assess longer-term stability somewhat */
+        final int runTime = 10000; // fuck this
 
         final double rotationalProportionalGain = position[0];
         final double rotationalIntegralGain = position[1];
@@ -21,7 +19,7 @@ public class DualControllerObjectiveFunction implements ObjectiveFunction  {
         final double positionIntegralGain = position[4];
         final double positionDerivativeGain = position[5];
         
-        final double controlInterval = 25.0;
+        final double controlInterval = 1.0;
 
         /* rotate the pole so that we have to take control action */
         final double initialRotation = -5.0;
@@ -40,10 +38,7 @@ public class DualControllerObjectiveFunction implements ObjectiveFunction  {
         system.initializeWorld();
 
         system.runSimulationLoop(runTime);
-        final List<ControlPerformanceResult> observedErrors = system.getObservedErrors();
-
-        /* sum up the errors */
-        return observedErrors.stream().mapToDouble(result -> result.error).sum();
+        return system.getErrorSum();
     }
     
 }

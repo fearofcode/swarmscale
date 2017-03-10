@@ -56,7 +56,6 @@ public class PIDController {
         P = p;
         I = i;
         D = d;
-        checkSigns();
     }
 
     /**
@@ -74,7 +73,6 @@ public class PIDController {
         I = i;
         D = d;
         F = f;
-        checkSigns();
     }
 
     //**********************************
@@ -470,33 +468,7 @@ public class PIDController {
      * value
      */
     private void checkSigns() {
-        if (reversed) {  // all values should be below zero
-            if (P > 0) {
-                P *= -1;
-            }
-            if (I > 0) {
-                I *= -1;
-            }
-            if (D > 0) {
-                D *= -1;
-            }
-            if (F > 0) {
-                F *= -1;
-            }
-        } else {  // all values should be above zero
-            if (P < 0) {
-                P *= -1;
-            }
-            if (I < 0) {
-                I *= -1;
-            }
-            if (D < 0) {
-                D *= -1;
-            }
-            if (F < 0) {
-                F *= -1;
-            }
-        }
+        // fuck this
     }
 
     public static void main(String[] args) {
