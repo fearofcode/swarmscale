@@ -9,23 +9,23 @@ import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 
 public class DualControllerOptimizer {
     public static void main(String[] args) {
-        final int populationSize = 150;
+        final int populationSize = 100;
         
         final double[][] bounds = {
-            {0.0, 10.0}, /* rotational - proportional */
-            {0.0, 1.0}, /* rotational - integral */
-            {0.0, 50.0}, /* rotational - derivative */
-            {0.0, 10.0}, /* position - proportion */
-            {0.0, 2.0}, /* position - integral */
-            {0.0, 50.0}, /* position - derivative */
+            {0.0, 100.0}, /* rotational - proportional */
+            {0.0, 5.0}, /* rotational - integral */
+            {0.0, 100.0}, /* rotational - derivative */
+            {0.0, 100.0}, /* position - proportion */
+            {0.0, 5.0}, /* position - integral */
+            {0.0, 100.0}, /* position - derivative */
         };
 
         final int dim = bounds.length;
 
         final ObjectiveFunction pidSystemSimulator = new DualControllerObjectiveFunction();
 
-        final double diversityLower = 5.0;
-        final double diversityUpper = 15.0;
+        final double diversityLower = 0.5;
+        final double diversityUpper = 1.0;
         
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize,
@@ -41,11 +41,13 @@ public class DualControllerOptimizer {
         optimizer.addEpochListener((result, epoch) -> {
             System.out.println("Epoch " + epoch + ": " + new Date());
             System.out.println("Statistics: " + result.fitnessStatistics);
+            System.out.println("Diversity: " + result.diversity);
+            System.out.println("Direction: " + result.direction);
             System.out.println("Best result fitness: " + result.gbestFitness);
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });
 
-        final int iterations = 200;
+        final int iterations = 5000;
 
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         

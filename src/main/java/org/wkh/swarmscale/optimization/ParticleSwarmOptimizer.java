@@ -162,13 +162,13 @@ public class ParticleSwarmOptimizer {
         this.diversityUpper = diversityUpper;
     }
 
-    public double setDirection() {
+    public double setDirection(final int epoch) {
         double currentDiversity = swarmDiversity();
         if (direction > 0 && currentDiversity < diversityLower) {
-            System.out.println("Current diversity = " + currentDiversity + ", < " + diversityLower + ". Switching direction to repulsing.");
+            System.out.println("Epoch " + epoch + ": Current diversity = " + currentDiversity + ", < " + diversityLower + ". Switching direction to repulsing.");
             direction = -1.0;
         } else if (direction < 0 && currentDiversity > diversityUpper) {
-            System.out.println("Current diversity = " + currentDiversity + ", > " + diversityUpper + ". Switching direction to attracting.");
+            System.out.println("Epoch " + epoch + ": Current diversity = " + currentDiversity + ", > " + diversityUpper + ". Switching direction to attracting.");
             direction = 1.0;
         }
         
@@ -304,8 +304,8 @@ public class ParticleSwarmOptimizer {
         final List<EpochPerformanceResult> results = new ArrayList<>(iterations);
 
         for (int epoch = 1; epoch <= iterations; epoch++) {
-            final double currentDiversity = setDirection();
-            final double inertiaMultiplier = 1.0; //(1.0 - (double)epoch/iterations);
+            final double currentDiversity = setDirection(epoch);
+            final double inertiaMultiplier = (1.0 - (double)epoch/iterations);
             
             for (int i = 0; i < populationSize; i++) {
                 for (int d = 0; d < dim; d++) {
