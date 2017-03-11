@@ -13,19 +13,19 @@ public class DualControllerOptimizer {
         
         final double[][] bounds = {
             {0.0, 100.0}, /* rotational - proportional */
-            {0.0, 5.0}, /* rotational - integral */
-            {0.0, 100.0}, /* rotational - derivative */
+            {0.0, 10.0}, /* rotational - integral */
+            {0.0, 200.0}, /* rotational - derivative */
             {0.0, 100.0}, /* position - proportion */
-            {0.0, 5.0}, /* position - integral */
-            {0.0, 100.0}, /* position - derivative */
+            {0.0, 10.0}, /* position - integral */
+            {0.0, 200.0}, /* position - derivative */
         };
 
         final int dim = bounds.length;
 
         final ObjectiveFunction pidSystemSimulator = new DualControllerObjectiveFunction();
 
-        final double diversityLower = 0.5;
-        final double diversityUpper = 1.0;
+        final double diversityLower = 0.02;
+        final double diversityUpper = 0.25;
         
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize,
@@ -47,8 +47,9 @@ public class DualControllerOptimizer {
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });
 
-        final int iterations = 5000;
+        final int iterations = 300;
 
+        
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         
         System.out.println("Best result: " + Arrays.toString(results.get(iterations - 1).gbest));

@@ -4,7 +4,7 @@ import org.wkh.swarmscale.physics.PhysicalSystemRenderer;
 
 public class DualControllerDemo {
     public static void main(String[] args) {
-        final double[] position = {0.8205388745326907, 0.1315880547088407, 48.62495872483147, 0.0, 0.0, 0.0};
+        final double[] position = {20.613785351311567, 1.6351492770852374, 35.45599214880067, 46.27577217997525, 2.0232244579537073, 186.81629218629976};
         
         /* TODO write factory helper to use positions in visualized simulations */
         

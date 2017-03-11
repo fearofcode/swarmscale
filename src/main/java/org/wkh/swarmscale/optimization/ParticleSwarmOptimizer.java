@@ -283,7 +283,7 @@ public class ParticleSwarmOptimizer {
         }
         
         for (int d = 0; d < dim; d++) {
-            average[d] /= dim;
+            average[d] /= populationSize;
         }
         
         return average;
@@ -291,11 +291,15 @@ public class ParticleSwarmOptimizer {
     
     public double swarmDiversity() {
         double[] average = averagePoint();
+        //System.out.println("Average point: " + Arrays.toString(average));
         double individualDiversitySum = 0.0;
         
         for (int i = 0; i < populationSize; i++) {
             individualDiversitySum += distance(x[i], average);
         }
+        //System.out.println("Individual diversity sum: " + individualDiversitySum);
+        //System.out.println("boundsLength: " + boundsLength());
+        //System.out.println("individualDiversitySum/(populationSize * boundsLength()) = " + individualDiversitySum/(populationSize * boundsLength()));
         
         return individualDiversitySum/(populationSize * boundsLength());
     }
@@ -393,8 +397,8 @@ public class ParticleSwarmOptimizer {
                 populationSize,
                 dim,
                 bounds,
-                2.0,
-                2.5,
+                0.001,
+                0.1,
                 rastrigin
         );
 
