@@ -9,7 +9,7 @@ import org.wkh.swarmscale.optimization.ObjectiveFunction;
 public class DualControllerObjectiveFunction implements ObjectiveFunction  {
     @Override
     public double evaluate(double[] position, int iteration) {
-        final int runTime = 10000; // fuck this
+        final int runTime = 20000; // fuck this
 
         final double rotationalProportionalGain = position[0];
         final double rotationalIntegralGain = position[1];
@@ -19,7 +19,7 @@ public class DualControllerObjectiveFunction implements ObjectiveFunction  {
         final double positionIntegralGain = position[4];
         final double positionDerivativeGain = position[5];
         
-        final double controlInterval = 1.0;
+        final double controlInterval = 5.0;
 
         /* rotate the pole so that we have to take control action */
         final double initialRotation = -5.0;

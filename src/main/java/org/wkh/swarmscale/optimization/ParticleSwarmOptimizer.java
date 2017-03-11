@@ -78,19 +78,27 @@ public class ParticleSwarmOptimizer {
 
     private final double[][] seeds;
 
+    private double direction;
+    private final double diversityLower;
+    private final double diversityUpper;
+    
     /**
      *
      * @param populationSize Number of individuals to create
      * @param dim Dimension. Must match bounds and objective function.
      * @param bounds upper and lower bounds in each dimension. Should be `dim` x 2 in size.
+     * @param diversityLower Lower diversity bound
+     * @param diversityUpper Upper diversity bound
      * @param objective Objective function. Needs to match bounds in the array elements it references.
      */
     public ParticleSwarmOptimizer(
             final int populationSize,
             final int dim,
             final double[][] bounds,
+            final double diversityLower,
+            final double diversityUpper,
             final ObjectiveFunction objective) {
-        this(populationSize, dim, bounds, objective, new double[][]{});
+        this(populationSize, dim, bounds, diversityLower, diversityUpper, objective, new double[][]{});
     }
 
     /**
@@ -98,6 +106,8 @@ public class ParticleSwarmOptimizer {
      * @param populationSize Number of individuals to create
      * @param dim Dimension. Must match bounds and objective function.
      * @param bounds upper and lower bounds in each dimension. Should be `dim` x 2 in size.
+     * @param diversityLower Lower diversity bound
+     * @param diversityUpper Upper diversity bound
      * @param objective Objective function. Needs to match bounds in the array elements it references.
      * @param seeds Initial positions to copy into the population
      */
@@ -105,6 +115,8 @@ public class ParticleSwarmOptimizer {
             final int populationSize,
             final int dim,
             final double[][] bounds,
+            final double diversityLower,
+            final double diversityUpper,
             final ObjectiveFunction objective,
             final double[][] seeds) {
         if (bounds.length != dim) {
@@ -144,8 +156,25 @@ public class ParticleSwarmOptimizer {
             }
             this.seeds[i] = Arrays.copyOf(seeds[i], dim);
         }
+        
+        direction = 1.0;
+        this.diversityLower = diversityLower;
+        this.diversityUpper = diversityUpper;
     }
 
+    public double setDirection() {
+        double currentDiversity = swarmDiversity();
+        if (direction > 0 && currentDiversity < diversityLower) {
+            System.out.println("Current diversity = " + currentDiversity + ", < " + diversityLower + ". Switching direction to repulsing.");
+            direction = -1.0;
+        } else if (direction < 0 && currentDiversity > diversityUpper) {
+            System.out.println("Current diversity = " + currentDiversity + ", > " + diversityUpper + ". Switching direction to attracting.");
+            direction = 1.0;
+        }
+        
+        return currentDiversity;
+    }
+    
     public void addEpochListener(EpochListener listener) {
         epochListeners.add(listener);
     }
@@ -202,16 +231,89 @@ public class ParticleSwarmOptimizer {
         return value;
     }
 
+    /**
+     * Calculate Euclidean distance (sqrt((y_1 - x_1)^2 + ... (y_n - x_n)^2)) between two arrays.
+     * @param x first array
+     * @param y second array
+     * @return 
+     */
+    public static double distance(double[] x, double[] y) {
+        double sum = 0;
+        
+        if (x.length != y.length) {
+            throw new IllegalArgumentException();
+        }
+        
+        for(int i = 0; i < x.length; i++) {
+            sum += (y[i] - x[i])*(y[i] - x[i]);
+        }
+        
+        return Math.sqrt(sum);
+    }
+
+    public double[] minimumPoint() {
+        double[] minimum = new double[dim];
+        for(int i = 0; i < dim; i++) {
+            minimum[i] = bounds[i][0];
+        }
+        
+        return minimum;
+    }
+    
+    public double[] maximumPoint() {
+        double[] maximum = new double[dim];
+        for(int i = 0; i < dim; i++) {
+            maximum[i] = bounds[i][1];
+        }
+        
+        return maximum;
+    }
+    
+    public double boundsLength() {
+        return distance(minimumPoint(), maximumPoint());
+    }
+    
+    public double[] averagePoint() {
+        double[] average = new double[dim];
+        
+        for (int i = 0; i < populationSize; i++) {
+            for (int d = 0; d < dim; d++) {
+                average[d] += x[i][d];
+            }
+        }
+        
+        for (int d = 0; d < dim; d++) {
+            average[d] /= dim;
+        }
+        
+        return average;
+    }
+    
+    public double swarmDiversity() {
+        double[] average = averagePoint();
+        double individualDiversitySum = 0.0;
+        
+        for (int i = 0; i < populationSize; i++) {
+            individualDiversitySum += distance(x[i], average);
+        }
+        
+        return individualDiversitySum/(populationSize * boundsLength());
+    }
+    
     public List<EpochPerformanceResult> runForIterations(int iterations) {
         final List<EpochPerformanceResult> results = new ArrayList<>(iterations);
 
         for (int epoch = 1; epoch <= iterations; epoch++) {
+            final double currentDiversity = setDirection();
+            final double inertiaMultiplier = 1.0; //(1.0 - (double)epoch/iterations);
+            
             for (int i = 0; i < populationSize; i++) {
                 for (int d = 0; d < dim; d++) {
                     final double r1 = rng.nextDouble();
                     final double r2 = rng.nextDouble();
 
-                    v[i][d] = W * v[i][d] + C1 * r1 * (pbest[i][d] - x[i][d]) + C2 * r2 * (gbest[d] - x[i][d]);
+                    v[i][d] = inertiaMultiplier * W * v[i][d] + direction*(C1 * r1 * (pbest[i][d] - x[i][d]) + C2 * r2 * (gbest[d] - x[i][d]));
+                    
                     x[i][d] = clipToBounds(x[i][d] + v[i][d], d);
                 }
             }
@@ -234,7 +336,7 @@ public class ParticleSwarmOptimizer {
                 }
             }
 
-            final EpochPerformanceResult result = new EpochPerformanceResult(fitnessValues, gbest, gbestFitness);
+            final EpochPerformanceResult result = new EpochPerformanceResult(fitnessValues, gbest, gbestFitness, currentDiversity, direction);
 
             epochListeners.forEach(listener -> listener.onEpochComplete(result, epochDummy));
 
@@ -273,13 +375,11 @@ public class ParticleSwarmOptimizer {
             {-5.12, 5.12},
             {-5.12, 5.12},};
 
-        /* simple 2D function with global minimum at (0, 0) */
-        ObjectiveFunction sphere2d = (x, iteration) -> x[0] * x[0] + x[1] * x[1];
-
         /* more complex function with global minimum of f(0) = (0, 0, ..., 0). 
          * See <https://upload.wikimedia.org/wikipedia/commons/8/8b/Rastrigin_function.png> for a plot at n = 2. 
          */
-        final int dim = 12;
+        final int dim = bounds.length;
+        
         ObjectiveFunction rastrigin = (x, iteration) -> {
             double sum = 0.0;
             for (int i = 0; i < dim; i++) {
@@ -289,28 +389,27 @@ public class ParticleSwarmOptimizer {
             return 10 * dim + sum;
         };
 
-        final double[][] seeds = new double[][]{
-            {0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01}
-        };
-
         ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
                 populationSize,
                 dim,
                 bounds,
-                rastrigin,
-                seeds
+                2.0,
+                2.5,
+                rastrigin
         );
 
         optimizer.initializePopulation();
 
         optimizer.addEpochListener((result, epoch) -> {
-            if (epoch % 10 == 0) {
+            if (epoch % 1000 == 0) {
                 System.out.println("Epoch " + epoch + ": " + new Date());
                 System.out.println("Best result fitness: " + result.gbestFitness);
+                System.out.println("Diversity: " + result.diversity);
+                System.out.println("Direction: " + result.direction);
             }
         });
 
-        final int iterations = 500;
+        final int iterations = 50000;
 
         long start = System.currentTimeMillis();
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);

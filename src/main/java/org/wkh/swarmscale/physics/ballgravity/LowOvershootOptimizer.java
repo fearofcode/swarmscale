@@ -34,6 +34,8 @@ public class LowOvershootOptimizer {
             populationSize,
             dim,
             bounds,
+            1.0,
+            2.0,
             pidSystemSimulator,
             zieglerNicholsSeeds
         );

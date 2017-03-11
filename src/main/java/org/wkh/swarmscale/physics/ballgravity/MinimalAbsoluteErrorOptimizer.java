@@ -44,6 +44,8 @@ public class MinimalAbsoluteErrorOptimizer {
                     populationSize,
                     dim,
                     bounds,
+                    1.0,
+                    2.0,
                     pidSystemSimulator,
                     zieglerNicholsSeeds
             );
@@ -52,6 +54,8 @@ public class MinimalAbsoluteErrorOptimizer {
                     populationSize,
                     dim,
                     bounds,
+                    1.0,
+                    2.0,
                     pidSystemSimulator
             );
         }

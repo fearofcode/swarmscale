@@ -15,10 +15,6 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
 
     private double errorSum = 0.0;
     
-    public double getErrorSum() {
-        return errorSum;
-    }
-    private int controlCount = 0;
     public DualControlledInvertedPendulumSystem(double rotationProportionalGain, 
             double rotationIntegralGain, 
             double rotationDerivativeGain,
@@ -33,8 +29,13 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         
         positionController = new PIDController(positionProportionalGain, positionIntegralGain, positionDerivativeGain);
         this.initialRotation = initialRotation;
+        
     }
 
+    public double getErrorSum() {
+        return errorSum;
+    }
+    
     @Override
     protected void beforeSimulationLoopStart() {
         previousControlTime = System.nanoTime();
@@ -57,29 +58,21 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         currentRotation = pole.getTransform().getRotation();
         
         final double cartPosition = cart.getTransform().getTranslationX();
+        final double cartDisplacement = Math.abs(cartPosition);
         
-        double rotationOutput = rotationController.getOutput(currentRotation, 0.0);
+        final double rotationOutput = rotationController.getOutput(currentRotation, 0.0);
         
-        double positionOutput = positionController.getOutput(cartPosition, 0.0);
+        final double positionOutput = positionController.getOutput(cartPosition, 0.0);
+        
         cart.applyImpulse(new Vector2(rotationOutput + positionOutput, 0));
-        /*if (controlCount % 2 != 0) {
-            cart.applyImpulse(new Vector2(rotationOutput, 0));
-        } else {
-            cart.applyImpulse(new Vector2(positionOutput, 0));
-        }*/
-        
-        /*if (controlCount % 25 == 0) {
-            System.out.printf("rotation:%f, rotation output: %f, cart position: %f, position output: %f, net output: %f\n", 
-                currentRotation, rotationOutput, cartPosition, positionOutput, rotationOutput + positionOutput);
-        }
-        */
 
-        final double cartPositionError = Math.abs(cartPosition);
-        
+        //System.out.printf("time: %f, rotation: %f, rotation output: %f, cart position: %f, position output: %f, net output: %f\n", 
+        //getElapsedTime(), currentRotation, rotationOutput, cartPosition, positionOutput, rotationOutput + positionOutput);
+
         // emphasize rotation error
-        final double rotationError = Math.abs(currentRotation);
+        final double rotationError = Math.abs(currentRotation) * 8.0;
         
-        errorSum += cartPositionError + rotationError;
+        errorSum += cartDisplacement + rotationError;
         //controlCount++;
     }
 }
