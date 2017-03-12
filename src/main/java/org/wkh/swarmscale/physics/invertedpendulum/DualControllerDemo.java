@@ -4,11 +4,13 @@ import org.wkh.swarmscale.physics.PhysicalSystemRenderer;
 
 public class DualControllerDemo {
     public static void main(String[] args) {
-        final double[] position = {20.613785351311567, 1.6351492770852374, 35.45599214880067, 46.27577217997525, 2.0232244579537073, 186.81629218629976};
+        final double[] position = {
+            25.0, 1.0, 18.011976096621435, 0.0, 0.0, 0.0, 25.0, 0.0, 24.347029094832724, 0.0, 0.0, 25.0, 25.0, 1.0, 23.50542291861912, 0.0, 0.0, 25.0
+        };
         
         final double scheduleOffset = 0.25;
         
-        final double controlInterval = 5.0;
+        final double controlInterval = 25.0;
 
         /* rotate the pole so that we have to take control action */
         final double initialRotation = -5.0;

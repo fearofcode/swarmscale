@@ -12,34 +12,34 @@ public class DualControllerOptimizer {
         final int populationSize = 200;
         
         final double[][] bounds = {
-            {0.0, 100.0},     /* rotational - proportional - schedule 1 */
-            {0.0, 100.0},     /* rotational - integral     - schedule 1 */
-            {0.0, 100.0},     /* rotational - derivative   - schedule 1 */
-            {-100.0, 100.0},  /* position   - proportion   - schedule 1 */
-            {-100.0, 100.0},  /* position   - integral     - schedule 1 */
-            {-100.0, 100.0},  /* position   - derivative   - schedule 1 */
+            {0.0, 25.0},     /* rotational - proportional - schedule 1 */
+            {0.0, 1.0},      /* rotational - integral     - schedule 1 */
+            {0.0, 25.0},     /* rotational - derivative   - schedule 1 */
+            {0.0, 25.0},     /* position   - proportion   - schedule 1 */
+            {0.0, 0.0},      /* position   - integral     - schedule 1 */
+            {0.0, 25.0},     /* position   - derivative   - schedule 1 */
             
-            {0.0, 100.0},     /* rotational - proportional - schedule 2 */
-            {0.0, 100.0},     /* rotational - integral     - schedule 2 */
-            {0.0, 100.0},     /* rotational - derivative   - schedule 2 */
-            {-100.0, 100.0},  /* position   - proportion   - schedule 2 */
-            {-100.0, 100.0},  /* position   - integral     - schedule 2 */
-            {-100.0, 100.0},  /* position   - derivative   - schedule 2 */
+            {0.0, 25.0},     /* rotational - proportional - schedule 2 */
+            {0.0, 1.0},      /* rotational - integral     - schedule 2 */
+            {0.0, 25.0},     /* rotational - derivative   - schedule 2 */
+            {0.0, 25.0},     /* position   - proportion   - schedule 2 */
+            {0.0, 0.0},      /* position   - integral     - schedule 2 */
+            {0.0, 25.0},     /* position   - derivative   - schedule 2 */
             
-            {0.0, 100.0},     /* rotational - proportional - schedule 3 */
-            {0.0, 100.0},     /* rotational - integral     - schedule 3 */
-            {0.0, 100.0},     /* rotational - derivative   - schedule 3 */
-            {-100.0, 100.0},  /* position   - proportion   - schedule 3 */
-            {-100.0, 100.0},  /* position   - integral     - schedule 3 */
-            {-100.0, 100.0},  /* position   - derivative   - schedule 3 */
+            {0.0, 25.0},     /* rotational - proportional - schedule 3 */
+            {0.0, 1.0},      /* rotational - integral     - schedule 3 */
+            {0.0, 25.0},     /* rotational - derivative   - schedule 3 */
+            {0.0, 25.0},     /* position   - proportion   - schedule 3 */
+            {0.0, 0.0},      /* position   - integral     - schedule 3 */
+            {0.0, 25.0},     /* position   - derivative   - schedule 3 */
         };
 
         final int dim = bounds.length;
 
         final ObjectiveFunction pidSystemSimulator = new DualControllerObjectiveFunction();
 
-        final double diversityLower = 0.03;
-        final double diversityUpper = 0.25;
+        final double diversityLower = 0.05;
+        final double diversityUpper = 0.20;
         
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
             populationSize,
@@ -61,7 +61,7 @@ public class DualControllerOptimizer {
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });
 
-        final int iterations = 500;
+        final int iterations = 300;
         
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         

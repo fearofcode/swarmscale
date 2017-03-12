@@ -104,7 +104,6 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         //System.out.printf("time: %f, rotation: %f, rotation output: %f, cart position: %f, position output: %f, net output: %f\n", 
         //getElapsedTime(), currentRotation, rotationOutput, cartPosition, positionOutput, rotationOutput + positionOutput);
 
-        // consider cart error worse the further out the cart is
-        errorSum += cartError*cartError + Math.abs(currentRotation) * 3.0;
+        errorSum += cartError + Math.abs(currentRotation) * 8.0;
     }
 }
