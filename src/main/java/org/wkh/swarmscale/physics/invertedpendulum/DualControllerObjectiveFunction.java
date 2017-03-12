@@ -10,27 +10,20 @@ public class DualControllerObjectiveFunction implements ObjectiveFunction  {
     @Override
     public double evaluate(double[] position, int iteration) {
         final int runTime = 5000;
-
-        final double rotationalProportionalGain = position[0];
-        final double rotationalIntegralGain = position[1];
-        final double rotationalDerivativeGain = position[2];
-        
-        final double positionProportionalGain = position[3];
-        final double positionIntegralGain = position[4];
-        final double positionDerivativeGain = position[5];
-        
-        final double controlInterval = 5.0;
+        final double controlInterval = 25.0;
 
         /* rotate the pole so that we have to take control action */
         final double initialRotation = -5.0;
         
+        final double scheduleOffset = 0.25;
+        
+        if (position.length % (3*2) != 0) {
+            throw new IllegalArgumentException("Must provide a list of (rotation, position) gains");
+        }
+        
         final DualControlledInvertedPendulumSystem system = new DualControlledInvertedPendulumSystem(
-            rotationalProportionalGain,
-            rotationalIntegralGain,
-            rotationalDerivativeGain,
-            positionProportionalGain,
-            positionIntegralGain,
-            positionDerivativeGain,
+            position,
+            scheduleOffset,
             controlInterval,
             initialRotation
         );

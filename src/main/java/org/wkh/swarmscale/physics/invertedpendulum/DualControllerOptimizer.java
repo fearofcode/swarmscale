@@ -9,22 +9,36 @@ import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 
 public class DualControllerOptimizer {
     public static void main(String[] args) {
-        final int populationSize = 100;
+        final int populationSize = 200;
         
         final double[][] bounds = {
-            {0.0, 100.0}, /* rotational - proportional */
-            {0.0, 10.0}, /* rotational - integral */
-            {0.0, 200.0}, /* rotational - derivative */
-            {0.0, 100.0}, /* position - proportion */
-            {0.0, 10.0}, /* position - integral */
-            {0.0, 200.0}, /* position - derivative */
+            {0.0, 100.0},     /* rotational - proportional - schedule 1 */
+            {0.0, 100.0},     /* rotational - integral     - schedule 1 */
+            {0.0, 100.0},     /* rotational - derivative   - schedule 1 */
+            {-100.0, 100.0},  /* position   - proportion   - schedule 1 */
+            {-100.0, 100.0},  /* position   - integral     - schedule 1 */
+            {-100.0, 100.0},  /* position   - derivative   - schedule 1 */
+            
+            {0.0, 100.0},     /* rotational - proportional - schedule 2 */
+            {0.0, 100.0},     /* rotational - integral     - schedule 2 */
+            {0.0, 100.0},     /* rotational - derivative   - schedule 2 */
+            {-100.0, 100.0},  /* position   - proportion   - schedule 2 */
+            {-100.0, 100.0},  /* position   - integral     - schedule 2 */
+            {-100.0, 100.0},  /* position   - derivative   - schedule 2 */
+            
+            {0.0, 100.0},     /* rotational - proportional - schedule 3 */
+            {0.0, 100.0},     /* rotational - integral     - schedule 3 */
+            {0.0, 100.0},     /* rotational - derivative   - schedule 3 */
+            {-100.0, 100.0},  /* position   - proportion   - schedule 3 */
+            {-100.0, 100.0},  /* position   - integral     - schedule 3 */
+            {-100.0, 100.0},  /* position   - derivative   - schedule 3 */
         };
 
         final int dim = bounds.length;
 
         final ObjectiveFunction pidSystemSimulator = new DualControllerObjectiveFunction();
 
-        final double diversityLower = 0.02;
+        final double diversityLower = 0.03;
         final double diversityUpper = 0.25;
         
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
@@ -47,8 +61,7 @@ public class DualControllerOptimizer {
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });
 
-        final int iterations = 300;
-
+        final int iterations = 500;
         
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
         
