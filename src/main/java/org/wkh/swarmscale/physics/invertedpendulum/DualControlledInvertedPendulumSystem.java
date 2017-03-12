@@ -17,13 +17,11 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
     private final double scheduleOffset;
     private double errorSum = 0.0;
     
-    public static final double MAX_OUTPUT = 10.0;
-    private final double[] position;
+    public static final double MAX_OUTPUT = 15.0;
     public DualControlledInvertedPendulumSystem(double[] position,
             double scheduleOffset,
             double controlInterval,
             double initialRotation) {
-        this.position = position;
         this.controlInterval = controlInterval;
         this.initialRotation = initialRotation;
         this.scheduleOffset = scheduleOffset;
@@ -104,6 +102,6 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         //System.out.printf("time: %f, rotation: %f, rotation output: %f, cart position: %f, position output: %f, net output: %f\n", 
         //getElapsedTime(), currentRotation, rotationOutput, cartPosition, positionOutput, rotationOutput + positionOutput);
 
-        errorSum += cartError + Math.abs(currentRotation) * 8.0;
+        errorSum += cartError + Math.abs(currentRotation) * 2.0;
     }
 }
