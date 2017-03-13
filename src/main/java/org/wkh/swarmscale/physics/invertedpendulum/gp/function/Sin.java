@@ -1,12 +1,13 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function;
 import ec.*;
 import ec.gp.*;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData;
 
-public class Div extends GPNode
+public class Sin extends GPNode
 {
-    public String toString() { return "/"; }
+    public String toString() { return "sin"; }
 
-    public int expectedChildren() { return 2; }
+    public int expectedChildren() { return 1; }
 
     public void eval(final EvolutionState state,
                      final int thread,
@@ -15,15 +16,10 @@ public class Div extends GPNode
                      final GPIndividual individual,
                      final Problem problem)
     {
-        double result;
         DoubleData rd = ((DoubleData)(input));
 
         children[0].eval(state,thread,input,stack,individual,problem);
-        result = rd.x;
-
-        children[1].eval(state,thread,input,stack,individual,problem);
-        // protect against dividing by zero
-        rd.x = rd.x != 0 ? result / rd.x : 1.0;
+        rd.x = Math.sin(rd.x);
     }
 }
 

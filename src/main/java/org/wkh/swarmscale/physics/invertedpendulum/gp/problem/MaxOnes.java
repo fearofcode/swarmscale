@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.problem;
 
 import ec.*;
 import ec.simple.*;

@@ -5,10 +5,11 @@
 */
 
 
-package org.wkh.swarmscale.physics.invertedpendulum.gp;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function;
 import ec.*;
 import ec.gp.*;
 import ec.util.*;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData;
 
 public class Mul extends GPNode
     {

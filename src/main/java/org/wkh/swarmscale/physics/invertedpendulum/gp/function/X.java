@@ -5,13 +5,15 @@
 */
 
 
-package org.wkh.swarmscale.physics.invertedpendulum.gp;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function;
 import ec.*;
 import ec.gp.*;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.problem.MultiValuedRegression;
 
-public class Y extends GPNode
+public class X extends GPNode
     {
-    public String toString() { return "y"; }
+    public String toString() { return "x"; }
 
 /*
   public void checkConstraints(final EvolutionState state,
@@ -36,7 +38,7 @@ public class Y extends GPNode
         final Problem problem)
         {
         DoubleData rd = ((DoubleData)(input));
-        rd.x = ((MultiValuedRegression)problem).currentY;
+        rd.x = ((MultiValuedRegression)problem).currentX;
         }
     }
 

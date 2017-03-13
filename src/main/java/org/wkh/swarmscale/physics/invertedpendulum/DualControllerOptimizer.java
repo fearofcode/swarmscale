@@ -9,29 +9,12 @@ import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 
 public class DualControllerOptimizer {
     public static void main(String[] args) {
-        final int populationSize = 200;
+        final int populationSize = 100;
         
         final double[][] bounds = {
-            {0.0, 25.0},     /* rotational - proportional - schedule 1 */
-            {0.0, 1.0},      /* rotational - integral     - schedule 1 */
-            {0.0, 10.0},     /* rotational - derivative   - schedule 1 */
-            {0.0, 25.0},     /* position   - proportion   - schedule 1 */
-            {0.0, 0.0},      /* position   - integral     - schedule 1 */
-            {0.0, 10.0},     /* position   - derivative   - schedule 1 */
-            
-            {0.0, 25.0},     /* rotational - proportional - schedule 2 */
-            {0.0, 1.0},      /* rotational - integral     - schedule 2 */
-            {0.0, 10.0},     /* rotational - derivative   - schedule 2 */
-            {0.0, 25.0},     /* position   - proportion   - schedule 2 */
-            {0.0, 0.0},      /* position   - integral     - schedule 2 */
-            {0.0, 10.0},     /* position   - derivative   - schedule 2 */
-            
-            {0.0, 25.0},     /* rotational - proportional - schedule 3 */
-            {0.0, 1.0},      /* rotational - integral     - schedule 3 */
-            {0.0, 10.0},     /* rotational - derivative   - schedule 3 */
-            {0.0, 25.0},     /* position   - proportion   - schedule 3 */
-            {0.0, 0.0},      /* position   - integral     - schedule 3 */
-            {0.0, 10.0},     /* position   - derivative   - schedule 3 */
+            {0.0, 100.0},     /* rotational - proportional */
+            {0.0, 1.0},      /* rotational - integral     */
+            {0.0, 100},     /* rotational - derivative   */
         };
 
         final int dim = bounds.length;

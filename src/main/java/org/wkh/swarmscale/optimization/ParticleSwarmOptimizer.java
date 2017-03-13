@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class ParticleSwarmOptimizer {
 
-    /* Standard constants derived by Maurice Clerc */
+    /* Standard constant derived by Maurice Clerc */
 
     /**
      * Inertia

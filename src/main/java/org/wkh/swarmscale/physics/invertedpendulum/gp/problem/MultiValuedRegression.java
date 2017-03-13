@@ -5,12 +5,13 @@
 */
 
 
-package org.wkh.swarmscale.physics.invertedpendulum.gp;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.problem;
 
 import ec.*;
 import ec.gp.*;
 import ec.gp.koza.*;
 import ec.simple.*;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData;
 
 public class MultiValuedRegression extends GPProblem implements SimpleProblemForm {
     private static final long serialVersionUID = 1;
@@ -36,8 +37,8 @@ public class MultiValuedRegression extends GPProblem implements SimpleProblemFor
         {
             currentX = state.random[threadnum].nextDouble();
             currentY = state.random[threadnum].nextDouble();
-            // (+ (cos y) (+ (* (* (sin x) x) y) (/ x y)))
-            expectedResult = Math.sin(currentX)*currentX*currentY + currentX/currentY + Math.cos(currentY);
+            expectedResult = currentX/currentY - Math.cos(currentY -1) + 9.81 - 4;
+            //expectedResult = Math.sin(currentX)*currentX*currentY + currentX/currentY - Math.cos(currentY -1 ) + 9.81 - 4;
             ((GPIndividual)ind).trees[0].child.eval(
                     state,threadnum,input,stack,((GPIndividual)ind),this);
 

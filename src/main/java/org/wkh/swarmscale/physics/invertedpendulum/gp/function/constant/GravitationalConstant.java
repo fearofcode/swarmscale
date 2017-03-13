@@ -1,12 +1,13 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant;
 import ec.*;
 import ec.gp.*;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData;
 
-public class Cos extends GPNode
+public class GravitationalConstant extends GPNode
 {
-    public String toString() { return "cos"; }
+    public String toString() { return "g"; }
 
-    public int expectedChildren() { return 1; }
+    public int expectedChildren() { return 0; }
 
     public void eval(final EvolutionState state,
                      final int thread,
@@ -17,8 +18,7 @@ public class Cos extends GPNode
     {
         DoubleData rd = ((DoubleData)(input));
 
-        children[0].eval(state,thread,input,stack,individual,problem);
-        rd.x = Math.cos(rd.x);
+        rd.x = 9.81;
     }
 }
 

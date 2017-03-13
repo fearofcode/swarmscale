@@ -5,9 +5,10 @@
 */
 
 
-package org.wkh.swarmscale.physics.invertedpendulum.gp;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function;
 import ec.*;
 import ec.gp.*;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData;
 
 public class Add extends GPNode
     {

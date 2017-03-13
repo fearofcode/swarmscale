@@ -5,19 +5,15 @@ import org.wkh.swarmscale.physics.PhysicalSystemRenderer;
 public class DualControllerDemo {
     public static void main(String[] args) {
         final double[] position = {
-            25.0, 1.0, 18.011976096621435, 0.0, 0.0, 0.0, 25.0, 0.0, 24.347029094832724, 0.0, 0.0, 25.0, 25.0, 1.0, 23.50542291861912, 0.0, 0.0, 25.0
+                61.97813214755378, 0.0, 62.51236735898678
         };
-        
-        final double scheduleOffset = 0.25;
-        
+
         final double controlInterval = 25.0;
 
-        /* rotate the pole so that we have to take control action */
-        final double initialRotation = -5.0;
+        final double initialRotation = 15.0;
         
         final DualControlledInvertedPendulumSystem system = new DualControlledInvertedPendulumSystem(
             position,
-            scheduleOffset,
             controlInterval,
             initialRotation
         );
