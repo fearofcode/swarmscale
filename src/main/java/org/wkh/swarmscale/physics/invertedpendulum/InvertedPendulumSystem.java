@@ -25,7 +25,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         // Ground
         ground = new RenderableBody(Color.DARK_GRAY);
         {// Fixture1
-            Convex c = Geometry.createRectangle(15.0, 1.0);
+            Convex c = Geometry.createRectangle(25.0, 1.0);
             BodyFixture bf = new BodyFixture(c);
             ground.addFixture(bf);
         }
@@ -49,7 +49,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         // Pole
         pole = new RenderableBody(Color.RED);
         {// Fixture4
-            Convex c = Geometry.createRectangle(0.25, 2.0);
+            Convex c = Geometry.createRectangle(0.1, 2.0);
             BodyFixture bf = new BodyFixture(c);
             pole.addFixture(bf);
         }
@@ -61,7 +61,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         leftWall = new RenderableBody(Color.DARK_GRAY);
         {// Fixture5
             Convex c = Geometry.createRectangle(1.0, 5.0);
-            c.translate(new Vector2(-7.0, 2.0));
+            c.translate(new Vector2(-12.0, 2.0));
             BodyFixture bf = new BodyFixture(c);
             leftWall.addFixture(bf);
         }
@@ -72,7 +72,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         rightWall = new RenderableBody(Color.DARK_GRAY);
         {// Fixture6
             Convex c = Geometry.createRectangle(1.0, 5.0);
-            c.translate(new Vector2(7.0, 2.0));
+            c.translate(new Vector2(12.0, 2.0));
             BodyFixture bf = new BodyFixture(c);
             rightWall.addFixture(bf);
         }
@@ -121,13 +121,9 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         double currentRotation = pole.getTransform().getRotation();
 
         final double elapsedTime = getElapsedTime();
-        
-        final double proportionalGain = 1.0;
-        double output = (proportionalGain * (0.0 - currentRotation));
-        
-        cart.applyImpulse(new Vector2(-0.1, 0));
 
-        System.err.printf("%.2f\t%f\t%f\n", elapsedTime, currentRotation, output);
+        cart.applyImpulse(new Vector2(-currentRotation, 0));
+        System.err.printf("%.2f\t%f\t%f\n", elapsedTime, currentRotation, cart.getTransform().getTranslationX());
         previousControlTime = time;
         
     }

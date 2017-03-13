@@ -51,6 +51,9 @@ public class PhysicalSystemRenderer extends JFrame {
 
     protected final PhysicalSystem physicalSystem;
 
+    private final int RESOLUTION_HORIZONTAL = 1280;
+    private final int RESOLUTION_VERTICAL = 1024;
+
     /**
      * Default constructor for the window
      *
@@ -80,7 +83,7 @@ public class PhysicalSystemRenderer extends JFrame {
         });
 
         // create the size of the window
-        Dimension size = new Dimension(800, 600);
+        Dimension size = new Dimension(RESOLUTION_HORIZONTAL, RESOLUTION_VERTICAL);
 
         // create a canvas to paint to
         canvas = new Canvas();
@@ -132,7 +135,7 @@ public class PhysicalSystemRenderer extends JFrame {
         // before we render everything im going to flip the y axis and move the
         // origin to the center (instead of it being in the top left corner)
         AffineTransform yFlip = AffineTransform.getScaleInstance(1, -1);
-        AffineTransform move = AffineTransform.getTranslateInstance(400, -300);
+        AffineTransform move = AffineTransform.getTranslateInstance(RESOLUTION_HORIZONTAL/2, -RESOLUTION_VERTICAL/2);
         g.transform(yFlip);
         g.transform(move);
 
@@ -163,7 +166,7 @@ public class PhysicalSystemRenderer extends JFrame {
     protected void render(Graphics2D g) {
         // lets draw over everything with a white background
         g.setColor(Color.WHITE);
-        g.fillRect(-400, -300, 800, 600);
+        g.fillRect(-RESOLUTION_HORIZONTAL/2, -RESOLUTION_VERTICAL/2, RESOLUTION_HORIZONTAL, RESOLUTION_HORIZONTAL);
 
         // lets move the view up some
         g.translate(0.0, -1.0 * SCALE);
