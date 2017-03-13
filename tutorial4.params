@@ -1,0 +1,50 @@
+# Copyright 2006 by Sean Luke and George Mason University
+# Licensed under the Academic Free License version 3.0
+# See the file "LICENSE" for more information
+
+parent.0 = koza.params
+
+# gotta go fast
+evalthreads = 1
+seed.0 = time
+seed.1 = time
+seed.2 = time
+seed.3 = time
+seed.4 = time
+seed.5 = time
+seed.6 = time
+seed.7 = time
+
+# the next four items are already defined in koza.params, but we
+# put them here to be clear.
+
+# We have one function set, of class GPFunctionSet
+gp.fs.size = 1
+gp.fs.0 = ec.gp.GPFunctionSet
+# We'll call the function set "f0".
+gp.fs.0.name = f0
+
+gp.fs.0.size = 8
+gp.fs.0.func.0 = org.wkh.swarmscale.physics.invertedpendulum.gp.X
+gp.fs.0.func.0.nc = nc0
+gp.fs.0.func.1 = org.wkh.swarmscale.physics.invertedpendulum.gp.Y
+gp.fs.0.func.1.nc = nc0
+gp.fs.0.func.2 = org.wkh.swarmscale.physics.invertedpendulum.gp.Add
+gp.fs.0.func.2.nc = nc2
+gp.fs.0.func.3 = org.wkh.swarmscale.physics.invertedpendulum.gp.Sub
+gp.fs.0.func.3.nc = nc2
+gp.fs.0.func.4 = org.wkh.swarmscale.physics.invertedpendulum.gp.Mul
+gp.fs.0.func.4.nc = nc2
+gp.fs.0.func.5 = org.wkh.swarmscale.physics.invertedpendulum.gp.Div
+gp.fs.0.func.5.nc = nc2
+gp.fs.0.func.6 = org.wkh.swarmscale.physics.invertedpendulum.gp.Cos
+gp.fs.0.func.6.nc = nc1
+gp.fs.0.func.7 = org.wkh.swarmscale.physics.invertedpendulum.gp.Sin
+gp.fs.0.func.7.nc = nc1
+
+eval.problem = org.wkh.swarmscale.physics.invertedpendulum.gp.MultiValuedRegression
+eval.problem.data = org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData
+
+pop.subpop.0.species.fitness = org.wkh.swarmscale.physics.invertedpendulum.gp.ThresholdKozaFitness
+pop.subpop.0.size = 3000
+generations = 250

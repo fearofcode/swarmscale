@@ -108,6 +108,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         Transform transform = new Transform();
         transform.setRotation(Math.toRadians(-15.0));
         pole.setTransform(transform);
+        printState();
     }
 
     @Override
@@ -115,19 +116,29 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         long time = System.nanoTime();
         double timeSinceLastControlAction = (time - previousControlTime) / 1.0E6;
 
-        if (timeSinceLastControlAction < 25.0) {
+        if (pole.isInContact(ground)) {
+            stop();
+        }
+
+        if (timeSinceLastControlAction < 100.0) {
             return;
         }
-        double currentRotation = pole.getTransform().getRotation();
-
-        final double elapsedTime = getElapsedTime();
-
-        cart.applyImpulse(new Vector2(-currentRotation, 0));
-        System.err.printf("%.2f\t%f\t%f\n", elapsedTime, currentRotation, cart.getTransform().getTranslationX());
+        printState();
         previousControlTime = time;
         
     }
-    
+
+    private void printState() {
+        double currentRotation = pole.getTransform().getRotation();
+
+        //cart.applyImpulse(new Vector2(-currentRotation, 0));
+        System.err.println("Rotation: " + currentRotation);
+        System.err.println("Rotation velocity: " + pole.getAngularVelocity());
+        System.err.println("Position: " + cart.getTransform().getTranslationX());
+        System.err.println("Position velocity: " + pole.getLinearVelocity().getMagnitude());
+        System.err.println();
+    }
+
     public static void main(String[] args) {
         PhysicalSystem system = new InvertedPendulumSystem();
         

@@ -2,3 +2,4 @@ target/
 /nbproject/
 .idea/
 *.iml
+out.stat

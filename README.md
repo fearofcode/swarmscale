@@ -59,3 +59,6 @@ Acknowledgments
 
 PID code in `PIDController.java` is originally from https://github.com/tekdemo/MiniPID-Java . The license for that can be found in 
 `LICENSE.minipid`.
+
+This project redistributes ECJ. Since the latest version of ECJ isn't on Maven, building from source is kind of a pain
+in the ass. The license for ECJ is in `LICENSE.ecj`.
