@@ -3,6 +3,7 @@ package org.wkh.swarmscale.physics.invertedpendulum;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
 import org.wkh.swarmscale.optimization.EpochPerformanceResult;
 import org.wkh.swarmscale.optimization.ObjectiveFunction;
 import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
@@ -10,11 +11,14 @@ import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 public class DualControllerOptimizer {
     public static void main(String[] args) {
         final int populationSize = 100;
-        
+
         final double[][] bounds = {
-            {0.0, 100.0},     /* rotational - proportional */
-            {0.0, 1.0},      /* rotational - integral     */
-            {0.0, 100},     /* rotational - derivative   */
+                {0.0, 100},     /* rotational - proportional */
+                {0.0, 250},      /* rotational - integral     */
+                {0.0, 250},     /* rotational - derivative   */
+                {0.0, 100},     /* position - proportional */
+                {0.0, 250},      /* position - integral     */
+                {0.0, 250},     /* position - derivative   */
         };
 
         final int dim = bounds.length;
@@ -23,14 +27,14 @@ public class DualControllerOptimizer {
 
         final double diversityLower = 0.05;
         final double diversityUpper = 0.20;
-        
+
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
-            populationSize,
-            dim,
-            bounds,
-            diversityLower,
-            diversityUpper,
-            pidSystemSimulator
+                populationSize,
+                dim,
+                bounds,
+                diversityLower,
+                diversityUpper,
+                pidSystemSimulator
         );
 
         optimizer.initializePopulation();
@@ -45,9 +49,9 @@ public class DualControllerOptimizer {
         });
 
         final int iterations = 300;
-        
+
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
-        
+
         System.out.println("Best result: " + Arrays.toString(results.get(iterations - 1).gbest));
         System.out.println(results.get(iterations - 1).gbestFitness);
     }

@@ -24,7 +24,8 @@ gp.fs.0 = ec.gp.GPFunctionSet
 # We'll call the function set "f0".
 gp.fs.0.name = f0
 
-gp.fs.0.size = 14
+gp.fs.0.size = 13
+# TODO replace with state variables: position, rotation, cart velocity, pole angular velocity
 gp.fs.0.func.0 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.X
 gp.fs.0.func.0.nc = nc0
 gp.fs.0.func.1 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.Y
@@ -43,15 +44,18 @@ gp.fs.0.func.7 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.Sin
 gp.fs.0.func.7.nc = nc1
 gp.fs.0.func.8 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.GravitationalConstant
 gp.fs.0.func.8.nc = nc0
-gp.fs.0.func.9 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantOne
+gp.fs.0.func.9 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.PoleLength
 gp.fs.0.func.9.nc = nc0
-gp.fs.0.func.10 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantNegativeOne
+gp.fs.0.func.10 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.PoleMass
 gp.fs.0.func.10.nc = nc0
-gp.fs.0.func.11 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantTwo
+gp.fs.0.func.11 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantOne
 gp.fs.0.func.11.nc = nc0
-gp.fs.0.func.12 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantFour
+gp.fs.0.func.12 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantNegativeOne
 gp.fs.0.func.12.nc = nc0
-gp.fs.0.func.13 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.PoleMass
+
+# not sure if these help at all, omitting for now
+
+gp.fs.0.func.13 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantFour
 gp.fs.0.func.13.nc = nc0
 
 eval.problem = org.wkh.swarmscale.physics.invertedpendulum.gp.problem.MultiValuedRegression

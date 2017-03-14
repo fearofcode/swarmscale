@@ -1,11 +1,12 @@
 package org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant;
 import ec.*;
 import ec.gp.*;
+import org.wkh.swarmscale.physics.invertedpendulum.InvertedPendulumSystem;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.DoubleData;
 
-public class ConstantTwo extends GPNode
+public class PoleLength extends GPNode
 {
-    public String toString() { return "2"; }
+    public String toString() { return "L"; }
 
     public int expectedChildren() { return 0; }
 
@@ -18,7 +19,7 @@ public class ConstantTwo extends GPNode
     {
         DoubleData rd = ((DoubleData)(input));
 
-        rd.x = 2.0;
+        rd.x = InvertedPendulumSystem.POLE_LENGTH;
     }
 }
 

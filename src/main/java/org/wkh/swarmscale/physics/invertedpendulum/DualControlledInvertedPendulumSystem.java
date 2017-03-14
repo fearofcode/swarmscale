@@ -10,9 +10,10 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
     private final double initialRotation;
     private double errorSum = 0.0;
     
-    public static final double MAX_OUTPUT = 20.0;
+    public static final double MAX_OUTPUT = 1.0;
 
     private final PIDController rotationController;
+    private final PIDController positionController;
 
     public DualControlledInvertedPendulumSystem(double[] gains,
             double controlInterval,
@@ -22,6 +23,8 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         
         rotationController = new PIDController(gains[0], gains[1], gains[2]);
         rotationController.setOutputLimits(MAX_OUTPUT);
+        positionController = new PIDController(gains[3], gains[4], gains[5]);
+        positionController.setOutputLimits(MAX_OUTPUT);
     }
 
     public double getErrorSum() {
@@ -32,14 +35,14 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
     protected void beforeSimulationLoopStart() {
         previousControlTime = System.nanoTime();
         
-        //cart.applyImpulse(new Vector2(initialRotation, 0.0));
-        cart.rotate(Math.toRadians(initialRotation), 0.0, 0.0);
+        pole.rotate(Math.toRadians(initialRotation));
+        poleMass.rotate(Math.toRadians(initialRotation));
     }
 
     @Override
     protected void postSimulationStep() {
         final long time = System.nanoTime();
-        double timeSinceLastControlAction = (time - previousControlTime) / 1.0E6;
+        final double timeSinceLastControlAction = (time - previousControlTime) / 1.0E6;
 
         if (timeSinceLastControlAction < controlInterval) {
             return;
@@ -48,14 +51,14 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
 
         final double currentRotation = pole.getTransform().getRotation();
 
-        /*if (Math.abs(currentRotation) < 1.0E-3) {
-            return;
-        }
-        */
         final double rotationOutput = rotationController.getOutput(currentRotation, 0.0);
-        System.err.println(currentRotation + ", " + rotationOutput);
-        cart.applyImpulse(new Vector2(rotationOutput, 0));
+        final double cartPosition = cart.getTransform().getTranslationX();
+        final double positionOutput = positionController.getOutput(cartPosition, 0.0);
+        //System.err.println(Math.toDegrees(currentRotation) + ", " + rotationOutput);
+        cart.applyImpulse(new Vector2(rotationOutput + positionOutput, 0));
+        //System.err.println(Math.toDegrees(currentRotation) + ", " + rotationOutput);
+        //cart.applyImpulse(new Vector2(rotationOutput, 0));
 
-        errorSum += Math.abs(currentRotation);
+        errorSum += Math.abs(currentRotation) + Math.abs(cartPosition)*5; // + 0.1*(Math.abs(rotationOutput) + Math.abs(positionOutput));
     }
 }
