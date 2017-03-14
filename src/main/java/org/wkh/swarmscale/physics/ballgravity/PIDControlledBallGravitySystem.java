@@ -14,7 +14,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
     private double targetPosition;
     /* ms between control actions */
     private final double controlInterval;
-    private long previousControlTime = 0;
+    private double previousControlTime = 0;
     private final List<ControlPerformanceResult> observedErrors;
 
     private boolean verbose;
@@ -49,14 +49,8 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
     }
 
     @Override
-    protected void beforeSimulationLoopStart() {
-        previousControlTime = System.nanoTime();
-    }
-
-    @Override
-    protected void postSimulationStep() {
-        long time = System.nanoTime();
-        double timeSinceLastControlAction = (time - previousControlTime) / 1.0E6;
+    protected void postSimulationStep(double elapsedTime) {
+        double timeSinceLastControlAction = elapsedTime - previousControlTime;
 
         if (timeSinceLastControlAction < controlInterval) {
             return;
@@ -64,8 +58,7 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
 
         currentPosition = circle.getTransform().getTranslationY();
 
-        final double elapsedTime = getElapsedTime();
-        
+
         observedErrors.add(new ControlPerformanceResult(elapsedTime, targetPosition, currentPosition));
         
         double output = controller.getOutput(currentPosition, targetPosition);
@@ -73,13 +66,13 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
         circle.applyImpulse(new Vector2(0, output));
 
         /* TODO turn this into a listener */
-        
+
         if (verbose) {
             System.err.printf("%.2f\t%f\t%.10f\t%.5f\n", elapsedTime, targetPosition, currentPosition, output);
         }
 
         previousPosition = currentPosition;
-        previousControlTime = time;
+        previousControlTime = elapsedTime;
     }
 
     public static void main(String[] args) {
@@ -89,6 +82,6 @@ public class PIDControlledBallGravitySystem extends BallGravitySystem {
 
         system.setVerbose(true);
         system.initializeWorld();
-        system.runSimulationLoop(runTime);
+        system.runContinuousLoop(runTime);
     }
 }

@@ -65,7 +65,7 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
     }
 
     @Override
-    protected void postSimulationStep() {
+    protected void postSimulationStep(double elapsedTime) {
         currentPosition = circle.getTransform().getTranslationY();
         double positionDelta = currentPosition - startingPosition;
 
@@ -90,6 +90,6 @@ public class BallGravitySystem extends AbstractPhysicalSystem {
     public static void main(String[] args) {
         PhysicalSystem system = new BallGravitySystem();
         system.initializeWorld();
-        system.runSimulationLoop(10000);
+        system.runContinuousLoop(10000);
     }
 }

@@ -63,7 +63,7 @@ public class LowOvershootObjectiveFunction implements ObjectiveFunction {
             }
         });
 
-        system.runSimulationLoop(runTime);
+        system.runContinuousLoop(runTime);
         final List<ControlPerformanceResult> observedErrors = system.getObservedErrors();
         
         /* select results that are: (a) before set point change; (b) after set point change; or (c), during grace period, 

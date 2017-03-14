@@ -2,6 +2,8 @@ package org.wkh.swarmscale.physics;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.dyn4j.dynamics.Settings;
 import org.dyn4j.dynamics.World;
 
 public abstract class AbstractPhysicalSystem implements PhysicalSystem {
@@ -91,20 +93,17 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     protected void beforeSimulationLoopStart() {
     }
 
-    protected void postSimulationStep() {
-    }
-
-    protected void preSimulationStep() {
+    protected void postSimulationStep(double currentTime) {
     }
 
     public double getElapsedTime() {
         long currentTime = System.nanoTime();
-        return (currentTime - startTime) / 1.0E6;
+        return (currentTime - startTime) / 1.0E9;
     }
 
     @Override
-    public void runSimulationLoop(long millisecondTimeLimit) {
-        boolean checkTime = millisecondTimeLimit > 0;
+    public void runContinuousLoop(double timeLimit) {
+        boolean checkTime = timeLimit > 0;
 
         startTime = System.nanoTime();
 
@@ -113,7 +112,9 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
         // perform an infinite loop until stopped.
         // render as fast as possible.
         while (!isStopped()) {
-            if (checkTime && getElapsedTime() > millisecondTimeLimit) {
+            final double elapsedTime = getElapsedTime();
+
+            if (checkTime && elapsedTime > timeLimit) {
                 stop();
             }
 
@@ -121,17 +122,38 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
                 renderer.renderSystem();
             }
 
-            preSimulationStep();
-
             stepWorld();
 
-            postSimulationStep();
+            postSimulationStep(elapsedTime);
 
-            stepListeners.forEach(listener -> listener.onStep());
+            stepListeners.forEach(PhysicalSystemStepListener::onStep);
         }
     }
 
-    protected void stepWorld() {
+    @Override
+    public void runDiscreteLoop(double targetTime) {
+        final double stepFrequency = world.getSettings().getStepFrequency();
+        final int steps = (int) Math.ceil(targetTime / stepFrequency);
+        beforeSimulationLoopStart();
+
+        for(int i = 1; i <= steps && !isStopped(); i++) {
+            final double elapsedTime = stepFrequency * i;
+
+            if (doRender) {
+                renderer.renderSystem();
+            }
+
+            world.update(stepFrequency);
+
+            postSimulationStep(elapsedTime);
+
+            stepListeners.forEach(PhysicalSystemStepListener::onStep);
+        }
+
+        stop();
+    }
+
+    private void stepWorld() {
         // update the World
         // get the current time
         long time = System.nanoTime();

@@ -23,7 +23,7 @@ public class DualControllerObjectiveFunction implements ObjectiveFunction  {
 
         system.initializeWorld();
 
-        system.runSimulationLoop(runTime);
+        system.runContinuousLoop(runTime);
         return system.getErrorSum();
     }
     

@@ -3,34 +3,35 @@ package org.wkh.swarmscale.physics;
 import org.dyn4j.dynamics.World;
 
 public interface PhysicalSystem {
+    World getWorld();
 
-    public World getWorld();
-
-    public void initializeWorld();
+    void initializeWorld();
 
     /**
      * Run the main simulation loop.
      *
-     * @param millisecondTimeLimit - time limit to execute loop for, in milliseconds. Enforced approximately. Negative
-     * values will cause the simulation to run forever.
+     * @param timeLimit - time limit to execute loop for, in seconds. Enforced approximately. Negative values will cause
+     *                  the simulation to run forever.
      */
-    public void runSimulationLoop(long millisecondTimeLimit);
+    void runContinuousLoop(double timeLimit);
 
-    public void setDoRender(boolean doRender);
+    void runDiscreteLoop(double targetTime);
 
-    public void setRenderer(PhysicalSystemRenderer renderer);
+    void setDoRender(boolean doRender);
+
+    void setRenderer(PhysicalSystemRenderer renderer);
 
     /**
      * Returns true if the system is stopped.
      *
      * @return boolean true if stopped
      */
-    public boolean isStopped();
+    boolean isStopped();
 
-    public void setStopped(boolean stopped);
+    void setStopped(boolean stopped);
 
     /**
      * Stops the example.
      */
-    public void stop();
+    void stop();
 }

@@ -118,7 +118,7 @@ public class PhysicalSystemRenderer extends JFrame {
         Thread thread = new Thread() {
             public void run() {
                 /* run forever */
-                physicalSystem.runSimulationLoop(-1);
+                physicalSystem.runContinuousLoop(-1);
             }
         };
         // set the game loop thread to a daemon thread so that

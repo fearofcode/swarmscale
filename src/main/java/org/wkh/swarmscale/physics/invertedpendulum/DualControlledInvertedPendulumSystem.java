@@ -33,21 +33,18 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
     
     @Override
     protected void beforeSimulationLoopStart() {
-        previousControlTime = System.nanoTime();
-        
         pole.rotate(Math.toRadians(initialRotation));
         poleMass.rotate(Math.toRadians(initialRotation));
     }
 
     @Override
-    protected void postSimulationStep() {
-        final long time = System.nanoTime();
-        final double timeSinceLastControlAction = (time - previousControlTime) / 1.0E6;
+    protected void postSimulationStep(double elapsedTime) {
+        final double timeSinceLastControlAction = (elapsedTime - previousControlTime);
 
         if (timeSinceLastControlAction < controlInterval) {
             return;
         }
-        previousControlTime = time;
+        previousControlTime = elapsedTime;
 
         final double currentRotation = pole.getTransform().getRotation();
 
@@ -60,5 +57,9 @@ public class DualControlledInvertedPendulumSystem extends InvertedPendulumSystem
         //cart.applyImpulse(new Vector2(rotationOutput, 0));
 
         errorSum += Math.abs(currentRotation) + Math.abs(cartPosition)*5; // + 0.1*(Math.abs(rotationOutput) + Math.abs(positionOutput));
+
+        if (poleMass.isInContact(ground) || poleMass.isInContact(leftWall) || poleMass.isInContact(rightWall)) {
+            errorSum += 10000.0;
+        }
     }
 }

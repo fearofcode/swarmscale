@@ -44,7 +44,7 @@ public class MinimalAbsoluteErrorObjectiveFunction implements ObjectiveFunction 
             }
         });
 
-        system.runSimulationLoop(runTime);
+        system.runContinuousLoop(runTime);
         final List<ControlPerformanceResult> observedErrors = system.getObservedErrors();
 
         /* sum up the errors */
