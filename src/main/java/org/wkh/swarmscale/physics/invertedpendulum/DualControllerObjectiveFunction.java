@@ -9,21 +9,19 @@ import org.wkh.swarmscale.optimization.ObjectiveFunction;
 public class DualControllerObjectiveFunction implements ObjectiveFunction  {
     @Override
     public double evaluate(double[] position, int iteration) {
-        final int runTime = 10000;
-        final double controlInterval = 5.0;
+        final double runTime = 60.0;
 
         /* rotate the pole so that we have to take control action */
         final double initialRotation = -5.0;
 
         final DualControlledInvertedPendulumSystem system = new DualControlledInvertedPendulumSystem(
             position,
-            controlInterval,
             initialRotation
         );
 
         system.initializeWorld();
 
-        system.runContinuousLoop(runTime);
+        system.runDiscreteLoop(runTime);
         return system.getErrorSum();
     }
     

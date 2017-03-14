@@ -10,22 +10,22 @@ import org.wkh.swarmscale.optimization.ParticleSwarmOptimizer;
 
 public class DualControllerOptimizer {
     public static void main(String[] args) {
-        final int populationSize = 100;
+        final int populationSize = 1000;
 
         final double[][] bounds = {
-                {0.0, 100},     /* rotational - proportional */
-                {0.0, 250},      /* rotational - integral     */
-                {0.0, 250},     /* rotational - derivative   */
-                {0.0, 100},     /* position - proportional */
-                {0.0, 250},      /* position - integral     */
-                {0.0, 250},     /* position - derivative   */
+                {0.0, 1000.0},     /* rotational - proportional */
+                {0.0, 1000.0},      /* rotational - integral     */
+                {0.0, 1000.0},     /* rotational - derivative   */
+                {0.0, 1000.0},     /* position - proportional */
+                {0.0, 1000.0},      /* position - integral     */
+                {0.0, 1000.0},     /* position - derivative   */
         };
 
         final int dim = bounds.length;
 
         final ObjectiveFunction pidSystemSimulator = new DualControllerObjectiveFunction();
 
-        final double diversityLower = 0.05;
+        final double diversityLower = 0.001;
         final double diversityUpper = 0.20;
 
         final ParticleSwarmOptimizer optimizer = new ParticleSwarmOptimizer(
@@ -48,7 +48,7 @@ public class DualControllerOptimizer {
             System.out.println("Best result value: " + Arrays.toString(result.gbest));
         });
 
-        final int iterations = 300;
+        final int iterations = 4200;
 
         final List<EpochPerformanceResult> results = optimizer.runForIterations(iterations);
 

@@ -60,6 +60,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         }
         ground.translate(new Vector2(0.0, -0.5));
         ground.setMass(MassType.INFINITE);
+        ground.setLinearDamping(0.05);
         world.addBody(ground);
 
         // cart
