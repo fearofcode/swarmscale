@@ -86,7 +86,7 @@ public class ParticleSwarmOptimizer {
      *
      * @param populationSize Number of individuals to create
      * @param dim Dimension. Must match bounds and objective function.
-     * @param bounds upper and lower bounds in each dimension. Should be `dim` x 2 in size.
+     * @param bounds upper and lower bounds in each dimension. Should be `dim` force 2 in size.
      * @param diversityLower Lower diversity bound
      * @param diversityUpper Upper diversity bound
      * @param objective Objective function. Needs to match bounds in the array elements it references.
@@ -105,7 +105,7 @@ public class ParticleSwarmOptimizer {
      *
      * @param populationSize Number of individuals to create
      * @param dim Dimension. Must match bounds and objective function.
-     * @param bounds upper and lower bounds in each dimension. Should be `dim` x 2 in size.
+     * @param bounds upper and lower bounds in each dimension. Should be `dim` force 2 in size.
      * @param diversityLower Lower diversity bound
      * @param diversityUpper Upper diversity bound
      * @param objective Objective function. Needs to match bounds in the array elements it references.

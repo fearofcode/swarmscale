@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function.state;
 
 import ec.EvolutionState;
 import ec.Problem;
@@ -7,10 +7,11 @@ import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.problem.InvertedPendulumControlProblem;
 
-public class ConstantOne extends GPNode {
+public class CartPosition extends GPNode {
     public String toString() {
-        return "1";
+        return "cartPosition";
     }
 
     public int expectedChildren() {
@@ -24,8 +25,7 @@ public class ConstantOne extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-
-        rd.force = 1.0;
+        rd.force = ((InvertedPendulumControlProblem) problem).cartPosition;
     }
 }
 

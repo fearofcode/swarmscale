@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function.math;
 
 import ec.EvolutionState;
 import ec.Problem;
@@ -8,13 +8,13 @@ import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
 
-public class ConstantOne extends GPNode {
+public class Div extends GPNode {
     public String toString() {
-        return "1";
+        return "/";
     }
 
     public int expectedChildren() {
-        return 0;
+        return 2;
     }
 
     public void eval(final EvolutionState state,
@@ -23,9 +23,15 @@ public class ConstantOne extends GPNode {
                      final ADFStack stack,
                      final GPIndividual individual,
                      final Problem problem) {
+        double result;
         ForceData rd = ((ForceData) (input));
 
-        rd.force = 1.0;
+        children[0].eval(state, thread, input, stack, individual, problem);
+        result = rd.force;
+
+        children[1].eval(state, thread, input, stack, individual, problem);
+        // protect against dividing by zero
+        rd.force = rd.force != 0 ? result / rd.force : 1.0;
     }
 }
 

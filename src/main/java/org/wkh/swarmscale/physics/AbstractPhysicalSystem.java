@@ -93,6 +93,10 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     protected void beforeSimulationLoopStart() {
     }
 
+    protected void preSimulationStep() {
+
+    }
+
     protected void postSimulationStep(double currentTime) {
     }
 
@@ -122,6 +126,7 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
                 renderer.renderSystem();
             }
 
+            preSimulationStep();
             stepWorld();
 
             postSimulationStep(elapsedTime);
@@ -129,6 +134,7 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
             stepListeners.forEach(PhysicalSystemStepListener::onStep);
         }
     }
+
 
     @Override
     public void runDiscreteLoop(double targetTime) {
@@ -142,6 +148,8 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
             if (doRender) {
                 renderer.renderSystem();
             }
+
+            preSimulationStep();
 
             world.update(stepFrequency);
 

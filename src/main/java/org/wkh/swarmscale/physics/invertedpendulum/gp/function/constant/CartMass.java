@@ -6,11 +6,12 @@ import ec.gp.ADFStack;
 import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
+import org.wkh.swarmscale.physics.invertedpendulum.InvertedPendulumSystem;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
 
-public class ConstantOne extends GPNode {
+public class CartMass extends GPNode {
     public String toString() {
-        return "1";
+        return "InvertedPendulumSystem.CART_MASS";
     }
 
     public int expectedChildren() {
@@ -25,7 +26,7 @@ public class ConstantOne extends GPNode {
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
 
-        rd.force = 1.0;
+        rd.force = InvertedPendulumSystem.CART_MASS;
     }
 }
 

@@ -8,12 +8,12 @@
 package org.wkh.swarmscale.physics.invertedpendulum.gp;
 import ec.gp.*;
 
-public class DoubleData extends GPData
+public class ForceData extends GPData
     {
-    public double x;    // return value
+    public double force;    // return value
 
-    public void copyTo(final GPData gpd)   // copy my stuff to another DoubleData
-        { ((DoubleData)gpd).x = x; }
+    public void copyTo(final GPData gpd)   // copy my stuff to another ForceData
+        { ((ForceData)gpd).force = force; }
     }
 
 

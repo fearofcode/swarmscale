@@ -77,7 +77,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         // pole
         pole = new RenderableBody(Color.BLACK);
         {// Fixture7
-            Convex c = Geometry.createRectangle(0.1, 2.0);
+            Convex c = Geometry.createRectangle(0.1, POLE_LENGTH);
             c.translate(new Vector2(0.0, 1.0));
             BodyFixture bf = new BodyFixture(c);
             pole.addFixture(bf);

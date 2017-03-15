@@ -293,7 +293,7 @@ public final class Graphics2DRenderer {
         g.translate(circleCenter.x * scale, circleCenter.y * scale);
         g.rotate(rotation);
 
-        // to draw the arc, java2d wants the top left x,y
+        // to draw the arc, java2d wants the top left force,y
         // as if you were drawing a circle
         Arc2D a = new Arc2D.Double(-radius * scale,
                 -radius * scale,
@@ -336,7 +336,7 @@ public final class Graphics2DRenderer {
         g.translate(center.x * scale, center.y * scale);
         g.rotate(rotation);
 
-        // to draw the arc, java2d wants the top left x,y
+        // to draw the arc, java2d wants the top left force,y
         // as if you were drawing a circle
         Arc2D a = new Arc2D.Double(
                 (-width * 0.5) * scale,

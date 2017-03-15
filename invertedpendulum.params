@@ -1,0 +1,105 @@
+parent.0 = koza.params
+
+# gotta go fast
+evalthreads = 8
+
+# breedthreads = 1
+
+seed.0 = time
+seed.1 = time
+seed.2 = time
+seed.3 = time
+seed.4 = time
+seed.5 = time
+seed.6 = time
+seed.7 = time
+
+gp.fs.size = 1
+gp.fs.0 = ec.gp.GPFunctionSet
+gp.fs.0.name = f0
+
+gp.fs.0.size = 18
+
+# math functions
+gp.fs.0.func.0 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.math.Add
+gp.fs.0.func.0.nc = nc2
+
+gp.fs.0.func.1 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.math.Sub
+gp.fs.0.func.1.nc = nc2
+
+gp.fs.0.func.2 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.math.Mul
+gp.fs.0.func.2.nc = nc2
+
+gp.fs.0.func.3 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.math.Div
+gp.fs.0.func.3.nc = nc2
+
+gp.fs.0.func.4 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.math.Cos
+gp.fs.0.func.4.nc = nc1
+
+gp.fs.0.func.5 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.math.Sin
+gp.fs.0.func.5.nc = nc1
+
+# state variables
+
+gp.fs.0.func.6 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.CartPosition
+gp.fs.0.func.6.nc = nc0
+
+gp.fs.0.func.7 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.CartDisplacement
+gp.fs.0.func.7.nc = nc0
+
+gp.fs.0.func.8 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.CartVelocity
+gp.fs.0.func.8.nc = nc0
+
+gp.fs.0.func.9 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.PoleRotation
+gp.fs.0.func.9.nc = nc0
+
+gp.fs.0.func.10 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.PoleDisplacement
+gp.fs.0.func.10.nc = nc0
+
+gp.fs.0.func.11 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.PoleVelocity
+gp.fs.0.func.11.nc = nc0
+
+# physical/system constants
+
+gp.fs.0.func.12 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.GravitationalConstant
+gp.fs.0.func.12.nc = nc0
+
+gp.fs.0.func.13 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.PoleLength
+gp.fs.0.func.13.nc = nc0
+
+gp.fs.0.func.14 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.PoleMass
+gp.fs.0.func.14.nc = nc0
+
+gp.fs.0.func.15 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantOne
+gp.fs.0.func.15.nc = nc0
+
+gp.fs.0.func.16 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantNegativeOne
+gp.fs.0.func.16.nc = nc0
+
+gp.fs.0.func.17 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.ConstantFour
+gp.fs.0.func.17.nc = nc0
+
+# optional stuff
+
+# gp.fs.0.func.7 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.CartAcceleration
+# gp.fs.0.func.7.nc = nc0
+#
+# gp.fs.0.func.10 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.state.PoleAcceleration
+# gp.fs.0.func.10.nc = nc0
+#
+# gp.fs.0.func.6 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.math.Abs
+# gp.fs.0.func.6.nc = nc1
+
+# add this if cart mass changes from 1
+# gp.fs.0.func.11 = org.wkh.swarmscale.physics.invertedpendulum.gp.function.constant.CartMass
+# gp.fs.0.func.11.nc = nc0
+
+
+eval.problem = org.wkh.swarmscale.physics.invertedpendulum.gp.problem.InvertedPendulumControlProblem
+eval.problem.data = org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData
+
+pop.subpop.0.species.fitness = org.wkh.swarmscale.physics.invertedpendulum.gp.ThresholdKozaFitness
+pop.subpop.0.size = 3000
+generations = 100
+
+gp.tree.print-style = c

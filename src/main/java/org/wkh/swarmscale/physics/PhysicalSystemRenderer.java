@@ -139,7 +139,7 @@ public class PhysicalSystemRenderer extends JFrame {
         g.transform(yFlip);
         g.transform(move);
 
-        // now (0, 0) is in the center of the screen with the positive x axis
+        // now (0, 0) is in the center of the screen with the positive force axis
         // pointing right and the positive y axis pointing up
         // render anything about the Example (will render the World objects)
         render(g);
