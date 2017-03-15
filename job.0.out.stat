@@ -1,0 +1,392 @@
+
+Generation: 0
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=270863.4378595304 Adjusted=3.6918836887646267E-6 Hits=0
+Tree 0:
+(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement)) - Math.cos(Math.sin(poleRotation))
+
+Generation: 1
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=108273.21661330266 Adjusted=9.235809145324623E-6 Hits=0
+Tree 0:
+(InvertedPendulumSystem.POLE_LENGTH - InvertedPendulumSystem.POLE_LENGTH) - Math.sin(poleRotation)
+
+Generation: 2
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=108273.21661330266 Adjusted=9.235809145324623E-6 Hits=0
+Tree 0:
+(InvertedPendulumSystem.POLE_LENGTH - InvertedPendulumSystem.POLE_LENGTH) - Math.sin(poleRotation)
+
+Generation: 3
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=103706.59661915507 Adjusted=9.64249517489346E-6 Hits=0
+Tree 0:
+((Math.sin(poleDisplacement) / InvertedPendulumSystem.POLE_MASS) - (InvertedPendulumSystem.POLE_LENGTH * poleVelocity)) / Math.cos((InvertedPendulumSystem.POLE_INERTIA * InvertedPendulumSystem.POLE_INERTIA) + InvertedPendulumSystem.POLE_INERTIA)
+
+Generation: 4
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=83458.5910577945 Adjusted=1.1981846392076318E-5 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(Math.cos(poleVelocity)) / Math.cos(poleDisplacement)) * (Math.sin(cartVelocity) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 5
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=23396.342981850838 Adjusted=4.273989575550067E-5 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos(((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(poleDisplacement)) * (Math.sin(cartVelocity) / cartPosition)))
+
+Generation: 6
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=10625.158583422004 Adjusted=9.41073852935069E-5 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos(((InvertedPendulumSystem.POLE_LENGTH - InvertedPendulumSystem.POLE_INERTIA) / Math.cos(poleDisplacement)) * (Math.sin(cartVelocity) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 7
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=5336.277024717223 Adjusted=1.8736145704428402E-4 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos(((InvertedPendulumSystem.POLE_LENGTH - cartPosition) - (poleVelocity - poleDisplacement)) * (Math.sin(cartVelocity) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 8
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=1669.762892423926 Adjusted=5.985289741198466E-4 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(Math.cos(cartAcceleration) / Math.sin(cartPosition)) / Math.cos(poleDisplacement)) * (Math.sin(cartVelocity) / ((InvertedPendulumSystem.POLE_MASS + poleRotation) - (poleDisplacement - cartAcceleration)))))
+
+Generation: 9
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=1019.7117321157623 Adjusted=9.79708539184878E-4 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos(poleAcceleration * poleAcceleration))
+
+Generation: 10
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=1019.7117321157623 Adjusted=9.79708539184878E-4 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos(poleAcceleration * poleAcceleration))
+
+Generation: 11
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=906.5050363143494 Adjusted=0.0011019222593643121 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.sin(Math.cos(poleDisplacement / cartPosition))) * ((((Math.sin(Math.sin(poleDisplacement)) - (cartPosition + poleVelocity)) * Math.sin(Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - ((cartPosition / cartVelocity) / (cartPosition / cartVelocity))) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 12
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=906.5050363143494 Adjusted=0.0011019222593643121 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.sin(Math.cos(poleDisplacement / cartPosition))) * ((((Math.sin(Math.sin(poleDisplacement)) - (cartPosition + poleVelocity)) * Math.sin(Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - ((cartPosition / cartVelocity) / (cartPosition / cartVelocity))) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 13
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=906.5050363143494 Adjusted=0.0011019222593643121 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.sin(Math.cos(poleDisplacement / cartPosition))) * ((((Math.sin(Math.sin(poleDisplacement)) - (cartPosition + poleVelocity)) * Math.sin(Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - ((cartPosition / cartVelocity) / (cartPosition / cartVelocity))) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 14
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=906.5050363143494 Adjusted=0.0011019222593643121 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.sin(Math.cos(poleDisplacement / cartPosition))) * ((((Math.sin(Math.sin(poleDisplacement)) - (cartPosition + poleVelocity)) * Math.sin(Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - ((cartPosition / cartVelocity) / (cartPosition / cartVelocity))) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 15
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=906.5050363143494 Adjusted=0.0011019222593643121 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.sin(Math.cos(poleDisplacement / cartPosition))) * ((((Math.sin(Math.sin(poleDisplacement)) - (cartPosition + poleVelocity)) * Math.sin(Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - ((cartPosition / cartVelocity) / (cartPosition / cartVelocity))) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 16
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=906.5050363143494 Adjusted=0.0011019222593643121 Hits=0
+Tree 0:
+((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.sin(Math.cos(poleDisplacement / cartPosition))) * ((((Math.sin(Math.sin(poleDisplacement)) - (cartPosition + poleVelocity)) * Math.sin(Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - ((cartPosition / cartVelocity) / (cartPosition / cartVelocity))) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))))
+
+Generation: 17
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=638.1970239102521 Adjusted=0.0015644628535385783 Hits=0
+Tree 0:
+(((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos(((((InvertedPendulumSystem.POLE_MASS / poleAcceleration) / Math.cos(cartDisplacement)) / (InvertedPendulumSystem.POLE_MASS + (poleAcceleration - InvertedPendulumSystem.POLE_LENGTH))) / Math.cos(poleDisplacement)) * (Math.sin(cartVelocity) / cartPosition)))) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) / Math.cos(Math.cos(((poleRotation - InvertedPendulumSystem.POLE_LENGTH) * Math.cos(poleVelocity / cartAcceleration)) * (Math.cos(Math.sin(InvertedPendulumSystem.POLE_LENGTH)) / ((((poleAcceleration + (cartPosition - Math.cos(Math.cos(poleDisplacement)))) + Math.sin(cartAcceleration)) * (poleRotation * InvertedPendulumSystem.POLE_MASS)) + (poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)))) * (Math.sin(cartVelocity) / Math.cos(InvertedPendulumSystem.POLE_INERTIA + poleDisplacement))))
+
+Generation: 18
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=377.948187512771 Adjusted=0.0026388831849639043 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA) - (cartPosition + poleVelocity)) * Math.cos((Math.sin(Math.cos(((poleDisplacement - (InvertedPendulumSystem.POLE_MASS * poleAcceleration)) - (Math.cos(poleDisplacement) / (cartPosition + poleAcceleration))) / (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos(((cartPosition / InvertedPendulumSystem.POLE_MASS) / Math.sin(Math.sin(cartPosition))) * Math.cos(InvertedPendulumSystem.POLE_LENGTH)))))) - (poleRotation * g))
+
+Generation: 19
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=329.97632815907264 Adjusted=0.0030213641125397452 Hits=0
+Tree 0:
+(cartPosition + (((((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(poleDisplacement)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - ((cartVelocity * poleRotation) * Math.sin(InvertedPendulumSystem.POLE_INERTIA)))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((Math.cos(Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) / Math.cos(Math.sin(InvertedPendulumSystem.POLE_MASS))) * ((Math.sin(InvertedPendulumSystem.POLE_LENGTH * cartVelocity) / (Math.cos(Math.cos(poleAcceleration * poleAcceleration)) * Math.sin(cartPosition))) - (((poleDisplacement - poleAcceleration) / (poleAcceleration - InvertedPendulumSystem.POLE_LENGTH)) - ((poleRotation * poleRotation) - Math.cos(InvertedPendulumSystem.POLE_LENGTH)))))) - poleRotation) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 20
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=329.97632815907264 Adjusted=0.0030213641125397452 Hits=0
+Tree 0:
+(cartPosition + (((((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(poleDisplacement)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - ((cartVelocity * poleRotation) * Math.sin(InvertedPendulumSystem.POLE_INERTIA)))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((Math.cos(Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) / Math.cos(Math.sin(InvertedPendulumSystem.POLE_MASS))) * ((Math.sin(InvertedPendulumSystem.POLE_LENGTH * cartVelocity) / (Math.cos(Math.cos(poleAcceleration * poleAcceleration)) * Math.sin(cartPosition))) - (((poleDisplacement - poleAcceleration) / (poleAcceleration - InvertedPendulumSystem.POLE_LENGTH)) - ((poleRotation * poleRotation) - Math.cos(InvertedPendulumSystem.POLE_LENGTH)))))) - poleRotation) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 21
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=191.15425783197063 Adjusted=0.005204152181079695 Hits=0
+Tree 0:
+(cartPosition + (((((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(poleDisplacement)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - (Math.sin(Math.sin(cartPosition)) * Math.sin(InvertedPendulumSystem.POLE_INERTIA)))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((Math.cos(Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) / Math.cos(Math.sin(InvertedPendulumSystem.POLE_MASS))) * ((Math.sin(InvertedPendulumSystem.POLE_LENGTH * cartVelocity) / (Math.cos(Math.cos(poleAcceleration * poleAcceleration)) * Math.sin(cartPosition))) - (((poleDisplacement - poleAcceleration) / (poleAcceleration - InvertedPendulumSystem.POLE_LENGTH)) - ((poleRotation * poleRotation) - Math.cos(InvertedPendulumSystem.POLE_LENGTH)))))) - poleRotation) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 22
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=191.15425783197063 Adjusted=0.005204152181079695 Hits=0
+Tree 0:
+(cartPosition + (((((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(poleDisplacement)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - (Math.sin(Math.sin(cartPosition)) * Math.sin(InvertedPendulumSystem.POLE_INERTIA)))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((Math.cos(Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) / Math.cos(Math.sin(InvertedPendulumSystem.POLE_MASS))) * ((Math.sin(InvertedPendulumSystem.POLE_LENGTH * cartVelocity) / (Math.cos(Math.cos(poleAcceleration * poleAcceleration)) * Math.sin(cartPosition))) - (((poleDisplacement - poleAcceleration) / (poleAcceleration - InvertedPendulumSystem.POLE_LENGTH)) - ((poleRotation * poleRotation) - Math.cos(InvertedPendulumSystem.POLE_LENGTH)))))) - poleRotation) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 23
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=183.68002137188887 Adjusted=0.005414770870024468 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(((g * poleRotation) + Math.sin(InvertedPendulumSystem.POLE_MASS)) / Math.sin(Math.sin(cartPosition)))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - Math.cos(poleVelocity))) - (Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - (poleRotation * g))
+
+Generation: 24
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=160.57214248347788 Adjusted=0.006189185738514661 Hits=0
+Tree 0:
+(cartPosition + (((((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity))) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - ((cartVelocity * poleRotation) * Math.sin(InvertedPendulumSystem.POLE_INERTIA)))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((((poleDisplacement - poleAcceleration) / (poleAcceleration - InvertedPendulumSystem.POLE_LENGTH)) - ((poleRotation * poleRotation) - Math.cos(InvertedPendulumSystem.POLE_LENGTH))) * ((Math.sin(InvertedPendulumSystem.POLE_LENGTH * cartVelocity) / ((((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(poleDisplacement)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA))) - (((poleDisplacement - poleAcceleration) / (poleAcceleration - InvertedPendulumSystem.POLE_LENGTH)) - ((poleRotation * poleRotation) - Math.cos(InvertedPendulumSystem.POLE_LENGTH)))))) - poleRotation) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 25
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=115.93366174686142 Adjusted=0.00855185739556164 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.cos(Math.sin(cartVelocity) * ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - Math.cos(poleVelocity))) - Math.cos(Math.sin(InvertedPendulumSystem.POLE_INERTIA)))))) - (poleRotation * g))
+
+Generation: 26
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=35.341507052331124 Adjusted=0.027516745482239296 Hits=0
+Tree 0:
+(cartPosition + ((Math.sin(cartPosition) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - (poleRotation * g))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((Math.cos(Math.sin(poleDisplacement - Math.cos(poleDisplacement))) / Math.cos(Math.sin(InvertedPendulumSystem.POLE_MASS))) * ((poleRotation - InvertedPendulumSystem.POLE_LENGTH) * Math.cos(poleVelocity / cartAcceleration)))) - poleRotation) - ((Math.sin(cartVelocity) * ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))) + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 27
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=35.341507052331124 Adjusted=0.027516745482239296 Hits=0
+Tree 0:
+(cartPosition + ((Math.sin(cartPosition) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - (poleRotation * g))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((Math.cos(Math.sin(poleDisplacement - Math.cos(poleDisplacement))) / Math.cos(Math.sin(InvertedPendulumSystem.POLE_MASS))) * ((poleRotation - InvertedPendulumSystem.POLE_LENGTH) * Math.cos(poleVelocity / cartAcceleration)))) - poleRotation) - ((Math.sin(cartVelocity) * ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))) + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 28
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=35.341507052331124 Adjusted=0.027516745482239296 Hits=0
+Tree 0:
+(cartPosition + ((Math.sin(cartPosition) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - (poleRotation * g))) + (((((InvertedPendulumSystem.POLE_INERTIA * Math.cos((Math.cos(Math.sin(poleDisplacement - Math.cos(poleDisplacement))) / Math.cos(Math.sin(InvertedPendulumSystem.POLE_MASS))) * ((poleRotation - InvertedPendulumSystem.POLE_LENGTH) * Math.cos(poleVelocity / cartAcceleration)))) - poleRotation) - ((Math.sin(cartVelocity) * ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA))) + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(cartAcceleration) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 29
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=27.02562316580814 Adjusted=0.035681632985775015 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - Math.cos(poleVelocity))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - (poleRotation * g))
+
+Generation: 30
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=27.02562316580814 Adjusted=0.035681632985775015 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - Math.cos(poleVelocity))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - (poleRotation * g))
+
+Generation: 31
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=27.02562316580814 Adjusted=0.035681632985775015 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - Math.cos(poleVelocity))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - (poleRotation * g))
+
+Generation: 32
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=24.653054561648258 Adjusted=0.03898171259086692 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin((((poleRotation * cartVelocity) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - Math.cos(poleVelocity))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(poleRotation * g)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - (poleRotation * g))
+
+Generation: 33
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=24.25937773908374 Adjusted=0.03958925711984994 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / ((((poleRotation * g) / InvertedPendulumSystem.POLE_MASS) - ((cartPosition + cartAcceleration) - Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - ((((InvertedPendulumSystem.POLE_INERTIA + cartDisplacement) / Math.cos(poleDisplacement)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA))) * Math.cos((cartDisplacement * cartPosition) - ((cartAcceleration * poleRotation) * Math.sin(cartDisplacement)))) - Math.cos(poleDisplacement)))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos((((Math.sin(cartDisplacement) - Math.cos(poleVelocity)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - ((cartVelocity * poleRotation) * Math.sin(InvertedPendulumSystem.POLE_INERTIA))))) - (poleRotation * g))
+
+Generation: 34
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=20.04181975682772 Adjusted=0.047524406708004265 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - (g * poleRotation))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(poleDisplacement)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - ((poleRotation * g) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)))
+
+Generation: 35
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=20.04181975682772 Adjusted=0.047524406708004265 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - (g * poleRotation))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(poleDisplacement)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - ((poleRotation * g) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)))
+
+Generation: 36
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=20.04181975682772 Adjusted=0.047524406708004265 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - (g * poleRotation))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(poleDisplacement)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - ((poleRotation * g) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)))
+
+Generation: 37
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=20.04181975682772 Adjusted=0.047524406708004265 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - (g * poleRotation))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(poleDisplacement)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - ((poleRotation * g) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)))
+
+Generation: 38
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=20.04181975682772 Adjusted=0.047524406708004265 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((Math.cos((cartPosition + poleVelocity) + g) - Math.cos(Math.sin(Math.sin(cartAcceleration)))) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) - (poleVelocity - poleDisplacement)) * Math.cos(Math.cos(Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) * Math.cos((cartDisplacement * cartPosition) - (g * poleRotation))) - ((Math.cos(InvertedPendulumSystem.POLE_INERTIA) / Math.cos(poleDisplacement)) / Math.cos(InvertedPendulumSystem.POLE_INERTIA)))))) - ((poleRotation * g) / Math.cos(InvertedPendulumSystem.POLE_INERTIA - poleVelocity)))
+
+Generation: 39
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=16.150694951177194 Adjusted=0.05830667520159944 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / ((((poleRotation * g) / InvertedPendulumSystem.POLE_MASS) - ((cartPosition + cartAcceleration) - Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (Math.sin(cartPosition) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA))) * Math.cos((cartDisplacement * cartPosition) - ((cartAcceleration * poleRotation) * Math.sin(cartDisplacement)))) - Math.cos(poleDisplacement)))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos((((Math.sin(cartDisplacement) - Math.cos(poleVelocity)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - ((cartVelocity * poleRotation) * Math.sin(InvertedPendulumSystem.POLE_INERTIA))))) - (poleRotation * g))
+
+Generation: 40
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=16.150694951177194 Adjusted=0.05830667520159944 Hits=0
+Tree 0:
+cartPosition + (((Math.sin(Math.sin(cartVelocity) / ((((poleRotation * g) / InvertedPendulumSystem.POLE_MASS) - ((cartPosition + cartAcceleration) - Math.cos(InvertedPendulumSystem.POLE_LENGTH))) - Math.cos((((poleRotation * InvertedPendulumSystem.POLE_MASS) - (Math.sin(cartPosition) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA))) * Math.cos((cartDisplacement * cartPosition) - ((cartAcceleration * poleRotation) * Math.sin(cartDisplacement)))) - Math.cos(poleDisplacement)))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos((((Math.sin(cartDisplacement) - Math.cos(poleVelocity)) - ((cartDisplacement * cartPosition) - Math.cos(poleDisplacement))) * Math.sin(poleDisplacement - InvertedPendulumSystem.POLE_INERTIA)) - ((cartVelocity * poleRotation) * Math.sin(InvertedPendulumSystem.POLE_INERTIA))))) - (poleRotation * g))
+
+Generation: 41
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=15.404564087491517 Adjusted=0.060958645086003856 Hits=0
+Tree 0:
+cartPosition + (((cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(poleRotation * InvertedPendulumSystem.POLE_MASS)) + g) - Math.cos(Math.sin(Math.cos(InvertedPendulumSystem.POLE_INERTIA))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(cartDisplacement * cartPosition))) - (poleRotation * g))) * Math.cos(Math.cos(Math.cos(((Math.cos((cartDisplacement * cartPosition) - Math.cos(poleVelocity)) - (cartPosition + poleVelocity)) * Math.cos(Math.sin(((g * poleRotation) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.cos(cartAcceleration)) - Math.cos(poleVelocity))) - Math.cos(Math.sin(((InvertedPendulumSystem.POLE_LENGTH * cartVelocity) + (cartDisplacement + cartPosition)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) - Math.cos(poleDisplacement)))))))) - (poleRotation * g))
+
+Generation: 42
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=15.162871096199904 Adjusted=0.061870195836376665 Hits=0
+Tree 0:
+cartPosition + (((cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(poleRotation * InvertedPendulumSystem.POLE_MASS)) + g) - Math.cos(Math.sin(Math.cos(InvertedPendulumSystem.POLE_INERTIA))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(cartDisplacement * cartPosition))) - (poleRotation * g))) * Math.cos(Math.cos(Math.cos(((poleDisplacement - (cartPosition + poleVelocity)) * cartPosition) - Math.cos(Math.sin(((InvertedPendulumSystem.POLE_LENGTH * cartVelocity) + (cartDisplacement + cartPosition)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) - Math.cos(poleDisplacement)))))))) - (poleRotation * g))
+
+Generation: 43
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=14.372615285840489 Adjusted=0.06505073999484569 Hits=0
+Tree 0:
+cartPosition + (((cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(poleRotation * InvertedPendulumSystem.POLE_MASS)) + g) - Math.cos(Math.sin(Math.cos(InvertedPendulumSystem.POLE_INERTIA))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(cartDisplacement * cartPosition))) - (poleRotation * g))) * Math.cos(Math.cos(Math.cos(((Math.cos(Math.cos(cartDisplacement * cartPosition)) - (cartPosition + poleVelocity)) * Math.cos(Math.sin(((g * poleRotation) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.cos(cartAcceleration)) - Math.cos(poleVelocity))) - Math.cos(Math.sin(((InvertedPendulumSystem.POLE_LENGTH * cartVelocity) + (cartDisplacement + cartPosition)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) - Math.cos(poleDisplacement)))))))) - (poleRotation * g))
+
+Generation: 44
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=14.372615285840489 Adjusted=0.06505073999484569 Hits=0
+Tree 0:
+cartPosition + (((cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(poleRotation * InvertedPendulumSystem.POLE_MASS)) + g) - Math.cos(Math.sin(Math.cos(InvertedPendulumSystem.POLE_INERTIA))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(cartDisplacement * cartPosition))) - (poleRotation * g))) * Math.cos(Math.cos(Math.cos(((Math.cos(Math.cos(cartDisplacement * cartPosition)) - (cartPosition + poleVelocity)) * Math.cos(Math.sin(((g * poleRotation) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.cos(cartAcceleration)) - Math.cos(poleVelocity))) - Math.cos(Math.sin(((InvertedPendulumSystem.POLE_LENGTH * cartVelocity) + (cartDisplacement + cartPosition)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) - Math.cos(poleDisplacement)))))))) - (poleRotation * g))
+
+Generation: 45
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=14.372615285840489 Adjusted=0.06505073999484569 Hits=0
+Tree 0:
+cartPosition + (((cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(poleRotation * InvertedPendulumSystem.POLE_MASS)) + g) - Math.cos(Math.sin(Math.cos(InvertedPendulumSystem.POLE_INERTIA))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(cartDisplacement * cartPosition))) - (poleRotation * g))) * Math.cos(Math.cos(Math.cos(((Math.cos(Math.cos(cartDisplacement * cartPosition)) - (cartPosition + poleVelocity)) * Math.cos(Math.sin(((g * poleRotation) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.cos(cartAcceleration)) - Math.cos(poleVelocity))) - Math.cos(Math.sin(((InvertedPendulumSystem.POLE_LENGTH * cartVelocity) + (cartDisplacement + cartPosition)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) - Math.cos(poleDisplacement)))))))) - (poleRotation * g))
+
+Generation: 46
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=13.556839988775334 Adjusted=0.06869622808048259 Hits=0
+Tree 0:
+cartPosition + (((cartPosition + (((Math.sin(Math.sin(cartVelocity) / (Math.cos(Math.cos(Math.cos(poleRotation * InvertedPendulumSystem.POLE_MASS)) + g) - Math.cos(Math.sin(Math.cos(InvertedPendulumSystem.POLE_INERTIA))))) - (cartPosition + poleVelocity)) * Math.cos(Math.cos(cartDisplacement * cartPosition))) - (poleRotation * g))) * Math.cos(Math.cos(Math.cos(((Math.cos(Math.sin((Math.cos(Math.cos(cartDisplacement * cartPosition)) + (cartDisplacement + cartPosition)) - ((cartPosition * InvertedPendulumSystem.POLE_LENGTH) - Math.cos(poleRotation - (cartPosition + poleVelocity))))) - (cartPosition + poleVelocity)) * Math.cos(Math.sin(((g * poleRotation) + ((InvertedPendulumSystem.POLE_INERTIA + poleDisplacement) - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.cos(cartAcceleration)) - Math.cos(poleVelocity))) - Math.cos(Math.sin(((InvertedPendulumSystem.POLE_LENGTH * cartVelocity) + (cartDisplacement + cartPosition)) - ((poleRotation * InvertedPendulumSystem.POLE_LENGTH) - Math.cos(poleDisplacement)))))))) - (poleRotation * g))
+
+Generation: 47
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=11.086065657111229 Adjusted=0.08273991126397841 Hits=0
+Tree 0:
+(cartPosition + (((Math.sin(cartPosition) - (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin((Math.cos(Math.sin(cartVelocity)) + (cartPosition - (poleVelocity + InvertedPendulumSystem.POLE_INERTIA))) / Math.sin(Math.sin(cartPosition)))))) * Math.sin(Math.sin(Math.sin(cartPosition)))) - (poleRotation * g))) + (((((InvertedPendulumSystem.POLE_INERTIA * (cartAcceleration - (cartPosition + poleVelocity))) - poleRotation) - ((Math.sin(cartVelocity) * Math.cos(InvertedPendulumSystem.POLE_INERTIA)) + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(Math.cos(((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) + g)) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))
+
+Generation: 48
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: Standardized=9.077533536801463 Adjusted=0.09923062983101645 Hits=0
+Tree 0:
+(cartPosition + (((Math.sin(cartPosition) - (Math.cos(Math.cos(Math.cos(cartPosition + g)) + g) - Math.cos(Math.sin(((g * poleRotation) + (cartDisplacement * cartPosition)) / Math.sin(Math.sin(cartPosition)))))) * Math.sin(Math.sin(Math.sin(cartPosition)))) - (poleRotation * g))) + (((((InvertedPendulumSystem.POLE_INERTIA * (cartAcceleration - (cartPosition + poleVelocity))) - poleRotation) - ((Math.sin(cartVelocity) * Math.cos(InvertedPendulumSystem.POLE_INERTIA)) + poleVelocity)) * Math.cos(Math.cos(Math.cos(Math.sin(Math.cos(((poleRotation * InvertedPendulumSystem.POLE_MASS) - (cartPosition + poleVelocity)) + g)) - (poleVelocity - poleDisplacement))))) - (poleRotation * g))

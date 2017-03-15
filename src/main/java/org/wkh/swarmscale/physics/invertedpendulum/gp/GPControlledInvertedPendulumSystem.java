@@ -72,7 +72,10 @@ public class GPControlledInvertedPendulumSystem extends InvertedPendulumSystem {
 
         previousControlTime = elapsedTime;
 
-        // TODO to begin with let's just try to get rotation stable
-        errorSum += poleDisplacement; // *8.0 + Math.abs(cartPosition))*elapsedTime;
+        errorSum += (poleDisplacement*5.0 + cartDisplacement)*elapsedTime;
+
+        if (poleMass.isInContact(ground) || poleMass.isInContact(leftWall) || poleMass.isInContact(rightWall) || cart.isInContact(leftWall) || cart.isInContact(rightWall)) {
+            errorSum += 1000.0;
+        }
     }
 }

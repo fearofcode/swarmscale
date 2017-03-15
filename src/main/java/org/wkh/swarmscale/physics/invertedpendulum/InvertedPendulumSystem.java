@@ -22,6 +22,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
 
     public static final double CART_MASS = 1.0;
     public static final double POLE_MASS = 0.2;
+    public static final double POLE_INERTIA = 0.01;
     public static final double POLE_LENGTH = 2.0;
 
     @Override
@@ -82,7 +83,7 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
             BodyFixture bf = new BodyFixture(c);
             pole.addFixture(bf);
         }
-        pole.setMass(new Mass(new Vector2(0.0, 1.0), 0.01, 0.01));
+        pole.setMass(new Mass(new Vector2(0.0, 1.0), 0.01, POLE_INERTIA));
         pole.setMassType(MassType.NORMAL);
         world.addBody(pole);
 
