@@ -8,6 +8,8 @@ import org.wkh.swarmscale.physics.invertedpendulum.gp.GPControlledInvertedPendul
 import org.wkh.swarmscale.physics.invertedpendulum.gp.GPForceController;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
 
+import java.util.Random;
+
 public class InvertedPendulumControlProblem extends GPProblem implements SimpleProblemForm {
     private static final long serialVersionUID = 1;
 
@@ -33,8 +35,10 @@ public class InvertedPendulumControlProblem extends GPProblem implements SimpleP
 
         final double runTime = 30.0;
 
-        /* rotate the pole so that we have to take control action */
-        final double initialRotation = -5.0;
+        /* rotate the pole randomly so that we have to take control action -- [2, 7] or [-7, -2] */
+        Random rng = new Random();
+        double sign = rng.nextBoolean() ? -1.0 : 1.0;
+        final double initialRotation = sign*(rng.nextDouble() * 5.0 + 2.0);
 
         final GPForceController controller = system -> {
             /* we need to transfer the system state over to the GP objects so they can use them to evaluate trees */
