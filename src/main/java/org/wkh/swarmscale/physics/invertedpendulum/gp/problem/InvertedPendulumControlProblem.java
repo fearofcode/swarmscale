@@ -35,11 +35,6 @@ public class InvertedPendulumControlProblem extends GPProblem implements SimpleP
 
         final double runTime = 30.0;
 
-        /* rotate the pole randomly so that we have to take control action -- [2, 7] or [-7, -2] */
-        Random rng = new Random();
-        double sign = rng.nextBoolean() ? -1.0 : 1.0;
-        final double initialRotation = sign*(rng.nextDouble() * 5.0 + 2.0);
-
         final GPForceController controller = system -> {
             /* we need to transfer the system state over to the GP objects so they can use them to evaluate trees */
 
@@ -73,17 +68,23 @@ public class InvertedPendulumControlProblem extends GPProblem implements SimpleP
             return force;
         };
 
-        final GPControlledInvertedPendulumSystem physicalSystem = new GPControlledInvertedPendulumSystem(
-                initialRotation,
-                controller
-        );
+        double errorSum = 0.0;
 
-        physicalSystem.initializeWorld();
+        for(final double rotation : new double[] {-5.0, 5.0}) {
+            final GPControlledInvertedPendulumSystem physicalSystem = new GPControlledInvertedPendulumSystem(
+                    rotation,
+                    controller
+            );
 
-        physicalSystem.runDiscreteLoop(runTime);
+            physicalSystem.initializeWorld();
+
+            physicalSystem.runDiscreteLoop(runTime);
+            errorSum += physicalSystem.getErrorSum();
+        }
+
         KozaFitness f = (KozaFitness) ind.fitness;
 
-        f.setStandardizedFitness(state, physicalSystem.getErrorSum());
+        f.setStandardizedFitness(state, errorSum);
         f.hits = 0;
 
         ind.evaluated = true;

@@ -74,8 +74,8 @@ public class GPControlledInvertedPendulumSystem extends InvertedPendulumSystem {
 
         errorSum += (poleDisplacement*5.0 + cartDisplacement)*elapsedTime;
 
-        if (poleMass.isInContact(ground) || poleMass.isInContact(leftWall) || poleMass.isInContact(rightWall) || cart.isInContact(leftWall) || cart.isInContact(rightWall)) {
+        /*if (poleMass.isInContact(ground) || poleMass.isInContact(leftWall) || poleMass.isInContact(rightWall) || cart.isInContact(leftWall) || cart.isInContact(rightWall)) {
             errorSum += 1000.0;
-        }
+        }*/
     }
 }

@@ -116,12 +116,12 @@ gp.fs.0.func.17.nc = nc0
 eval.problem = org.wkh.swarmscale.physics.invertedpendulum.gp.problem.InvertedPendulumControlProblem
 eval.problem.data = org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData
 
-pop.subpop.0.size = 5000
-generations = 200
+pop.subpop.0.size = 3000
+generations = 100
 
 gp.tree.print-style = c
 
 # elitism
 breed.elite.0 = 2
 
-# jobs = 25
+jobs = 25
