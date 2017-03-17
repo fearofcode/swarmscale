@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp.function.state;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function.math;
 
 import ec.EvolutionState;
 import ec.Problem;
@@ -7,15 +7,15 @@ import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
-import org.wkh.swarmscale.physics.invertedpendulum.gp.problem.InvertedPendulumControlProblem;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.GPControlledInvertedPendulumSystem;
 
-public class PoleAcceleration extends GPNode {
+public class SquareRoot extends GPNode {
     public String toString() {
-        return "poleAcceleration";
+        return "Math.sqrt(Math.abs(";
     }
 
     public int expectedChildren() {
-        return 0;
+        return 1;
     }
 
     public void eval(final EvolutionState state,
@@ -25,7 +25,14 @@ public class PoleAcceleration extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).poleAcceleration;
+
+        children[0].eval(state, thread, input, stack, individual, problem);
+        rd.force = Math.sqrt(Math.abs(rd.force));
+
+        if (Double.isNaN(rd.force)) {
+            System.out.println("Overflow in sqrt!");
+            rd.force = GPControlledInvertedPendulumSystem.MAX_OUTPUT;
+        }
     }
 }
 

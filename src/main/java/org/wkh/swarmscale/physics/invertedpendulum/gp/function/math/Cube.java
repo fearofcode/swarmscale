@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp.function.state;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function.math;
 
 import ec.EvolutionState;
 import ec.Problem;
@@ -7,15 +7,15 @@ import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
-import org.wkh.swarmscale.physics.invertedpendulum.gp.problem.InvertedPendulumControlProblem;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.GPControlledInvertedPendulumSystem;
 
-public class CartDisplacement extends GPNode {
+public class Cube extends GPNode {
     public String toString() {
-        return "cartDisplacement";
+        return "cube";
     }
 
     public int expectedChildren() {
-        return 0;
+        return 1;
     }
 
     public void eval(final EvolutionState state,
@@ -25,7 +25,16 @@ public class CartDisplacement extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).cartDisplacement;
+
+        children[0].eval(state, thread, input, stack, individual, problem);
+
+        // bound to prevent overflows
+        final double effectiveForce = Math.min(rd.force, 100.0);
+        rd.force = effectiveForce * effectiveForce * effectiveForce;
+
+        if (Double.isNaN(rd.force)) {
+            rd.force = GPControlledInvertedPendulumSystem.MAX_OUTPUT;
+        }
     }
 }
 

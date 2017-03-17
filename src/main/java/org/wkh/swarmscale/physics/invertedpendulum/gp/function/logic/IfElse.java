@@ -1,4 +1,4 @@
-package org.wkh.swarmscale.physics.invertedpendulum.gp.function.state;
+package org.wkh.swarmscale.physics.invertedpendulum.gp.function.logic;
 
 import ec.EvolutionState;
 import ec.Problem;
@@ -7,15 +7,14 @@ import ec.gp.GPData;
 import ec.gp.GPIndividual;
 import ec.gp.GPNode;
 import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
-import org.wkh.swarmscale.physics.invertedpendulum.gp.problem.InvertedPendulumControlProblem;
 
-public class CartAcceleration extends GPNode {
+public class IfElse extends GPNode {
     public String toString() {
-        return "cartAcceleration";
+        return "ifElse";
     }
 
     public int expectedChildren() {
-        return 0;
+        return 3;
     }
 
     public void eval(final EvolutionState state,
@@ -24,8 +23,16 @@ public class CartAcceleration extends GPNode {
                      final ADFStack stack,
                      final GPIndividual individual,
                      final Problem problem) {
+        double condition;
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).cartAcceleration;
+
+        children[0].eval(state, thread, input, stack, individual, problem);
+        condition = rd.force;
+
+        if (condition > 0) {
+            children[1].eval(state, thread, input, stack, individual, problem);
+        } else {
+            children[2].eval(state, thread, input, stack, individual, problem);
+        }
     }
 }
-
