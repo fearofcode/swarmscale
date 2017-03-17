@@ -4,3 +4,4 @@ target/
 *.iml
 *.stat
 nbactions.xml
+src/main/java/ec/
