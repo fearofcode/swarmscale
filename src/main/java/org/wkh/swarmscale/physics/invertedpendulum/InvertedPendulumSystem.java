@@ -161,20 +161,6 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         previousControlTime = elapsedTime;
     }
 
-    private void printState() {
-        assert(cart.getMass().getMass() == CART_MASS);
-        assert(pole.getMass().getMass() == POLE_MASS);
-        double currentRotation = pole.getTransform().getRotation();
-
-        //cart.applyImpulse(new Vector2(-currentRotation, 0));
-
-        System.err.println("Rotation: " + Math.toDegrees(currentRotation));
-        System.err.println("Rotation velocity: " + pole.getAngularVelocity());
-        System.err.println("Position: " + cart.getTransform().getTranslationX());
-        System.err.println("Position velocity: " + pole.getLinearVelocity().getMagnitude());
-        System.err.println();
-    }
-
     public static void main(String[] args) {
         InvertedPendulumSystem system = new InvertedPendulumSystem();
         system.initializeWorld();

@@ -25,7 +25,7 @@ public class CartPosition extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).cartPosition;
+        rd.force = ((InvertedPendulumControlProblem) problem).systemState.cartPosition;
     }
 }
 

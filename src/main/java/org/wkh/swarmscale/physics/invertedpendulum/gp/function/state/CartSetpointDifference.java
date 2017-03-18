@@ -25,7 +25,7 @@ public class CartSetpointDifference extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).cartDisplacement;
+        rd.force = ((InvertedPendulumControlProblem) problem).systemState.cartDisplacement;
     }
 }
 

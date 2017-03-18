@@ -25,7 +25,7 @@ public class PoleRotation extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).poleRotation;
+        rd.force = ((InvertedPendulumControlProblem) problem).systemState.poleRotation;
     }
 }
 

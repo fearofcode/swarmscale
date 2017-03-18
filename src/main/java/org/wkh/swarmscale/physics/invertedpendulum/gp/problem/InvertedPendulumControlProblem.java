@@ -2,24 +2,19 @@ package org.wkh.swarmscale.physics.invertedpendulum.gp.problem;
 
 import ec.*;
 import ec.gp.*;
-import ec.gp.koza.*;
 import ec.simple.*;
-import org.wkh.swarmscale.physics.invertedpendulum.gp.GPControlledInvertedPendulumSystem;
-import org.wkh.swarmscale.physics.invertedpendulum.gp.GPForceController;
-import org.wkh.swarmscale.physics.invertedpendulum.gp.ForceData;
+import org.wkh.swarmscale.physics.invertedpendulum.gp.*;
+
+import java.util.List;
 
 public class InvertedPendulumControlProblem extends GPProblem implements SimpleProblemForm {
+    public static final int STEPS = 1000;
+
     private static final long serialVersionUID = 1;
 
-    public double cartPosition;
-    public double cartDisplacement;
-    public double cartVelocity;
+    public StateObservation systemState;
 
-    public double poleRotation;
-    public double poleDisplacement;
-    public double poleVelocity;
-
-    public void evaluate(final EvolutionState state,
+    public void evaluate(final EvolutionState evolutionState,
                          final Individual ind,
                          final int subpopulation,
                          final int threadnum) {
@@ -29,23 +24,14 @@ public class InvertedPendulumControlProblem extends GPProblem implements SimpleP
 
         ForceData input = (ForceData) (this.input);
 
-        final double runTime = 30.0;
-
         final GPForceController controller = system -> {
             /* we need to transfer the system state over to the GP objects so they can use them to evaluate trees */
 
-            cartPosition = system.cartPosition;
-            cartDisplacement = system.cartDisplacement;
-            cartVelocity = system.cartVelocity;
-
-            poleRotation = system.poleRotation;
-            poleDisplacement = system.poleDisplacement;
-            poleVelocity = system.poleVelocity;
-
             /* now we can actually evaluate the tree */
 
+            systemState = system.currentState;
             ((GPIndividual)ind).trees[0].child.eval(
-                    state,
+                    evolutionState,
                     threadnum,
                     input,
                     this.stack,
@@ -62,28 +48,56 @@ public class InvertedPendulumControlProblem extends GPProblem implements SimpleP
             return force;
         };
 
-        double errorSum = 0.0;
-        int hits = 0;
-        for(final double rotation : new double[] {-5.0, 5.0 }) {
+        final double rotationThreshold = Math.toRadians(36.0); // pi/5
+        final double displacementThreshold = 10.0;
+
+        final FitnessCalculator gruauFitnessCalculator = new FitnessCalculator() {
+            @Override
+            public double getFitness(List<StateObservation> states) {
+                // section 3.5 of the NEAT paper
+
+                final int balancedSteps = states.size();
+                final double f1 = ((double)balancedSteps) / STEPS;
+
+                double f2 = 0.0;
+
+                if (balancedSteps >= 100) {
+                    for(int i = balancedSteps - 100; i < balancedSteps; i++) {
+                        final StateObservation state = states.get(i);
+                        f2 += 0.75/(state.cartDisplacement + Math.abs(state.cartVelocity) + state.poleDisplacement + Math.abs(state.poleVelocity + 0.000001));
+                    }
+                }
+                return 0.1*f1 + 0.9*f2;
+            }
+
+            @Override
+            public boolean shouldStop(StateObservation state) {
+                return state.poleDisplacement > rotationThreshold || state.cartDisplacement > displacementThreshold;
+            }
+        };
+
+        double fitnessSum = 0.0;
+        for(final double rotation : new double[] { 5.0 }) {
             final GPControlledInvertedPendulumSystem physicalSystem = new GPControlledInvertedPendulumSystem(
                     rotation,
                     0.0,
-                    controller
+                    controller,
+                    gruauFitnessCalculator
             );
 
             physicalSystem.initializeWorld();
+            physicalSystem.runDiscreteLoopForSteps(STEPS);
 
-            physicalSystem.runDiscreteLoop(runTime);
-            errorSum += physicalSystem.getErrorSum();
-            hits += physicalSystem.hits;
+            fitnessSum += gruauFitnessCalculator.getFitness(physicalSystem.states);
         }
 
-        KozaFitness f = (KozaFitness) ind.fitness;
+        SimpleFitness simpleFitness = (SimpleFitness) ind.fitness;
 
-        //final double parsimony = 1.0;
-        //f.setStandardizedFitness(state, errorSum + parsimony*ind.size());
-        f.setStandardizedFitness(state, errorSum + ind.size()*0.00001);
-        f.hits = hits;
+        simpleFitness.setFitness(
+                evolutionState,
+                fitnessSum,
+                false // just always run
+        );
 
         ind.evaluated = true;
     }

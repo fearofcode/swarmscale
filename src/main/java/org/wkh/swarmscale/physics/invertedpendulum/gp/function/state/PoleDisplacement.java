@@ -25,7 +25,7 @@ public class PoleDisplacement extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).poleDisplacement;
+        rd.force = ((InvertedPendulumControlProblem) problem).systemState.poleDisplacement;
     }
 }
 

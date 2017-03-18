@@ -140,6 +140,12 @@ public abstract class AbstractPhysicalSystem implements PhysicalSystem {
     public void runDiscreteLoop(double targetTime) {
         final double stepFrequency = world.getSettings().getStepFrequency();
         final int steps = (int) Math.ceil(targetTime / stepFrequency);
+
+        runDiscreteLoopForSteps(steps);
+    }
+
+    public void runDiscreteLoopForSteps(int steps) {
+        final double stepFrequency = world.getSettings().getStepFrequency();
         beforeSimulationLoopStart();
 
         for(int i = 1; i <= steps && !isStopped(); i++) {

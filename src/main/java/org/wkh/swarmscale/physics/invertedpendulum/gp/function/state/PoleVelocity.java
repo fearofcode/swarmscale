@@ -25,7 +25,7 @@ public class PoleVelocity extends GPNode {
                      final GPIndividual individual,
                      final Problem problem) {
         ForceData rd = ((ForceData) (input));
-        rd.force = ((InvertedPendulumControlProblem) problem).poleVelocity;
+        rd.force = ((InvertedPendulumControlProblem) problem).systemState.poleVelocity;
     }
 }
 

@@ -28,6 +28,14 @@
             <artifactId>hamcrest-core</artifactId>
             <version>1.3</version>
             <scope>test</scope>
-        </dependency> 
+        </dependency>
+        <!-- shitty hack to deal with ECJ 23 not being on Maven -->
+        <dependency>
+            <groupId>org.gmu</groupId>
+            <artifactId>ecj</artifactId>
+            <version>23</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/ecj.23.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>
