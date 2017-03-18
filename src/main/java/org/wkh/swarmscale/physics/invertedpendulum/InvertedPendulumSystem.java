@@ -4,9 +4,7 @@ import java.awt.Color;
 import org.dyn4j.dynamics.*;
 import org.dyn4j.dynamics.joint.*;
 import org.dyn4j.geometry.*;
-import org.wkh.swarmscale.optimization.PIDController;
 import org.wkh.swarmscale.physics.AbstractPhysicalSystem;
-import org.wkh.swarmscale.physics.PhysicalSystem;
 import org.wkh.swarmscale.physics.PhysicalSystemRenderer;
 import org.wkh.swarmscale.physics.RenderableBody;
 
@@ -20,7 +18,6 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
     protected RenderableBody leftWall;
     protected RenderableBody rightWall;
 
-    public static final double CART_MASS = 1.0;
     public static final double POLE_MASS = 0.2;
     public static final double POLE_INERTIA = 0.01;
     public static final double POLE_LENGTH = 2.0;
@@ -149,10 +146,8 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
             stop();
         }
 
-        PIDController rotationController = new PIDController(1.0, 0.00, 0.0);
-
         final double currentRotation = pole.getTransform().getRotation();
-        final double rotationOutput = rotationController.getOutput(currentRotation, 0.0);
+        final double rotationOutput = -currentRotation;
 
         System.err.println(elapsedTime + "\t" + pole.getTransform().getRotation());
 
@@ -161,30 +156,11 @@ public class InvertedPendulumSystem extends AbstractPhysicalSystem {
         previousControlTime = elapsedTime;
     }
 
-    private void printState() {
-        assert(cart.getMass().getMass() == CART_MASS);
-        assert(pole.getMass().getMass() == POLE_MASS);
-        double currentRotation = pole.getTransform().getRotation();
-
-        //cart.applyImpulse(new Vector2(-currentRotation, 0));
-
-        System.err.println("Rotation: " + Math.toDegrees(currentRotation));
-        System.err.println("Rotation velocity: " + pole.getAngularVelocity());
-        System.err.println("Position: " + cart.getTransform().getTranslationX());
-        System.err.println("Position velocity: " + pole.getLinearVelocity().getMagnitude());
-        System.err.println();
-    }
-
     public static void main(String[] args) {
         InvertedPendulumSystem system = new InvertedPendulumSystem();
-        system.initializeWorld();
 
-        long start = System.nanoTime();
-        system.runDiscreteLoop(10.0);
-        //system.runContinuousLoop(10.0);
-
-        long elapsed = System.nanoTime() - start;
-        double milliseconds = elapsed / 1.0E6;
-        System.err.println("ms: " + milliseconds);
+        PhysicalSystemRenderer renderer = new PhysicalSystemRenderer(system);
+        renderer.setVisible(true);
+        renderer.start();
     }
 }
